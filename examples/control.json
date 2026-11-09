@@ -1,0 +1,59 @@
+{
+  "mode": "SIM_ONLY",
+  "target_t": 1650,
+  "initial_source_t": 0,
+  "destination_capacity_t": 1650,
+  "t0": "2026-08-10T08:00:00",
+  "timezone": null,
+  "return_cutoff_h": 492,
+  "real_admissibility": "requires_confirmation",
+  "navigation_assumed": true,
+  "reception_assumed": true,
+  "fleet_assumed": true,
+  "supply_assumed": true,
+  "arrivals": [
+    {
+      "h": 0,
+      "t": 1650
+    }
+  ],
+  "withdrawals": [],
+  "closures": [],
+  "payload_calendar": [
+    {
+      "from_h": 0,
+      "capacity_t": 400
+    }
+  ],
+  "vessels": [
+    {
+      "id": "SIM-A",
+      "available_h": 0,
+      "capacity_t": 400,
+      "load_h": 8,
+      "up_h": 36,
+      "unload_h": 8,
+      "return_h": 24,
+      "prep_h": 6
+    },
+    {
+      "id": "SIM-B",
+      "available_h": 48,
+      "capacity_t": 400,
+      "load_h": 8,
+      "up_h": 36,
+      "unload_h": 8,
+      "return_h": 24,
+      "prep_h": 6
+    }
+  ],
+  "id": "N00",
+  "label": "Контроль",
+  "schema_version": "1.0",
+  "provenance": {
+    "kind": "synthetic_scenario",
+    "origin": "frozen v2, 2026-11-09",
+    "target_volume_status": "published procurement planning reference; not actual delivery",
+    "operating_parameters": "scenario assumptions; not calibrated to real vessels"
+  }
+}

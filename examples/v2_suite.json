@@ -1,0 +1,1031 @@
+{
+  "source_name": "Входы_SIM-BASE.json",
+  "source_sha256": "d5f230dadfcd3ed12a618f5be4b3a2d2e7d78df7a7fe0ad756508f4d1c79183c",
+  "source_interface": "Входы_модели, активные значения; BASE не меняется",
+  "grid_hours": [
+    164,
+    246,
+    328,
+    410
+  ],
+  "return_cutoff_h": 492,
+  "scenarios": [
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N00",
+      "label": "Контроль"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 825
+        },
+        {
+          "h": 120,
+          "t": 825
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N01",
+      "label": "Поступления 825 + 825 т"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 82,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N02",
+      "label": "Весь груз позже на 82 ч"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 120,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N03",
+      "label": "Судно B позже: с 120 ч"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 48,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 48,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N04",
+      "label": "Гружёный ход 48 вместо 36 ч"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        },
+        {
+          "from_h": 120,
+          "capacity_t": 200
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N05",
+      "label": "Партия 400 → 200 т с 120 ч"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 200
+        },
+        {
+          "from_h": 120,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N06",
+      "label": "Партия 200 → 400 т с 120 ч"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [
+        [
+          120,
+          144
+        ]
+      ],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N07",
+      "label": "Остановка 24 ч: 120–144"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [
+        [
+          120,
+          168
+        ]
+      ],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N08",
+      "label": "Остановка 48 ч: 120–168"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1000,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "N09",
+      "label": "Приёмка 1000 т, отбор отсутствует"
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "R00",
+      "label": "A 400 т; одинаковые скорости; всё сразу",
+      "factors": {
+        "small_A": false,
+        "heterogeneous_times": false,
+        "split_supply": false
+      }
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 825
+        },
+        {
+          "h": 120,
+          "t": 825
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "R01",
+      "label": "A 400 т; одинаковые скорости; 825+825",
+      "factors": {
+        "small_A": false,
+        "heterogeneous_times": false,
+        "split_supply": true
+      }
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 48,
+          "unload_h": 8,
+          "return_h": 36,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 24,
+          "unload_h": 8,
+          "return_h": 18,
+          "prep_h": 6
+        }
+      ],
+      "id": "R02",
+      "label": "A 400 т; разные скорости; всё сразу",
+      "factors": {
+        "small_A": false,
+        "heterogeneous_times": true,
+        "split_supply": false
+      }
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 825
+        },
+        {
+          "h": 120,
+          "t": 825
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 48,
+          "unload_h": 8,
+          "return_h": 36,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 24,
+          "unload_h": 8,
+          "return_h": 18,
+          "prep_h": 6
+        }
+      ],
+      "id": "R03",
+      "label": "A 400 т; разные скорости; 825+825",
+      "factors": {
+        "small_A": false,
+        "heterogeneous_times": true,
+        "split_supply": true
+      }
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 200,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "R04",
+      "label": "A 200 т; одинаковые скорости; всё сразу",
+      "factors": {
+        "small_A": true,
+        "heterogeneous_times": false,
+        "split_supply": false
+      }
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 825
+        },
+        {
+          "h": 120,
+          "t": 825
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 200,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 36,
+          "unload_h": 8,
+          "return_h": 24,
+          "prep_h": 6
+        }
+      ],
+      "id": "R05",
+      "label": "A 200 т; одинаковые скорости; 825+825",
+      "factors": {
+        "small_A": true,
+        "heterogeneous_times": false,
+        "split_supply": true
+      }
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 1650
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 200,
+          "load_h": 8,
+          "up_h": 48,
+          "unload_h": 8,
+          "return_h": 36,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 24,
+          "unload_h": 8,
+          "return_h": 18,
+          "prep_h": 6
+        }
+      ],
+      "id": "R06",
+      "label": "A 200 т; разные скорости; всё сразу",
+      "factors": {
+        "small_A": true,
+        "heterogeneous_times": true,
+        "split_supply": false
+      }
+    },
+    {
+      "mode": "SIM_ONLY",
+      "target_t": 1650,
+      "initial_source_t": 0,
+      "destination_capacity_t": 1650,
+      "t0": "2026-08-10T08:00:00",
+      "timezone": null,
+      "return_cutoff_h": 492,
+      "real_admissibility": "requires_confirmation",
+      "navigation_assumed": true,
+      "reception_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "arrivals": [
+        {
+          "h": 0,
+          "t": 825
+        },
+        {
+          "h": 120,
+          "t": 825
+        }
+      ],
+      "withdrawals": [],
+      "closures": [],
+      "payload_calendar": [
+        {
+          "from_h": 0,
+          "capacity_t": 400
+        }
+      ],
+      "vessels": [
+        {
+          "id": "SIM-A",
+          "available_h": 0,
+          "capacity_t": 200,
+          "load_h": 8,
+          "up_h": 48,
+          "unload_h": 8,
+          "return_h": 36,
+          "prep_h": 6
+        },
+        {
+          "id": "SIM-B",
+          "available_h": 48,
+          "capacity_t": 400,
+          "load_h": 8,
+          "up_h": 24,
+          "unload_h": 8,
+          "return_h": 18,
+          "prep_h": 6
+        }
+      ],
+      "id": "R07",
+      "label": "A 200 т; разные скорости; 825+825",
+      "factors": {
+        "small_A": true,
+        "heterogeneous_times": true,
+        "split_supply": true
+      }
+    }
+  ],
+  "version": "v2",
+  "previous_series": "N00–N09 retained unchanged",
+  "factorial_design": "2 capacities × 2 duration profiles × 2 supply calendars; all 8 combinations × 4 existing deadlines; frozen before solving"
+}

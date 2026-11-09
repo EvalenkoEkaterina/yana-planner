@@ -1,0 +1,8 @@
+{
+  "id": "DELAY-60",
+  "type": "arrival_delay",
+  "announced_at_h": 60,
+  "arrival_index": 1,
+  "new_arrival_h": 168,
+  "status": "scenario_assumption"
+}

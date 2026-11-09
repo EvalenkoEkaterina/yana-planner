@@ -1,0 +1,4488 @@
+[
+  {
+    "scenario_id": "N00",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "N00",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "N00",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "N00",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "N01",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 825,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 825,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "N01",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1625,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1625,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "N01",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 66,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 162,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 232,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 249,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 301
+    }
+  },
+  {
+    "scenario_id": "N01",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 93,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 161,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 190,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 245,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 297
+    }
+  },
+  {
+    "scenario_id": "N02",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 2,
+      "last_receipt_h": 142
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 2,
+      "last_receipt_h": 142
+    }
+  },
+  {
+    "scenario_id": "N02",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 172,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 4,
+      "last_receipt_h": 224
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 172,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 4,
+      "last_receipt_h": 224
+    }
+  },
+  {
+    "scenario_id": "N02",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 172,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 298
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 172,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 298
+    }
+  },
+  {
+    "scenario_id": "N02",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 172,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 298
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 90,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 172,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 298
+    }
+  },
+  {
+    "scenario_id": "N03",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 2,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 2,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "N03",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 4,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 4,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "N03",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 202,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 254
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 202,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 254
+    }
+  },
+  {
+    "scenario_id": "N03",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 202,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 254
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 202,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 254
+    }
+  },
+  {
+    "scenario_id": "N04",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 158
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 158
+    }
+  },
+  {
+    "scenario_id": "N04",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 142,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 4,
+      "last_receipt_h": 206
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 142,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 4,
+      "last_receipt_h": 206
+    }
+  },
+  {
+    "scenario_id": "N04",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 142,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 188,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 252
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 142,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 188,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 252
+    }
+  },
+  {
+    "scenario_id": "N04",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 142,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 188,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 252
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 94,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 142,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 188,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 252
+    }
+  },
+  {
+    "scenario_id": "N05",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "N05",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1400,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1400,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "N05",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 7,
+      "last_receipt_h": 298
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 7,
+      "last_receipt_h": 298
+    }
+  },
+  {
+    "scenario_id": "N05",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 7,
+      "last_receipt_h": 298
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 246,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 7,
+      "last_receipt_h": 298
+    }
+  },
+  {
+    "scenario_id": "N06",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 600,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 6,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 74,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 112,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 3,
+      "last_receipt_h": 164
+    }
+  },
+  {
+    "scenario_id": "N06",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1400,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 1,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 88,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 175,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 194,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 5,
+      "last_receipt_h": 246
+    }
+  },
+  {
+    "scenario_id": "N06",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 36,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 194,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 202,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 254
+    }
+  },
+  {
+    "scenario_id": "N06",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 4,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 194,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 202,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 254
+    }
+  },
+  {
+    "scenario_id": "N07",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 400,
+      "trip_count": 1,
+      "last_receipt_h": 52
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 400,
+      "trip_count": 1,
+      "last_receipt_h": 52
+    }
+  },
+  {
+    "scenario_id": "N07",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 136,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 144,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 196
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 136,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 144,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 196
+    }
+  },
+  {
+    "scenario_id": "N07",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 136,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 144,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 218,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 226,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 278
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 136,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 144,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 218,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 226,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 278
+    }
+  },
+  {
+    "scenario_id": "N07",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 136,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 144,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 218,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 226,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 278
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 136,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 144,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 218,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 226,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 278
+    }
+  },
+  {
+    "scenario_id": "N08",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 400,
+      "trip_count": 1,
+      "last_receipt_h": 52
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 400,
+      "trip_count": 1,
+      "last_receipt_h": 52
+    }
+  },
+  {
+    "scenario_id": "N08",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 160,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 168,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 220
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 160,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 168,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 220
+    }
+  },
+  {
+    "scenario_id": "N08",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 160,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 168,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 242,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 250,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 302
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 160,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 168,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 242,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 250,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 302
+    }
+  },
+  {
+    "scenario_id": "N08",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 160,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 168,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 242,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 250,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 302
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 160,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 168,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 242,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 250,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 302
+    }
+  },
+  {
+    "scenario_id": "N09",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "N09",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "N09",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "N09",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "R00",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "R00",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R00",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R00",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R01",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 825,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 825,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "R01",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1625,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1625,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R01",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 66,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 162,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 232,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 249,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 301
+    }
+  },
+  {
+    "scenario_id": "R01",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 93,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 161,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 190,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 245,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 297
+    }
+  },
+  {
+    "scenario_id": "R02",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 152
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 152
+    }
+  },
+  {
+    "scenario_id": "R02",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 218
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 1,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R02",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 218
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 1,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R02",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 218
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 1,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R03",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 825,
+      "trip_count": 3,
+      "last_receipt_h": 152
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 4,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 54,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1200,
+      "trip_count": 3,
+      "last_receipt_h": 160
+    }
+  },
+  {
+    "scenario_id": "R03",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 184,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1625,
+      "trip_count": 5,
+      "last_receipt_h": 224
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 6,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 56,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 144,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 184,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 224
+    }
+  },
+  {
+    "scenario_id": "R03",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 184,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 212,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 276
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 8,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 136,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 184,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 224
+    }
+  },
+  {
+    "scenario_id": "R03",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 184,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 212,
+          "quantity_t": 25
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 276
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 127,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 167,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 287,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 299,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 351
+    }
+  },
+  {
+    "scenario_id": "R04",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "R04",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1400,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1400,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R04",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    }
+  },
+  {
+    "scenario_id": "R04",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 68,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 294,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 346
+    }
+  },
+  {
+    "scenario_id": "R05",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 800,
+      "trip_count": 3,
+      "last_receipt_h": 134
+    }
+  },
+  {
+    "scenario_id": "R05",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1400,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        }
+      ],
+      "accepted_t": 1400,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R05",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    }
+  },
+  {
+    "scenario_id": "R05",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 82,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 164,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 264
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 99,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 130,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 212,
+          "quantity_t": 250
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 294,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 346
+    }
+  },
+  {
+    "scenario_id": "R06",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 152
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 152
+    }
+  },
+  {
+    "scenario_id": "R06",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 5,
+      "last_receipt_h": 218
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 1,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 130,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 5,
+      "last_receipt_h": 216
+    }
+  },
+  {
+    "scenario_id": "R06",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 212,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 276
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 75,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 240,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 280
+    }
+  },
+  {
+    "scenario_id": "R06",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 212,
+          "quantity_t": 50
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 6,
+      "last_receipt_h": 276
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 101,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 240,
+          "quantity_t": 250
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 280
+    }
+  },
+  {
+    "scenario_id": "R07",
+    "deadline_h": 164,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 225
+        }
+      ],
+      "accepted_t": 825,
+      "trip_count": 3,
+      "last_receipt_h": 152
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 55,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 85,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1000,
+      "trip_count": 3,
+      "last_receipt_h": 160
+    }
+  },
+  {
+    "scenario_id": "R07",
+    "deadline_h": 246,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1225,
+      "trip_count": 5,
+      "last_receipt_h": 218
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 3,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 56,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 111,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 120,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 184,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1600,
+      "trip_count": 5,
+      "last_receipt_h": 224
+    }
+  },
+  {
+    "scenario_id": "R07",
+    "deadline_h": 328,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 212,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 244,
+          "quantity_t": 225
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 7,
+      "last_receipt_h": 284
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 204,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 240,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 280
+    }
+  },
+  {
+    "scenario_id": "R07",
+    "deadline_h": 410,
+    "baseline": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 0,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 106,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 114,
+          "quantity_t": 25
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 178,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 212,
+          "quantity_t": 200
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 244,
+          "quantity_t": 225
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 7,
+      "last_receipt_h": 284
+    },
+    "planner": {
+      "schedule": [
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 48,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 112,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 176,
+          "quantity_t": 400
+        },
+        {
+          "vessel_id": "SIM-A",
+          "start_h": 208,
+          "quantity_t": 50
+        },
+        {
+          "vessel_id": "SIM-B",
+          "start_h": 240,
+          "quantity_t": 400
+        }
+      ],
+      "accepted_t": 1650,
+      "trip_count": 5,
+      "last_receipt_h": 280
+    }
+  }
+]

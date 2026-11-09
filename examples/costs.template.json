@@ -1,0 +1,9 @@
+{
+  "billing_mode": null,
+  "horizon_h": null,
+  "separate_trip_operations_rub": null,
+  "active_vessel_hour_rub": null,
+  "waiting_vessel_hour_rub": null,
+  "status": "unknown_scenario_rates_to_be_selected",
+  "note": "Опубликованные ставки НМЦ не являются этими расходами. Неизвестное не равно нулю."
+}
