@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .comparison import select_economic_comparison
 from .compat import normalize_result
 from .deadline_sweep import (
     export_deadline_sweep,
@@ -24,6 +25,7 @@ from .experiments import summarize_experiment
 from .io import export_failure, export_result, read_json, read_plan, write_json
 from .planning import compare
 from .replanning import run_replanning
+from .sensitivity import run_sensitivity
 from .validation import check_schedule
 
 
@@ -78,6 +80,19 @@ def parser():
     q.add_argument("comparison")
     q.add_argument("--terms", required=True)
     q.add_argument("--deadline", type=int)
+    q.add_argument("--phase", choices=["before", "after"])
+    q.add_argument("--out", required=True)
+    q = sub.add_parser("sensitivity")
+    q.add_argument("input", help="JSON сценария")
+    q.add_argument("comparison", help="JSON результата plan или replan")
+    q.add_argument("--deadline", type=int)
+    q.add_argument("--phase", choices=["before", "after"])
+    q.add_argument(
+        "--horizon",
+        type=int,
+        required=True,
+        help="Общий оплачиваемый горизонт для схемы all_available_time",
+    )
     q.add_argument("--out", required=True)
     q = sub.add_parser("benchmark")
     q.add_argument("input", help="JSON с scenarios и grid_hours")
@@ -217,6 +232,46 @@ def main(argv=None):
             return 0
         if not isinstance(cfg, dict):
             raise InputError("Ожидается объект сценария")
+        if args.command in ("cost", "sensitivity"):
+            data = normalize_result(read_json(args.comparison))
+            deadline = integer(
+                args.deadline
+                if args.deadline is not None
+                else data.get("deadline_h", cfg.get("delivery_deadline_h")),
+                "deadline_h",
+            )
+            effective, baseline, alternative, context = select_economic_comparison(
+                cfg,
+                data,
+                deadline,
+                phase=args.phase,
+            )
+            if args.command == "cost":
+                result = compare_cost(
+                    effective, baseline, alternative, deadline, read_json(args.terms)
+                )
+            else:
+                result = run_sensitivity(
+                    effective,
+                    baseline,
+                    alternative,
+                    deadline,
+                    horizon_h=integer(args.horizon, "horizon_h"),
+                )
+            result["comparison_context"] = context
+            write_json(args.out, result)
+            if args.command == "sensitivity" and result["status"] == "scenario_sensitivity":
+                for mode, values in result["billing_modes"].items():
+                    rows = values["rows"]
+                    wins = sum(r["alternative_is_cheaper"] is True for r in rows)
+                    losses = sum(r["baseline_minus_alternative_rub"] < 0 for r in rows)
+                    print(
+                        f"{mode}: {len(rows)} сочетаний; MILP дешевле в {wins}, READY дешевле в {losses}"
+                    )
+                print(f"Расходы сценарные. Результат: {args.out}")
+            else:
+                print(json.dumps(result, ensure_ascii=False))
+            return 2 if result["status"] == "missing_cost_inputs" else 0
         deadline = integer(
             args.deadline if args.deadline is not None else cfg.get("delivery_deadline_h"),
             "deadline_h",
@@ -227,24 +282,6 @@ def main(argv=None):
                 write_json(args.out, verdict)
             print(json.dumps(verdict, ensure_ascii=False))
             return 0 if verdict["status"] == "valid_simulation" else 2
-        if args.command == "cost":
-            plans = read_json(args.comparison)
-            if (
-                not isinstance(plans, dict)
-                or not isinstance(plans.get("baseline"), dict)
-                or not isinstance(plans.get("planner"), dict)
-            ):
-                raise InputError("Для cost нужен JSON результата сравнения")
-            result = compare_cost(
-                cfg,
-                plans["baseline"]["trips"],
-                plans["planner"]["trips"],
-                deadline,
-                read_json(args.terms),
-            )
-            write_json(args.out, result)
-            print(json.dumps(result, ensure_ascii=False))
-            return 0
         incumbent = read_plan(args.reference) if args.reference else None
         if args.command == "replan":
             result = run_replanning(
