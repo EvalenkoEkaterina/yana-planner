@@ -1,5 +1,6 @@
 """Boundary and error tests; expectations fixed independently of optimizer."""
 
+import copy
 import json
 import unittest
 from pathlib import Path
@@ -127,6 +128,81 @@ class ExecutionTests(unittest.TestCase):
             ),
             1250,
         )
+
+    def test_unavailable_vessel(self):
+        self.c["vessels"][0]["unavailable_intervals"] = [[60, 120]]
+        self.assertFalse(self.valid())
+
+    def test_unavailability_covers_all_cycle_stages(self):
+        for interval in [[0, 1], [20, 21], [45, 46], [60, 61], [80, 81]]:
+            with self.subTest(interval=interval):
+                self.c["vessels"][0]["unavailable_intervals"] = [interval]
+                result = check(self.c, self.p, 246)
+                self.assertEqual(result["status"], "invalid")
+                self.assertIsNone(result["accepted_t"])
+                self.assertTrue(any("vessel unavailable" in e for e in result["errors"]))
+
+    def test_cycle_ends_exactly_at_unavailability_start(self):
+        self.c["vessels"][0]["unavailable_intervals"] = [[82, 120]]
+        self.assertTrue(self.valid())
+
+    def test_cycle_starts_exactly_at_unavailability_end(self):
+        self.c["vessels"][0]["unavailable_intervals"] = [[0, 20]]
+        self.p[0]["start_h"] = 20
+        self.assertTrue(self.valid())
+
+    def test_unavailability_overlap_of_one_hour_is_rejected(self):
+        for interval, start in [([81, 120], 0), ([0, 20], 19)]:
+            with self.subTest(interval=interval):
+                self.c["vessels"][0]["unavailable_intervals"] = [interval]
+                self.p[0]["start_h"] = start
+                self.assertFalse(self.valid())
+
+    def test_other_vessel_unavailability_does_not_block_this_voyage(self):
+        self.c["vessels"][1]["unavailable_intervals"] = [[0, 300]]
+        self.assertTrue(self.valid())
+
+    def test_explicit_empty_unavailability_is_allowed(self):
+        self.c["vessels"][0]["unavailable_intervals"] = []
+        self.assertTrue(self.valid())
+
+    def test_unknown_unavailability_does_not_become_empty(self):
+        self.c["vessels"][0]["unavailable_intervals"] = None
+        result = check(self.c, self.p, 246)
+        self.assertEqual(result["status"], "requires_confirmation")
+        self.assertIsNone(result["accepted_t"])
+
+    def test_malformed_unavailability_is_rejected_without_crash(self):
+        for raw in [False, 0, "60-120", {}, [None], [[]], [[60]], [[1, 2, 3]], ["60-120"]]:
+            with self.subTest(raw=raw):
+                self.c["vessels"][0]["unavailable_intervals"] = raw
+                result = check(self.c, self.p, 246)
+                self.assertEqual(result["status"], "invalid")
+                self.assertIsNone(result["accepted_t"])
+
+    def test_unavailability_bounds_must_be_finite_nonnegative_integers(self):
+        for interval in [[-1, 5], [True, 5], [1.5, 5], [1, float("nan")], [1, float("inf")]]:
+            with self.subTest(interval=interval):
+                self.c["vessels"][0]["unavailable_intervals"] = [interval]
+                result = check(self.c, self.p, 246)
+                self.assertEqual(result["status"], "invalid")
+                self.assertIsNone(result["accepted_t"])
+
+    def test_missing_unavailability_bound_requires_confirmation(self):
+        self.c["vessels"][0]["unavailable_intervals"] = [[60, None]]
+        self.assertEqual(check(self.c, self.p, 246)["status"], "requires_confirmation")
+
+    def test_empty_or_reversed_unavailability_is_rejected(self):
+        for interval in [[60, 60], [120, 60]]:
+            with self.subTest(interval=interval):
+                self.c["vessels"][0]["unavailable_intervals"] = [interval]
+                self.assertEqual(check(self.c, self.p, 246)["status"], "invalid")
+
+    def test_multiple_unavailable_intervals_preserve_input(self):
+        self.c["vessels"][0]["unavailable_intervals"] = [[100, 120], [60, 70], [65, 80]]
+        original = copy.deepcopy(self.c)
+        self.assertFalse(self.valid())
+        self.assertEqual(self.c, original)
 
 
 if __name__ == "__main__":

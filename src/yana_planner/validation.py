@@ -7,6 +7,25 @@ from typing import Any
 from .domain import ConfirmationRequired, InputError, Scenario, integer, proposals
 
 
+def _unavailable_intervals(vessel: dict[str, Any]) -> list[tuple[int, int]]:
+    """Parse independently until the planner adopts the same input contract."""
+    raw = vessel.get("unavailable_intervals", [])
+    if raw is None:
+        raise ConfirmationRequired(f"{vessel['id']}.unavailable_intervals: значение не задано")
+    if not isinstance(raw, list):
+        raise InputError(f"{vessel['id']}.unavailable_intervals: нужен список интервалов")
+    intervals = []
+    for interval in raw:
+        if not isinstance(interval, (list, tuple)) or len(interval) != 2:
+            raise InputError("Недоступность судна: нужны две границы [start, end)")
+        start = integer(interval[0], f"{vessel['id']}.unavailable.start")
+        end = integer(interval[1], f"{vessel['id']}.unavailable.end")
+        if start >= end:
+            raise InputError("Недоступность судна должна иметь положительную длительность")
+        intervals.append((start, end))
+    return intervals
+
+
 def check_schedule(
     cfg: dict[str, Any], plan: list[dict[str, Any]], deadline: int
 ) -> dict[str, Any]:
@@ -14,6 +33,7 @@ def check_schedule(
         cfg = Scenario.from_dict(cfg).to_dict()
         deadline = integer(deadline, "deadline_h")
         plan = proposals(plan)
+        unavailability = {v["id"]: _unavailable_intervals(v) for v in cfg["vessels"]}
     except ConfirmationRequired as e:
         return dict(
             status="requires_confirmation",
@@ -55,6 +75,9 @@ def check_schedule(
             errors.append(f"{index}: receipt after deadline")
         if rt > cfg["return_cutoff_h"]:
             errors.append(f"{index}: return after cutoff")
+        for unavailable_from, unavailable_to in unavailability[v["id"]]:
+            if intersects(s, rd, unavailable_from, unavailable_to):
+                errors.append(f"{index}: vessel unavailable during full cycle")
         limits = cfg["payload_calendar"]
         caps = [
             x["capacity_t"]
