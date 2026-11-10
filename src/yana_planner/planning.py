@@ -25,6 +25,9 @@ def candidates(cfg: dict, deadline: int, *, decision_h: int = 0) -> list[dict]:
             rd = rt + v["prep_h"]
             if re > deadline or rt > cfg["return_cutoff_h"]:
                 continue
+            # A vessel outage blocks its complete turnaround, including preparation.
+            if any(max(start, a) < min(rd, b) for a, b in v["unavailable_intervals"]):
+                continue
             if any(max(a, le) < min(b, ar) or max(a, re) < min(b, rt) for a, b in cfg["closures"]):
                 continue
             caps = [

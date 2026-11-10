@@ -1,0 +1,3 @@
+﻿method,accepted_t,shortfall_t,trips,last_receipt_h,weighted_mean_receipt_h,busy_vessel_h,check_status,committed_trips
+READY,1650,0,6,280,159.76,468,valid_simulation,2
+MILP,1650,0,5,264,157.92,404,valid_simulation,2

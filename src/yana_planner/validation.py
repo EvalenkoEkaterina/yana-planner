@@ -55,6 +55,10 @@ def check_schedule(
             errors.append(f"{index}: receipt after deadline")
         if rt > cfg["return_cutoff_h"]:
             errors.append(f"{index}: return after cutoff")
+        rd = rt + v["prep_h"]
+        for a, b in v["unavailable_intervals"]:
+            if intersects(s, rd, a, b):
+                errors.append(f"{index}: vessel unavailable during turnaround [{a}, {b})")
         limits = cfg["payload_calendar"]
         caps = [
             x["capacity_t"]
