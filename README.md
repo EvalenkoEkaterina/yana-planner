@@ -1,8 +1,14 @@
 # Yana Planner
 
+## Материалы для экспертов
+
+[Паспорт, гипотезы, код, данные и все артефакты](https://github.com/EvalenkoEkaterina/yana-planner/releases/tag/mai3-submission-2026-11-10). В выпуске доступны два документа и полный архив с отчётами.
+
+[Проверенная версия кода, к которой относятся результаты](https://github.com/EvalenkoEkaterina/yana-planner/tree/c22632c3536f429a64074394ae81a4c6f6275082). Основная ветка может отличаться от зафиксированной версии выпуска.
+
 Исследовательский Python-проект для планирования доставки нефтяного котельного топлива Нижнеянск — Усть-Куйга. Выбирает суда, время погрузки и партии, проверяет исполнение и перестраивает будущие отправления после задержки поступления.
 
-Закрытый репозиторий команды: [EvalenkoEkaterina/yana-planner](https://github.com/EvalenkoEkaterina/yana-planner). Для доступа владелица приглашает участниц по GitHub-логинам. После принятия приглашения:
+Публичный репозиторий команды: [EvalenkoEkaterina/yana-planner](https://github.com/EvalenkoEkaterina/yana-planner). Просмотр кода и материалов доступен без приглашения. Для работы с копией:
 
 ```sh
 git clone https://github.com/EvalenkoEkaterina/yana-planner.git
