@@ -12,6 +12,7 @@ dependencies = ["numpy==2.3.5", "scipy==1.18.1"]
 [project.optional-dependencies]
 excel = ["openpyxl>=3.1,<4"]
 dev = ["ruff==0.17.4"]
+plots = ["matplotlib>=3.9,<4"]
 
 [project.scripts]
 yana = "yana_planner.cli:main"

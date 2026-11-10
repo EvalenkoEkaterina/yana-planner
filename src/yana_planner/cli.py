@@ -10,6 +10,12 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .deadline_sweep import (
+    export_deadline_sweep,
+    require_plotting,
+    run_deadline_sweep,
+    save_sweep_point,
+)
 from .domain import ConfirmationRequired, InputError, integer
 from .economics import compare_cost
 from .excel_import import import_excel
@@ -29,6 +35,16 @@ def parser():
     q = sub.add_parser("summarize", help="Сводка проверенных результатов READY и MILP")
     q.add_argument("input", help="JSON от plan или replan")
     q.add_argument("--out", required=True, help="Файл JSON со сводкой")
+    q = sub.add_parser("sweep-deadlines", help="Серия независимых опытов с разными сроками")
+    q.add_argument("input")
+    q.add_argument("--event", required=True)
+    q.add_argument("--start", type=int, default=240)
+    q.add_argument("--stop", type=int, default=336)
+    q.add_argument("--step", type=int, default=8)
+    q.add_argument("--time-limit", type=float, default=3)
+    q.add_argument("--reference")
+    q.add_argument("--plot", action="store_true")
+    q.add_argument("--out", required=True)
     for command in ["plan", "replan"]:
         q = sub.add_parser(command)
         q.add_argument("input")
@@ -71,6 +87,31 @@ def parser():
 def main(argv=None):
     args = parser().parse_args(argv)
     try:
+        if args.command == "sweep-deadlines":
+            step = integer(args.step, "step", minimum=1)
+            if args.plot:
+                require_plotting()
+            out = Path(args.out)
+
+            def save_point(row, result):
+                save_sweep_point(out, row, result)
+                print(
+                    f"{row['deadline_h']} ч: READY {row['READY_t']} т / MILP {row['MILP_t']} т",
+                    flush=True,
+                )
+
+            result = run_deadline_sweep(
+                read_json(args.input),
+                read_json(args.event),
+                list(range(args.start, args.stop + 1, step)),
+                time_limit=args.time_limit,
+                incumbent=read_plan(args.reference) if args.reference else None,
+                on_start=lambda protocol: write_json(out / "protocol.json", protocol),
+                on_result=save_point,
+            )
+            export_deadline_sweep(out, result, plot=args.plot)
+            print(f"Отчёт: {out / 'report.html'}")
+            return 0 if all(r["experiment_status"] == "completed" for r in result["rows"]) else 2
         if args.command == "summarize":
             rows = summarize_experiment(read_json(args.input))
             write_json(args.out, rows)
@@ -204,8 +245,12 @@ def main(argv=None):
         failure = dict(status=status, message=str(error), accepted_t=None, actual_savings_rub=None)
         if getattr(args, "out", None):
             try:
-                if args.command in ["plan", "replan", "benchmark"]:
+                if args.command in ["plan", "replan", "benchmark", "sweep-deadlines"]:
                     export_failure(args.out, failure)
+                    if args.command == "sweep-deadlines":
+                        write_json(Path(args.out) / "sweep.json", failure)
+                        for extension in ["png", "svg"]:
+                            (Path(args.out) / f"deadline_sweep.{extension}").unlink(missing_ok=True)
                 else:
                     write_json(args.out, failure)
             except OSError:
