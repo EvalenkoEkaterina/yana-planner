@@ -63,7 +63,6 @@ class OnlineAvailabilityTests(unittest.TestCase):
         verdict = check_schedule(c, plan, 246)
         self.assertIn("loading berth overlap", verdict["errors"])
 
-
     def test_boundary_start_after_outage_is_allowed(self):
         changed = apply_vessel_unavailability(self.cfg, self.event)
         verdict = check_schedule(

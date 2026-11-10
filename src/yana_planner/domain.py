@@ -109,7 +109,9 @@ class Scenario:
                 a = integer(interval[0], f"{v['id']}.unavailable.start")
                 b = integer(interval[1], f"{v['id']}.unavailable.end")
                 if a >= b:
-                    raise InputError("Интервал недоступности должен иметь положительную длительность")
+                    raise InputError(
+                        "Интервал недоступности должен иметь положительную длительность"
+                    )
                 normalized.append([a, b])
             v["unavailable_intervals"] = sorted(normalized)
         if len(ids) != len(set(ids)):

@@ -27,9 +27,7 @@ def apply_vessel_unavailability(cfg: dict, event: dict) -> dict:
     vessel = next((v for v in cfg["vessels"] if v["id"] == vessel_id), None)
     if vessel is None:
         raise InputError(f"Неизвестное судно: {vessel_id}")
-    vessel["unavailable_intervals"] = sorted(
-        vessel["unavailable_intervals"] + [[start, end]]
-    )
+    vessel["unavailable_intervals"] = sorted(vessel["unavailable_intervals"] + [[start, end]])
     cfg["id"] = f"{cfg['id']}@{announced}"
     cfg["provenance"] = dict(
         cfg.get("provenance", {}),
@@ -114,15 +112,26 @@ def run_unavailability_experiment(
     if reference:
         incumbent = reference.get("planner", {}).get("trips")
     initial = compare(cfg, deadline, time_limit=time_limit, incumbent=incumbent)
-    if initial["baseline"]["status"] != "valid_simulation" or initial["planner"]["status"] != "valid_simulation":
+    if (
+        initial["baseline"]["status"] != "valid_simulation"
+        or initial["planner"]["status"] != "valid_simulation"
+    ):
         raise InputError("Исходные планы должны пройти независимую проверку")
     ready_result = replan_unavailability(
-        cfg, initial["baseline"]["trips"], event, deadline,
-        method="ready", time_limit=time_limit,
+        cfg,
+        initial["baseline"]["trips"],
+        event,
+        deadline,
+        method="ready",
+        time_limit=time_limit,
     )
     milp_result = replan_unavailability(
-        cfg, initial["planner"]["trips"], event, deadline,
-        method="milp", time_limit=time_limit,
+        cfg,
+        initial["planner"]["trips"],
+        event,
+        deadline,
+        method="milp",
+        time_limit=time_limit,
     )
     return {
         "schema_version": "1.0",
