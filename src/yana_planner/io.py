@@ -8,6 +8,7 @@ import json
 import math
 from pathlib import Path
 
+from .compat import normalize_result
 from .domain import InputError, proposals
 
 
@@ -106,6 +107,7 @@ def _event_notice(result: dict) -> str:
 
 
 def export_result(directory: str | Path, result: dict):
+    result = normalize_result(result)
     out = Path(directory)
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "results.json", result)

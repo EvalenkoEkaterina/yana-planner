@@ -9,6 +9,7 @@ from __future__ import annotations
 from math import isfinite
 from typing import Any
 
+from .compat import normalize_result
 from .domain import InputError, integer
 
 METRICS = {
@@ -91,8 +92,7 @@ def summarize_experiment(result: dict[str, Any]) -> list[dict[str, Any]]:
     A tradeoff includes later weighted mean receipt even if final receipt is
     earlier. Unknown or invalid results never become zero-valued improvements.
     """
-    if not isinstance(result, dict):
-        raise InputError("Эксперимент должен быть объектом")
+    result = normalize_result(result)
     deadline = integer(result.get("deadline_h"), "deadline_h")
     common = dict(deadline=deadline, scenario_id=result.get("scenario_id"))
     if "initial" in result:

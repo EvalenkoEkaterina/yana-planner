@@ -98,6 +98,26 @@ yana sweep-deadlines examples/r03.json --event examples/arrival_delay.json --sta
 Это проверенные точки сетки, а не все промежуточные сроки и не вероятность
 успеха на реальных рейсах. [Методика и результаты](docs/deadline-sweep.md).
 
+## Совместимость с работой из PR №1
+
+Поддерживается файл участницы `examples/vessel_unavailability.json`:
+`type=vessel_unavailability` и `interval=[120,200]`. Он преобразуется в общий
+формат `vessel_unavailable` с `from_h` / `to_h`. Оригинал сообщения сохраняется
+в `source_event`; противоречивые границы отклоняются.
+
+Функции участницы доступны в `yana_planner.online`, используют общий движок
+и возвращают как общие поля результата, так и прежние имена для совместимости.
+Сохранённые результаты её исходной версии теперь тоже читаются сводкой:
+
+```sh
+yana report outputs_online/unavailability_experiment.json --out outputs/pr1_saved
+yana summarize outputs/pr1_saved/results.json --out outputs/pr1_saved/summary.json
+```
+
+`report` создаёт отчёт, таблицы и `summary.json`. Исходный файл не меняется.
+Адаптация формата не заменяет независимую проверку расписания.
+[Интеграция, контракт и проверенные цепочки](docs/pr1-integration.md).
+
 ## Входы из Excel
 
 Единственный входной лист — `Входы_модели`. Два явных профиля:

@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .compat import normalize_result
 from .deadline_sweep import (
     export_deadline_sweep,
     require_plotting,
@@ -32,6 +33,9 @@ def parser():
     )
     p.add_argument("--version", action="version", version=__version__)
     sub = p.add_subparsers(dest="command", required=True)
+    q = sub.add_parser("report", help="Отчёт и сводка из сохранённого результата")
+    q.add_argument("input")
+    q.add_argument("--out", required=True)
     q = sub.add_parser("summarize", help="Сводка проверенных результатов READY и MILP")
     q.add_argument("input", help="JSON от plan или replan")
     q.add_argument("--out", required=True, help="Файл JSON со сводкой")
@@ -87,6 +91,35 @@ def parser():
 def main(argv=None):
     args = parser().parse_args(argv)
     try:
+        if args.command == "report":
+            if Path(args.input).resolve().is_relative_to(Path(args.out).resolve()):
+                print(
+                    json.dumps(
+                        dict(
+                            status="invalid_input",
+                            accepted_t=None,
+                            message="Для report выберите выходную папку отдельно от исходных материалов",
+                            actual_savings_rub=None,
+                        ),
+                        ensure_ascii=False,
+                    ),
+                    file=sys.stderr,
+                )
+                return 2
+            result = normalize_result(read_json(args.input))
+            rows = summarize_experiment(result)
+            export_result(args.out, result)
+            write_json(Path(args.out) / "summary.json", rows)
+            print(f"Отчёт и сводка: {Path(args.out) / 'report.html'}")
+            return (
+                0
+                if all(
+                    r[f"{method}_status"] == "valid_simulation"
+                    for r in rows
+                    for method in ["READY", "MILP"]
+                )
+                else 2
+            )
         if args.command == "sweep-deadlines":
             step = integer(args.step, "step", minimum=1)
             if args.plot:
@@ -245,8 +278,10 @@ def main(argv=None):
         failure = dict(status=status, message=str(error), accepted_t=None, actual_savings_rub=None)
         if getattr(args, "out", None):
             try:
-                if args.command in ["plan", "replan", "benchmark", "sweep-deadlines"]:
+                if args.command in ["plan", "replan", "benchmark", "sweep-deadlines", "report"]:
                     export_failure(args.out, failure)
+                    if args.command == "report":
+                        write_json(Path(args.out) / "summary.json", failure)
                     if args.command == "sweep-deadlines":
                         write_json(Path(args.out) / "sweep.json", failure)
                         for extension in ["png", "svg"]:

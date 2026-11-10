@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 
+from .compat import normalize_event
 from .domain import InputError, InterventionRequired, Scenario, integer, proposals
 from .planning import compare, optimize, ready
 from .validation import check_schedule, snapshot
@@ -57,8 +58,7 @@ def apply_vessel_unavailable(cfg: dict, event: dict) -> dict:
 
 
 def apply_event(cfg: dict, event: dict) -> dict:
-    if not isinstance(event, dict):
-        raise InputError("Событие должно быть объектом")
+    event = normalize_event(event)
     if event.get("type") == "arrival_delay":
         return apply_arrival_delay(cfg, event)
     if event.get("type") == "vessel_unavailable":
@@ -77,6 +77,8 @@ def replan(
 ) -> dict:
     if method not in ("ready", "milp"):
         raise InputError("method должен быть ready или milp")
+    source_event = deepcopy(event)
+    event = normalize_event(event)
     changed = apply_event(cfg, event)
     at = integer(event.get("announced_at_h"), "announced_at_h")
     state = snapshot(cfg, initial_plan, deadline, at)
@@ -101,6 +103,8 @@ def replan(
             verdict["status"] = "no_feasible_solution_found"
         return dict(
             method=method,
+            event=deepcopy(event),
+            source_event=source_event,
             announcement_h=at,
             snapshot=state,
             committed=committed,
@@ -112,6 +116,8 @@ def replan(
     except InterventionRequired as error:
         return dict(
             method=method,
+            event=deepcopy(event),
+            source_event=source_event,
             announcement_h=at,
             snapshot=state,
             committed=committed,
@@ -135,6 +141,8 @@ def run_replanning(
     time_limit: float = 3,
     incumbent: list[dict] | None = None,
 ) -> dict:
+    source_event = deepcopy(event)
+    event = normalize_event(event)
     cfg = Scenario.from_dict(cfg).to_dict()
     # Validate on a copy. The initial planner still receives only original input.
     apply_event(cfg, event)
@@ -169,6 +177,7 @@ def run_replanning(
         deadline_h=deadline,
         initial_input=deepcopy(cfg),
         event=deepcopy(event),
+        source_event=source_event,
         initial=initial,
         revised_baseline=revised_ready,
         revised_planner=revised_milp,

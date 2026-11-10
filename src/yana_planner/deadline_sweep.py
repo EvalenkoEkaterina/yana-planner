@@ -9,6 +9,7 @@ from importlib.util import find_spec
 from math import isfinite
 from pathlib import Path
 
+from .compat import normalize_event
 from .domain import InputError, Scenario, integer, proposals
 from .experiments import summarize_experiment
 from .io import _event_notice, export_failure, export_result, write_json
@@ -55,6 +56,8 @@ def _audit(result, cfg, event, deadline):
 def run_deadline_sweep(
     cfg, event, deadlines, *, time_limit=3, incumbent=None, on_start=None, on_result=None
 ):
+    source_event = deepcopy(event)
+    event = normalize_event(event)
     scenario = Scenario.from_dict(cfg)
     cfg = scenario.to_dict()
     apply_event(cfg, event)
@@ -75,6 +78,7 @@ def run_deadline_sweep(
         input=deepcopy(cfg),
         input_sha256=scenario.fingerprint,
         event=deepcopy(event),
+        source_event=source_event,
         deadlines_h=grid,
         time_limit_per_solver_stage_s=time_limit,
         initial_reference=proposals(incumbent) if incumbent is not None else None,
