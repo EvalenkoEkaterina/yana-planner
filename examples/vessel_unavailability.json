@@ -1,0 +1,7 @@
+{
+  "type": "vessel_unavailability",
+  "announced_at_h": 60,
+  "vessel_id": "SIM-A",
+  "interval": [120, 200],
+  "source": "сценарное допущение"
+}

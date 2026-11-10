@@ -98,6 +98,22 @@ class Scenario:
                 "prep_h",
             ]:
                 v[k] = integer(v.get(k), f"{v['id']}.{k}", minimum=0 if k == "available_h" else 1)
+            # Temporary vessel outages are separate from its original availability.
+            outages = v.get("unavailable_intervals", [])
+            if not isinstance(outages, list):
+                raise InputError(f"{v['id']}.unavailable_intervals: нужен список")
+            normalized = []
+            for interval in outages:
+                if not isinstance(interval, (list, tuple)) or len(interval) != 2:
+                    raise InputError(f"{v['id']}: недоступность задаётся как [start, end)")
+                a = integer(interval[0], f"{v['id']}.unavailable.start")
+                b = integer(interval[1], f"{v['id']}.unavailable.end")
+                if a >= b:
+                    raise InputError(
+                        "Интервал недоступности должен иметь положительную длительность"
+                    )
+                normalized.append([a, b])
+            v["unavailable_intervals"] = sorted(normalized)
         if len(ids) != len(set(ids)):
             raise InputError("Повторяющиеся ID судов")
         for name in ["arrivals", "withdrawals"]:
