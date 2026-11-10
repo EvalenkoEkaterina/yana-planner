@@ -13,6 +13,7 @@ from . import __version__
 from .domain import ConfirmationRequired, InputError, integer
 from .economics import compare_cost
 from .excel_import import import_excel
+from .experiments import summarize_experiment
 from .io import export_failure, export_result, read_json, read_plan, write_json
 from .planning import compare
 from .replanning import run_replanning
@@ -25,6 +26,9 @@ def parser():
     )
     p.add_argument("--version", action="version", version=__version__)
     sub = p.add_subparsers(dest="command", required=True)
+    q = sub.add_parser("summarize", help="Сводка проверенных результатов READY и MILP")
+    q.add_argument("input", help="JSON от plan или replan")
+    q.add_argument("--out", required=True, help="Файл JSON со сводкой")
     for command in ["plan", "replan"]:
         q = sub.add_parser(command)
         q.add_argument("input")
@@ -67,6 +71,25 @@ def parser():
 def main(argv=None):
     args = parser().parse_args(argv)
     try:
+        if args.command == "summarize":
+            rows = summarize_experiment(read_json(args.input))
+            write_json(args.out, rows)
+            for row in rows:
+                print(
+                    f"{row['phase']}: READY {row['READY_t']} т / MILP {row['MILP_t']} т; "
+                    f"сэкономлено рейсов {row['trips_saved']}; "
+                    f"выигрыш окончания {row['hours_saved']} ч; "
+                    f"компромисс показателей {row['tradeoff']}"
+                )
+            return (
+                0
+                if all(
+                    r[f"{method}_status"] == "valid_simulation"
+                    for r in rows
+                    for method in ["READY", "MILP"]
+                )
+                else 2
+            )
         if args.command == "import-excel":
             result = import_excel(
                 args.input,
