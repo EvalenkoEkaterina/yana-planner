@@ -47,7 +47,6 @@ class OnlineAvailabilityTests(unittest.TestCase):
         changed = apply_vessel_unavailability(self.cfg, self.event)
         # Construct a temporary vessel with a 56h total turnaround.
         v = next(v for v in changed["vessels"] if v["id"] == "SIM-A")
-        old = [v[k] for k in ["load_h", "up_h", "unload_h", "return_h", "prep_h"]]
         v.update(load_h=8, up_h=28, unload_h=4, return_h=16, prep_h=8)
         plan = [dict(vessel_id="SIM-A", start_h=56, quantity_t=400)]
         # Return/prep ends at 120 exactly; checker should accept this temporal boundary.
