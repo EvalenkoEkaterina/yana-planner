@@ -12,7 +12,14 @@ from pathlib import Path
 from .compat import normalize_event
 from .domain import InputError, Scenario, integer, proposals
 from .experiments import summarize_experiment
-from .io import _event_notice, export_failure, export_result, write_json
+from .io import (
+    PLAIN_REPORT_STYLE,
+    _event_notice,
+    _plain_report_markup,
+    export_failure,
+    export_result,
+    write_json,
+)
 from .replanning import apply_event, run_replanning
 from .validation import check_schedule
 
@@ -162,13 +169,13 @@ def plot_deadline_sweep(result, directory):
         top.plot(
             [r["deadline_h"] for r in rows],
             values,
-            "o--",
+            "o--" if method == "READY" else "s-",
             color=colors[method],
             label=method,
             linewidth=1.8,
             markersize=5,
         )
-    top.axhline(target, color="#64748b", linestyle=":", label=f"Задание: {target} т")
+    top.axhline(target, color="#000000", linestyle=":", label=f"Задание: {target} т")
     top.set_ylim(0, target * 1.08 if target else 1)
     top.set_ylabel("Принято к сроку, т")
     top.set_title("Завершение доставки после сообщения о новых условиях", loc="left", pad=12)
@@ -192,13 +199,13 @@ def plot_deadline_sweep(result, directory):
                 ha="center",
                 fontsize=9,
             )
-    bottom.axhline(0, color="#64748b", linewidth=0.8)
+    bottom.axhline(0, color="#000000", linewidth=0.8)
     bottom.margins(y=0.25)
     bottom.set_ylabel("MILP − READY, т")
     bottom.set_xlabel("Срок завершения приёмки, часы от T0")
     bottom.set_xticks(grid)
     for axis in [top, bottom]:
-        axis.grid(axis="y", color="#e2e8f0")
+        axis.grid(axis="y", color="#000000", linewidth=0.3, linestyle=":")
         axis.set_axisbelow(True)
         axis.spines[["top", "right"]].set_visible(False)
     fig.suptitle(f"{result['protocol']['scenario_id']}: чувствительность к сроку", fontsize=16)
@@ -208,7 +215,7 @@ def plot_deadline_sweep(result, directory):
         "Сценарные данные. Линии соединяют проверенные точки; точная граница между ними не вычислена.",
         ha="center",
         fontsize=9,
-        color="#475569",
+        color="#000000",
     )
     fig.tight_layout(rect=(0, 0.035, 1, 0.96))
     folder = Path(directory)
@@ -266,16 +273,16 @@ def export_deadline_sweep(directory, result, *, plot=False):
         else ""
     )
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>Яна — серия сроков</title><style>body{{font:16px system-ui;max-width:1200px;margin:32px auto;padding:0 20px;color:#17354a;background:#f5f7fb}}p{{line-height:1.6}}img{{width:100%;background:white}}table{{border-collapse:collapse;background:white;width:100%}}th,td{{padding:10px;border-bottom:1px solid #dde4ec;text-align:left}}th{{background:#274b69;color:white}}.table{{overflow:auto}}a{{color:#087e65}}</style>
+<title>Яна - серия сроков</title><style>{PLAIN_REPORT_STYLE}</style>
 <h1>Яна: чувствительность к сроку доставки</h1><p>Сценарный эксперимент. Все {len(rows)} выбранных сроков сохранены.
 Объём, суда, поступления и новое сообщение одинаковы. Для каждого срока первоначальный и обновлённый планы строятся заново.</p>{notice}
-<p>Первый проверенный срок полного выполнения: READY — <strong>{cell(first["READY"])} ч</strong>, MILP — <strong>{cell(first["MILP"])} ч</strong>.
+<p>Первый проверенный срок полного выполнения: READY - <strong>{cell(first["READY"])} ч</strong>, MILP - <strong>{cell(first["MILP"])} ч</strong>.
 Это результат на выбранной сетке, не точная минимальная граница. Сетка задана вокруг ранее рассмотренных примеров и не является исторической выборкой.</p>
 {image}<div class="table"><table><tr>{headings}</tr>{body}</table></div>
 <p>Нулевой эффект сохранён. Неизвестные и ошибочные результаты не заменены нулями. Времена и рейсы как улучшения сравниваются только при равном тоннаже.
 При лимите решения допустимый найденный план не объявляется доказанным оптимумом. Частота преимущества на сетке не является вероятностью успеха на практике.</p>
 <p><a href="comparison.csv">Таблица CSV</a> · <a href="sweep.json">Все показатели и статусы</a> · <a href="protocol.json">Протокол и исходные условия</a></p></html>"""
-    (folder / "report.html").write_text(page, encoding="utf-8")
+    (folder / "report.html").write_text(_plain_report_markup(page), encoding="utf-8")
 
 
 def save_sweep_point(directory, row, result):
