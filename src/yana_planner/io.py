@@ -64,6 +64,47 @@ def _rows(result: dict):
     return [("READY", result["baseline"]), ("MILP", result["planner"])]
 
 
+def _event_notice(result: dict) -> str:
+    event = result.get("event")
+    if not isinstance(event, dict):
+        return ""
+
+    def safe(value):
+        return html.escape(str(value))
+
+    at = safe(event.get("announced_at_h", "не определено"))
+    if event.get("type") == "vessel_unavailable":
+        detail = (
+            f"Судно <strong>{safe(event.get('vessel_id'))}</strong> недоступно "
+            f"с <strong>{safe(event.get('from_h'))}-го</strong> до "
+            f"<strong>{safe(event.get('to_h'))}-го часа</strong>. "
+            "Полный оборот нового рейса не должен пересекать этот интервал."
+        )
+    elif event.get("type") == "arrival_delay":
+        new = safe(event.get("new_arrival_h"))
+        original = result.get("initial_input", {}).get("arrivals", [])
+        index = event.get("arrival_index")
+        if isinstance(index, int) and not isinstance(index, bool) and 0 <= index < len(original):
+            arrival = original[index]
+            detail = (
+                f"Партия <strong>{safe(arrival['t'])} т</strong>: поступление топлива "
+                f"в Нижнеянск перенесено <strong>{safe(arrival['h'])} ч → {new} ч</strong>."
+            )
+        else:
+            # Older result files do not retain original input; do not infer an
+            # arrival time from the departure schedule or a hardcoded example.
+            detail = f"Новый момент поступления топлива в Нижнеянск — <strong>{new} ч</strong>."
+    else:
+        detail = f"Тип сообщения: {safe(event.get('type', 'не определено'))}."
+    return (
+        '<section class="event" id="event-change"><h2>Что изменилось</h2>'
+        f"<p>На <strong>{at}-м часу</strong> получено сообщение.</p><p>{detail}</p>"
+        "<p>Начатые рейсы каждого метода сохраняются. Будущие рейсы перестраиваются. "
+        "Если новое условие конфликтует с начатым рейсом, требуется вмешательство. "
+        "Все времена — часы от общего начала сценария T0.</p></section>"
+    )
+
+
 def export_result(directory: str | Path, result: dict):
     out = Path(directory)
     out.mkdir(parents=True, exist_ok=True)
@@ -144,13 +185,9 @@ def export_result(directory: str | Path, result: dict):
                 + "</tr>"
             )
         schedules += "</table>"
-    event = (
-        f"<p>Новая информация: {html.escape(json.dumps(result['event'], ensure_ascii=False))}</p>"
-        if "event" in result
-        else ""
-    )
+    event = _event_notice(result)
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Яна: расчёт</title>
-<style>body{{font:16px system-ui;max-width:1200px;margin:32px auto;padding:0 20px;color:#17354a;background:#f5f7fb}}table{{width:100%;border-collapse:collapse;background:white;overflow:auto;display:block}}th,td{{text-align:left;padding:12px;border-bottom:1px solid #dde4ec}}th{{background:#274b69;color:white}}h1{{font-size:28px}}h2{{margin-top:32px;font-size:21px}}p{{line-height:1.6}}a{{color:#167764}}</style>
+<style>body{{font:16px system-ui;max-width:1200px;margin:32px auto;padding:0 20px;color:#17354a;background:#f5f7fb}}table{{width:100%;border-collapse:collapse;background:white;overflow:auto;display:block}}th,td{{text-align:left;padding:12px;border-bottom:1px solid #dde4ec}}th{{background:#274b69;color:white}}h1{{font-size:28px}}h2{{margin-top:32px;font-size:21px}}p{{line-height:1.6}}a{{color:#167764}}.event{{background:#e8f3ff;border-left:5px solid #2374b8;padding:16px 20px;margin:20px 0;border-radius:8px}}.event h2{{margin-top:0}}</style>
 <h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}<table>{table}</table>
 <p>Средняя приёмка взвешена по тоннам. Цели: сначала больше принято, затем меньше рейсов, затем раньше последняя приёмка. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
 <p><a href="results.json">Полные результаты и статусы решателя</a> · <a href="comparison.csv">Сравнение</a> · <a href="schedule.csv">Расписание</a> · <a href="events.csv">Баланс событий</a></p>{schedules}</html>"""

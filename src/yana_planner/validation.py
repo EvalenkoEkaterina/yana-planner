@@ -8,7 +8,7 @@ from .domain import ConfirmationRequired, InputError, Scenario, integer, proposa
 
 
 def _unavailable_intervals(vessel: dict[str, Any]) -> list[tuple[int, int]]:
-    """Parse independently until the planner adopts the same input contract."""
+    """Checker-owned interpretation of half-open vessel downtime intervals."""
     raw = vessel.get("unavailable_intervals", [])
     if raw is None:
         raise ConfirmationRequired(f"{vessel['id']}.unavailable_intervals: значение не задано")

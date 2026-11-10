@@ -1,0 +1,9 @@
+{
+  "id": "VESSEL-60",
+  "type": "vessel_unavailable",
+  "announced_at_h": 60,
+  "vessel_id": "SIM-A",
+  "from_h": 120,
+  "to_h": 200,
+  "status": "scenario_assumption"
+}

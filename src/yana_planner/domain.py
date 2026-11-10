@@ -98,6 +98,22 @@ class Scenario:
                 "prep_h",
             ]:
                 v[k] = integer(v.get(k), f"{v['id']}.{k}", minimum=0 if k == "available_h" else 1)
+            if "unavailable_intervals" in v:
+                raw = v["unavailable_intervals"]
+                if raw is None:
+                    raise ConfirmationRequired(f"{v['id']}.unavailable_intervals: не задано")
+                if not isinstance(raw, list):
+                    raise InputError("unavailable_intervals: нужен список интервалов")
+                intervals = []
+                for interval in raw:
+                    if not isinstance(interval, (list, tuple)) or len(interval) != 2:
+                        raise InputError("Недоступность судна: нужны границы [start, end)")
+                    start = integer(interval[0], f"{v['id']}.unavailable.start")
+                    end = integer(interval[1], f"{v['id']}.unavailable.end")
+                    if start >= end:
+                        raise InputError("Недоступность должна иметь положительную длительность")
+                    intervals.append([start, end])
+                v["unavailable_intervals"] = sorted(intervals)
         if len(ids) != len(set(ids)):
             raise InputError("Повторяющиеся ID судов")
         for name in ["arrivals", "withdrawals"]:

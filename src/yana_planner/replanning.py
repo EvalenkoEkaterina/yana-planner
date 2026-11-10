@@ -9,6 +9,14 @@ from .planning import compare, optimize, ready
 from .validation import check_schedule, snapshot
 
 
+def _tag_update(cfg: dict, event: dict, at: int) -> dict:
+    cfg["id"] = f"{cfg['id']}@{at}"
+    cfg["provenance"] = dict(
+        cfg.get("provenance", {}), update=deepcopy(event), parent_id=cfg["id"].split("@")[0]
+    )
+    return Scenario.from_dict(cfg).to_dict()
+
+
 def apply_arrival_delay(cfg: dict, event: dict) -> dict:
     cfg = Scenario.from_dict(cfg).to_dict()
     if not isinstance(event, dict) or event.get("type") != "arrival_delay":
@@ -24,11 +32,38 @@ def apply_arrival_delay(cfg: dict, event: dict) -> dict:
     if when <= old or when <= at:
         raise InputError("Задержка должна переносить будущее поступление на более поздний момент")
     cfg["arrivals"][index]["h"] = when
-    cfg["id"] = f"{cfg['id']}@{at}"
-    cfg["provenance"] = dict(
-        cfg.get("provenance", {}), update=deepcopy(event), parent_id=cfg["id"].split("@")[0]
-    )
-    return Scenario.from_dict(cfg).to_dict()
+    return _tag_update(cfg, event, at)
+
+
+def apply_vessel_unavailable(cfg: dict, event: dict) -> dict:
+    cfg = Scenario.from_dict(cfg).to_dict()
+    if not isinstance(event, dict) or event.get("type") != "vessel_unavailable":
+        raise InputError("Нужно событие type=vessel_unavailable")
+    at = integer(event.get("announced_at_h"), "announced_at_h")
+    start = integer(event.get("from_h"), "from_h")
+    end = integer(event.get("to_h"), "to_h")
+    if start < at:
+        raise InputError("Начало недоступности не может предшествовать сообщению")
+    if start >= end:
+        raise InputError("Недоступность должна иметь положительную длительность")
+    vessel_id = event.get("vessel_id")
+    if not isinstance(vessel_id, str) or not vessel_id:
+        raise InputError("В событии нужен vessel_id")
+    vessel = next((v for v in cfg["vessels"] if v["id"] == vessel_id), None)
+    if vessel is None:
+        raise InputError("Неизвестное судно в событии недоступности")
+    vessel.setdefault("unavailable_intervals", []).append([start, end])
+    return _tag_update(cfg, event, at)
+
+
+def apply_event(cfg: dict, event: dict) -> dict:
+    if not isinstance(event, dict):
+        raise InputError("Событие должно быть объектом")
+    if event.get("type") == "arrival_delay":
+        return apply_arrival_delay(cfg, event)
+    if event.get("type") == "vessel_unavailable":
+        return apply_vessel_unavailable(cfg, event)
+    raise InputError("Поддерживаются события arrival_delay и vessel_unavailable")
 
 
 def replan(
@@ -42,9 +77,9 @@ def replan(
 ) -> dict:
     if method not in ("ready", "milp"):
         raise InputError("method должен быть ready или milp")
+    changed = apply_event(cfg, event)
     at = integer(event.get("announced_at_h"), "announced_at_h")
     state = snapshot(cfg, initial_plan, deadline, at)
-    changed = apply_arrival_delay(cfg, event)
     committed = proposals(state["committed_trips"])
     try:
         # Event at h is processed after the observed departures through h.
@@ -100,6 +135,9 @@ def run_replanning(
     time_limit: float = 3,
     incumbent: list[dict] | None = None,
 ) -> dict:
+    cfg = Scenario.from_dict(cfg).to_dict()
+    # Validate on a copy. The initial planner still receives only original input.
+    apply_event(cfg, event)
     # Crucially: the initial optimizer receives only the original input.
     initial = compare(cfg, deadline, time_limit=time_limit, incumbent=incumbent)
     if any(initial[k]["status"] != "valid_simulation" for k in ["baseline", "planner"]):
@@ -122,9 +160,14 @@ def run_replanning(
     )
     return dict(
         schema_version="1.0",
-        experiment="single_arrival_delay",
+        experiment=(
+            "single_arrival_delay"
+            if event["type"] == "arrival_delay"
+            else "single_vessel_unavailability"
+        ),
         scenario_id=cfg["id"],
         deadline_h=deadline,
+        initial_input=deepcopy(cfg),
         event=deepcopy(event),
         initial=initial,
         revised_baseline=revised_ready,
