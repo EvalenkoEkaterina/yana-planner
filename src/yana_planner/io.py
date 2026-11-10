@@ -6,9 +6,24 @@ import csv
 import html
 import json
 import math
+import re
 from pathlib import Path
 
 from .domain import InputError, proposals
+
+PLAIN_REPORT_STYLE = """body{font:14px Arial,sans-serif;line-height:1.4;max-width:1200px;margin:24px auto;padding:0 16px;color:#000;background:#fff}h1{font-size:18px}h2{font-size:16px;margin-top:20px}table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}th,td{border:1px solid #000;padding:6px;text-align:left;font-weight:normal}th{font-weight:bold}a,a:visited{color:#000;text-decoration:none}strong,b{font-weight:normal}.event{margin:16px 0;padding:0;border:0;background:none}.table{overflow:auto}img{max-width:100%}"""
+
+
+def _plain_report_markup(page: str) -> str:
+    """Apply plain presentation without changing values or link addresses."""
+    page = re.sub(r"<style\b[^>]*>.*?</style>", "", page, flags=re.I | re.S)
+    page = re.sub(r'\sstyle=("[^"]*"|\'[^\']*\')', "", page, flags=re.I)
+    page = re.sub(
+        r"(?<=>)[^<]+(?=<)",
+        lambda match: match[0].replace("—", "-").replace("–", "-"),
+        page,
+    )
+    return page.replace("</title>", f"</title><style>{PLAIN_REPORT_STYLE}</style>", 1)
 
 
 def read_json(path: str | Path):
@@ -150,11 +165,11 @@ def export_result(directory: str | Path, result: dict):
         else ""
     )
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Яна: расчёт</title>
-<style>body{{font:16px system-ui;max-width:1200px;margin:32px auto;padding:0 20px;color:#17354a;background:#f5f7fb}}table{{width:100%;border-collapse:collapse;background:white;overflow:auto;display:block}}th,td{{text-align:left;padding:12px;border-bottom:1px solid #dde4ec}}th{{background:#274b69;color:white}}h1{{font-size:28px}}h2{{margin-top:32px;font-size:21px}}p{{line-height:1.6}}a{{color:#167764}}</style>
+<style>{PLAIN_REPORT_STYLE}</style>
 <h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}<table>{table}</table>
 <p>Средняя приёмка взвешена по тоннам. Цели: сначала больше принято, затем меньше рейсов, затем раньше последняя приёмка. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
 <p><a href="results.json">Полные результаты и статусы решателя</a> · <a href="comparison.csv">Сравнение</a> · <a href="schedule.csv">Расписание</a> · <a href="events.csv">Баланс событий</a></p>{schedules}</html>"""
-    (out / "report.html").write_text(page, encoding="utf-8")
+    (out / "report.html").write_text(_plain_report_markup(page), encoding="utf-8")
 
 
 def export_failure(directory: str | Path, failure: dict):
@@ -170,6 +185,8 @@ def export_failure(directory: str | Path, failure: dict):
         (out / name).write_text(header + "\n", encoding="utf-8-sig")
     message = html.escape(failure["message"])
     (out / "report.html").write_text(
-        f'<!doctype html><html lang="ru"><meta charset="utf-8"><title>Расчёт не выполнен</title><h1>Расчёт не выполнен</h1><p>{message}</p><p>Подтверждённый доставленный объём не определён.</p></html>',
+        _plain_report_markup(
+            f'<!doctype html><html lang="ru"><meta charset="utf-8"><title>Расчёт не выполнен</title><h1>Расчёт не выполнен</h1><p>{message}</p><p>Подтверждённый доставленный объём не определён.</p></html>'
+        ),
         encoding="utf-8",
     )
