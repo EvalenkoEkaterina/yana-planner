@@ -7,6 +7,8 @@ from flask import Flask, abort, jsonify, redirect, render_template, request, url
 
 from . import storage
 from .domain import InputError
+from .experiments import comparisons
+from .presentation import STATUS, event_card, schedule_sections
 from .service import NAMES, ROOT, calculate
 
 
@@ -18,6 +20,7 @@ def create_app(config=None):
         SOLVER_TIME_LIMIT=2,
     )
     app.config.update(config or {})
+    app.jinja_env.filters["run_status"] = lambda value: STATUS.get(value, "Статус не определён")
 
     @app.route("/", methods=["GET", "POST"])
     def index():
@@ -54,7 +57,14 @@ def create_app(config=None):
 
     @app.get("/runs/<int:ident>")
     def result_page(ident):
-        return render_template("result.html", run=get_run(ident))
+        run = get_run(ident)
+        return render_template(
+            "result.html",
+            run=run,
+            comparison=comparisons(run["result"]),
+            event_html=event_card(run["result"], run["inputs"]["scenario"]),
+            diagrams=schedule_sections(run["result"]),
+        )
 
     @app.get("/runs/<int:ident>/results.json")
     def download(ident):

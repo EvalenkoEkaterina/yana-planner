@@ -36,6 +36,29 @@ def summarize(ready, milp, target_t, solver):
         if same
         else "Сопоставимость объёмов не подтверждена."
     )
+    delta = {}
+    if same:
+        for field in ["trip_count", "last_receipt_h"]:
+            a, b = rows["READY"][field], rows["MILP"][field]
+            delta[field] = a - b if a is not None and b is not None else None
+        conclusion = f"При одинаковом объёме {rows['READY']['accepted_t']:g} т: "
+        parts = []
+        trips, hours = delta["trip_count"], delta["last_receipt_h"]
+        if trips is not None:
+            parts.append(
+                f"у MILP рейсов на {abs(trips):g} {'меньше' if trips > 0 else 'больше'}"
+                if trips
+                else "число рейсов одинаково"
+            )
+        if hours is not None:
+            parts.append(
+                f"приёмка MILP завершена на {abs(hours):g} ч {'раньше' if hours > 0 else 'позже'}"
+                if hours
+                else "приёмка завершена одновременно"
+            )
+        conclusion += (
+            "; ".join(parts) + "." if parts else "разница числа рейсов и времени не определена."
+        )
     search = (
         "Оптимальность подтверждена по всем этапам поиска"
         if optimal
@@ -44,6 +67,7 @@ def summarize(ready, milp, target_t, solver):
         else "Допустимый план MILP не подтверждён"
     )
     return dict(
+        differences=delta,
         rows=rows,
         equal_volume=same,
         optimal=optimal,
