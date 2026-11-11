@@ -127,6 +127,7 @@ def run_replanning(
         experiment="single_arrival_delay",
         scenario_id=cfg["id"],
         deadline_h=deadline,
+        original_input=deepcopy(cfg),
         event=deepcopy(event),
         initial=initial,
         revised_baseline=revised_ready,

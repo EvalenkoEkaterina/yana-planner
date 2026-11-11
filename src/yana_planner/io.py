@@ -11,6 +11,7 @@ from pathlib import Path
 
 from .domain import InputError, proposals
 from .experiments import comparisons
+from .presentation import STATUS, event_card, schedule_sections
 
 PLAIN_REPORT_STYLE = """body{font:14px Arial,sans-serif;line-height:1.4;max-width:1200px;margin:24px auto;padding:0 16px;color:#000;background:#fff}h1{font-size:18px}h2{font-size:16px;margin-top:20px}table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}th,td{border:1px solid #000;padding:6px;text-align:left;font-weight:normal}th{font-weight:bold}a,a:visited{color:#000;text-decoration:none}strong,b{font-weight:normal}.event{margin:16px 0;padding:0;border:0;background:none}.table{overflow:auto}img{max-width:100%}"""
 
@@ -95,7 +96,7 @@ def export_result(directory: str | Path, result: dict):
         metrics.append(
             dict(
                 method=label,
-                status=value["status"],
+                status=STATUS.get(value["status"], "Статус не определён"),
                 accepted_t=value.get("accepted_t"),
                 shortfall_t=value.get("shortfall_t"),
                 trips=value.get("trip_count"),
@@ -163,11 +164,8 @@ def export_result(directory: str | Path, result: dict):
                 + "</tr>"
             )
         schedules += "</table>"
-    event = (
-        f"<p>Новая информация: {html.escape(json.dumps(result['event'], ensure_ascii=False))}</p>"
-        if "event" in result
-        else ""
-    )
+    event = event_card(result)
+    diagrams = schedule_sections(result)
     summary = ""
     for title, item in comparisons(result).items():
         summary += f"<h2>{html.escape(title)}</h2><p>Цель: {item['target_t']} т</p>"
@@ -186,7 +184,7 @@ def export_result(directory: str | Path, result: dict):
         summary += "".join("<p>" + html.escape(w) + "</p>" for w in item["warnings"])
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Яна: расчёт</title>
 <style>{PLAIN_REPORT_STYLE}</style>
-<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{summary}<table>{table}</table>
+<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{summary}<h2>Расписание по судам</h2>{diagrams}<table>{table}</table>
 <p>Средняя приёмка взвешена по тоннам. Цели: сначала больше принято, затем меньше рейсов, затем раньше последняя приёмка. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
 <p><a href="results.json">Полные результаты и статусы решателя</a> · <a href="comparison.csv">Сравнение</a> · <a href="schedule.csv">Расписание</a> · <a href="events.csv">Баланс событий</a></p>{schedules}</html>"""
     (out / "report.html").write_text(_plain_report_markup(page), encoding="utf-8")
