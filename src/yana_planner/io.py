@@ -110,6 +110,15 @@ def _event_notice(result: dict) -> str:
             # Older result files do not retain original input; do not infer an
             # arrival time from the departure schedule or a hardcoded example.
             detail = f"Новый момент поступления топлива в Нижнеянск - <strong>{new} ч</strong>."
+    elif event.get("type") == "payload_restriction":
+        detail = (
+            f"С <strong>{safe(event.get('from_h'))}-го</strong> до "
+            f"<strong>{safe(event.get('to_h'))}-го часа</strong> действует временный предел "
+            f"партии <strong>{safe(event.get('capacity_t'))} т</strong>. "
+            "Проверяется весь гружёный ход. Более строгие исходные пределы сохраняются; "
+            "после интервала действует исходный календарь. "
+            "Ограничение задано входным сообщением; погодный прогноз не рассчитывается."
+        )
     else:
         detail = f"Тип сообщения: {safe(event.get('type', 'не определено'))}."
     return (
@@ -182,6 +191,32 @@ def export_result(directory: str | Path, result: dict):
             f"<h2>{html.escape(label)}</h2><p>{html.escape('; '.join(value.get('errors', [])))}</p>"
         )
         if value["status"] != "valid_simulation":
+            if value.get("conflicts"):
+                schedules += (
+                    "<p>Требуется вмешательство диспетчера. Начатые рейсы сохранены; "
+                    "итог продолжения доставки не подтверждён.</p>"
+                    "<table><tr><th>Судно</th><th>В начатом рейсе, т</th>"
+                    "<th>Допустимо, т</th><th>Пересечение ограничения, ч</th></tr>"
+                )
+                for conflict in value["conflicts"]:
+                    intervals = "; ".join(
+                        f"[{part['from_h']}, {part['to_h']})"
+                        for part in conflict["limiting_intervals"]
+                    )
+                    schedules += (
+                        "<tr>"
+                        + "".join(
+                            f"<td>{html.escape(str(cell))}</td>"
+                            for cell in [
+                                conflict["vessel_id"],
+                                conflict["quantity_t"],
+                                conflict["allowed_capacity_t"],
+                                intervals,
+                            ]
+                        )
+                        + "</tr>"
+                    )
+                schedules += "</table>"
             continue
         schedules += "<table><tr><th>Судно</th><th>Тонны</th><th>Погрузка с</th><th>Прибытие</th><th>Принято</th><th>Возврат</th><th>Готовность</th></tr>"
         for trip in value["trips"]:

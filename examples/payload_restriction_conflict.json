@@ -1,0 +1,9 @@
+{
+  "id": "A3-PAYLOAD-CONFLICT",
+  "type": "payload_restriction",
+  "announced_at_h": 60,
+  "from_h": 70,
+  "to_h": 100,
+  "capacity_t": 200,
+  "status": "scenario_assumption"
+}

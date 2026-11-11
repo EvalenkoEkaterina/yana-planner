@@ -57,13 +57,80 @@ def apply_vessel_unavailable(cfg: dict, event: dict) -> dict:
     return _tag_update(cfg, event, at)
 
 
+def apply_payload_restriction(cfg: dict, event: dict) -> dict:
+    """Overlay a temporary upper bound; preserve the original calendar outside it."""
+    cfg = Scenario.from_dict(cfg).to_dict()
+    if not isinstance(event, dict) or event.get("type") != "payload_restriction":
+        raise InputError("Нужно событие type=payload_restriction")
+    announced = integer(event.get("announced_at_h"), "announced_at_h")
+    start = integer(event.get("from_h"), "from_h")
+    end = integer(event.get("to_h"), "to_h")
+    limit = integer(event.get("capacity_t"), "capacity_t")
+    if start < announced:
+        raise InputError("Ограничение партии не может начинаться до сообщения")
+    if start >= end:
+        raise InputError("Ограничение партии должно иметь положительную длительность")
+
+    original = cfg["payload_calendar"]
+    boundaries = sorted({start, end} | {point["from_h"] for point in original})
+    updated = []
+    cursor = 0
+    for hour in boundaries:
+        while cursor + 1 < len(original) and original[cursor + 1]["from_h"] <= hour:
+            cursor += 1
+        capacity = original[cursor]["capacity_t"]
+        if start <= hour < end:
+            capacity = min(capacity, limit)
+        if not updated or updated[-1]["capacity_t"] != capacity:
+            updated.append(dict(from_h=hour, capacity_t=capacity))
+    cfg["payload_calendar"] = updated
+    return _tag_update(cfg, event, announced)
+
+
+def _payload_conflicts(cfg: dict, committed: list[dict], deadline: int) -> list[dict]:
+    """Explain overloads using checker-reconstructed dates; never authorize a plan."""
+    reconstructed = check_schedule(cfg, committed, deadline)
+    calendar = cfg["payload_calendar"]
+    fleet = {v["id"]: v for v in cfg["vessels"]}
+    conflicts = []
+    for trip in reconstructed.get("trips", []):
+        intervals = []
+        for index, point in enumerate(calendar):
+            left = max(trip["load_end_h"], point["from_h"])
+            right = min(
+                trip["arrival_h"],
+                calendar[index + 1]["from_h"] if index + 1 < len(calendar) else float("inf"),
+            )
+            if left < right and trip["quantity_t"] > point["capacity_t"]:
+                intervals.append(dict(from_h=left, to_h=right, capacity_t=point["capacity_t"]))
+        if intervals:
+            conflicts.append(
+                dict(
+                    kind="payload_limit",
+                    vessel_id=trip["vessel_id"],
+                    start_h=trip["start_h"],
+                    quantity_t=trip["quantity_t"],
+                    allowed_capacity_t=min(
+                        fleet[trip["vessel_id"]]["capacity_t"],
+                        *(part["capacity_t"] for part in intervals),
+                    ),
+                    limiting_intervals=intervals,
+                )
+            )
+    return conflicts
+
+
 def apply_event(cfg: dict, event: dict) -> dict:
     event = normalize_event(event)
     if event.get("type") == "arrival_delay":
         return apply_arrival_delay(cfg, event)
     if event.get("type") == "vessel_unavailable":
         return apply_vessel_unavailable(cfg, event)
-    raise InputError("Поддерживаются события arrival_delay и vessel_unavailable")
+    if event.get("type") == "payload_restriction":
+        return apply_payload_restriction(cfg, event)
+    raise InputError(
+        "Поддерживаются события arrival_delay, vessel_unavailable и payload_restriction"
+    )
 
 
 def replan(
@@ -114,6 +181,18 @@ def replan(
             real_admissibility="requires_confirmation",
         )
     except InterventionRequired as error:
+        conflicts = (
+            _payload_conflicts(changed, committed, deadline)
+            if event["type"] == "payload_restriction"
+            else []
+        )
+        messages = [str(error)]
+        for conflict in conflicts:
+            messages.append(
+                f"Судно {conflict['vessel_id']}: в начатом рейсе "
+                f"{conflict['quantity_t']} т, допустимо {conflict['allowed_capacity_t']} т. "
+                "Нужно решение диспетчера; начатая погрузка и её партия сохранены."
+            )
         return dict(
             method=method,
             event=deepcopy(event),
@@ -126,7 +205,8 @@ def replan(
                 status="requires_intervention",
                 accepted_t=None,
                 shortfall_t=None,
-                errors=[str(error)],
+                errors=messages,
+                conflicts=conflicts,
             ),
             solver=[],
             real_admissibility="requires_confirmation",
@@ -168,11 +248,11 @@ def run_replanning(
     )
     return dict(
         schema_version="1.0",
-        experiment=(
-            "single_arrival_delay"
-            if event["type"] == "arrival_delay"
-            else "single_vessel_unavailability"
-        ),
+        experiment={
+            "arrival_delay": "single_arrival_delay",
+            "vessel_unavailable": "single_vessel_unavailability",
+            "payload_restriction": "single_payload_restriction",
+        }[event["type"]],
         scenario_id=cfg["id"],
         deadline_h=deadline,
         initial_input=deepcopy(cfg),

@@ -1,0 +1,9 @@
+{
+  "id": "A3-PAYLOAD-60",
+  "type": "payload_restriction",
+  "announced_at_h": 60,
+  "from_h": 120,
+  "to_h": 168,
+  "capacity_t": 200,
+  "status": "scenario_assumption"
+}
