@@ -1527,6 +1527,7 @@
   },
   "comparisons": {
     "До события": {
+      "tradeoff": "Среднее время приёмки взвешено по тоннам; оно не входит в цели оптимизации. У MILP оно на 9.73 ч позже, чем у READY. Приоритеты MILP: больше принято топлива → меньше рейсов → раньше завершена приёмка.",
       "differences": {
         "trip_count": 1,
         "last_receipt_h": 52
@@ -1537,6 +1538,7 @@
           "shortfall_t": 0,
           "trip_count": 6,
           "last_receipt_h": 276,
+          "weighted_mean_receipt_h": 136.6969696969697,
           "valid": true,
           "target_met": true
         },
@@ -1545,6 +1547,7 @@
           "shortfall_t": 0,
           "trip_count": 5,
           "last_receipt_h": 224,
+          "weighted_mean_receipt_h": 146.42424242424244,
           "valid": true,
           "target_met": true
         }
@@ -1557,6 +1560,7 @@
       "target_t": 1650
     },
     "После события": {
+      "tradeoff": "Среднее время приёмки взвешено по тоннам; оно не входит в цели оптимизации. У MILP оно на 1.55 ч раньше, чем у READY. Приоритеты MILP: больше принято топлива → меньше рейсов → раньше завершена приёмка.",
       "differences": {
         "trip_count": 1,
         "last_receipt_h": 12
@@ -1567,6 +1571,7 @@
           "shortfall_t": 0,
           "trip_count": 6,
           "last_receipt_h": 284,
+          "weighted_mean_receipt_h": 161.06060606060606,
           "valid": true,
           "target_met": true
         },
@@ -1575,6 +1580,7 @@
           "shortfall_t": 0,
           "trip_count": 5,
           "last_receipt_h": 272,
+          "weighted_mean_receipt_h": 159.5151515151515,
           "valid": true,
           "target_met": true
         }
@@ -1585,6 +1591,58 @@
       "conclusion": "При одинаковом объёме 1650 т: у MILP рейсов на 1 меньше; приёмка MILP завершена на 12 ч раньше.",
       "warnings": [],
       "target_t": 1650
+    }
+  },
+  "event_effects": {
+    "READY": {
+      "metrics": {
+        "accepted_t": {
+          "before": 1650,
+          "after": 1650,
+          "change": 0
+        },
+        "trip_count": {
+          "before": 6,
+          "after": 6,
+          "change": 0
+        },
+        "last_receipt_h": {
+          "before": 276,
+          "after": 284,
+          "change": 8
+        },
+        "weighted_mean_receipt_h": {
+          "before": 136.6969696969697,
+          "after": 161.06060606060606,
+          "change": 24.363636363636374
+        }
+      },
+      "warning": ""
+    },
+    "MILP": {
+      "metrics": {
+        "accepted_t": {
+          "before": 1650,
+          "after": 1650,
+          "change": 0
+        },
+        "trip_count": {
+          "before": 5,
+          "after": 5,
+          "change": 0
+        },
+        "last_receipt_h": {
+          "before": 224,
+          "after": 272,
+          "change": 48
+        },
+        "weighted_mean_receipt_h": {
+          "before": 146.42424242424244,
+          "after": 159.5151515151515,
+          "change": 13.090909090909065
+        }
+      },
+      "warning": ""
     }
   }
 }

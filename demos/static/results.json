@@ -594,6 +594,7 @@
   "actual_savings_rub": null,
   "comparisons": {
     "Расчёт": {
+      "tradeoff": "Среднее время приёмки взвешено по тоннам; оно не входит в цели оптимизации. У MILP оно на 9.73 ч позже, чем у READY. Приоритеты MILP: больше принято топлива → меньше рейсов → раньше завершена приёмка.",
       "differences": {
         "trip_count": 1,
         "last_receipt_h": 52
@@ -604,6 +605,7 @@
           "shortfall_t": 0,
           "trip_count": 6,
           "last_receipt_h": 276,
+          "weighted_mean_receipt_h": 136.6969696969697,
           "valid": true,
           "target_met": true
         },
@@ -612,6 +614,7 @@
           "shortfall_t": 0,
           "trip_count": 5,
           "last_receipt_h": 224,
+          "weighted_mean_receipt_h": 146.42424242424244,
           "valid": true,
           "target_met": true
         }
@@ -623,5 +626,6 @@
       "warnings": [],
       "target_t": 1650
     }
-  }
+  },
+  "event_effects": {}
 }

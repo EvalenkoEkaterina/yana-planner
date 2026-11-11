@@ -8,7 +8,7 @@ from flask import Flask, abort, jsonify, redirect, render_template, request, url
 from . import storage
 from .domain import InputError
 from .experiments import comparisons
-from .presentation import STATUS, event_card, schedule_sections
+from .presentation import STATUS, effects_html, event_card, schedule_sections
 from .service import NAMES, ROOT, calculate
 
 
@@ -64,6 +64,7 @@ def create_app(config=None):
             comparison=comparisons(run["result"]),
             event_html=event_card(run["result"], run["inputs"]["scenario"]),
             diagrams=schedule_sections(run["result"]),
+            effects=effects_html(run["result"]),
         )
 
     @app.get("/runs/<int:ident>/results.json")
