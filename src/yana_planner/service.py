@@ -6,7 +6,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from .domain import InputError, Scenario
-from .experiments import comparisons
+from .experiments import comparisons, event_effects
 from .io import _finite, export_result, read_json, read_plan
 from .planning import compare
 from .replanning import run_replanning
@@ -40,6 +40,7 @@ def calculate(scenario, deadline, *, max_deadline=492, time_limit=2):
         else compare(cfg, deadline, **kwargs)
     )
     result["comparisons"] = comparisons(result)
+    result["event_effects"] = event_effects(result)
     with TemporaryDirectory() as directory:
         export_result(directory, result)
         result["report_html"] = re.sub(
