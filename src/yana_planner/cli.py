@@ -13,6 +13,7 @@ from . import __version__
 from .domain import ConfirmationRequired, InputError, integer
 from .economics import compare_cost
 from .excel_import import import_excel
+from .experiments import comparisons
 from .io import export_failure, export_result, read_json, read_plan, write_json
 from .planning import compare
 from .replanning import run_replanning
@@ -172,6 +173,10 @@ def main(argv=None):
             print(
                 f"{name}: {value['status']}; принято {value.get('accepted_t')} т; рейсов {value.get('trip_count')}; последняя приёмка {value.get('last_receipt_h')} ч"
             )
+        for item in comparisons(result).values():
+            print(item["conclusion"], item["search_status"])
+            for warning in item["warnings"]:
+                print(warning)
         print(f"Отчёт: {Path(args.out) / 'report.html'}")
         return 0 if all(v["status"] == "valid_simulation" for _, v in values) else 2
     except (InputError, KeyError, OSError) as error:

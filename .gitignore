@@ -8,3 +8,6 @@ dist/
 outputs/
 private_data/
 .env
+
+instance/
+*.sqlite3

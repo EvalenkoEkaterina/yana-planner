@@ -100,6 +100,7 @@ def run_replanning(
     time_limit: float = 3,
     incumbent: list[dict] | None = None,
 ) -> dict:
+    """Replan after one event; already started trips remain immutable."""
     # Crucially: the initial optimizer receives only the original input.
     initial = compare(cfg, deadline, time_limit=time_limit, incumbent=incumbent)
     if any(initial[k]["status"] != "valid_simulation" for k in ["baseline", "planner"]):
@@ -121,6 +122,7 @@ def run_replanning(
         time_limit=time_limit,
     )
     return dict(
+        target_t=cfg["target_t"],
         schema_version="1.0",
         experiment="single_arrival_delay",
         scenario_id=cfg["id"],

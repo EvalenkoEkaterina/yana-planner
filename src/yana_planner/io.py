@@ -10,6 +10,7 @@ import re
 from pathlib import Path
 
 from .domain import InputError, proposals
+from .experiments import comparisons
 
 PLAIN_REPORT_STYLE = """body{font:14px Arial,sans-serif;line-height:1.4;max-width:1200px;margin:24px auto;padding:0 16px;color:#000;background:#fff}h1{font-size:18px}h2{font-size:16px;margin-top:20px}table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}th,td{border:1px solid #000;padding:6px;text-align:left;font-weight:normal}th{font-weight:bold}a,a:visited{color:#000;text-decoration:none}strong,b{font-weight:normal}.event{margin:16px 0;padding:0;border:0;background:none}.table{overflow:auto}img{max-width:100%}"""
 
@@ -32,7 +33,9 @@ def read_json(path: str | Path):
             Path(path).read_text(encoding="utf-8-sig"),
             parse_constant=lambda x: (_ for _ in ()).throw(InputError(f"Недопустимое число {x}")),
         )
-    except (OSError, json.JSONDecodeError) as e:
+    except json.JSONDecodeError as e:
+        raise InputError(f"JSON {path}: строка {e.lineno}, столбец {e.colno}: {e.msg}") from e
+    except (OSError, UnicodeError) as e:
         raise InputError(f"Не удалось прочитать JSON: {e}") from e
 
 
@@ -80,6 +83,7 @@ def _rows(result: dict):
 
 
 def export_result(directory: str | Path, result: dict):
+    """Export validated schedules and shared interpretation in hours and tonnes."""
     out = Path(directory)
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "results.json", result)
@@ -164,9 +168,25 @@ def export_result(directory: str | Path, result: dict):
         if "event" in result
         else ""
     )
+    summary = ""
+    for title, item in comparisons(result).items():
+        summary += f"<h2>{html.escape(title)}</h2><p>Цель: {item['target_t']} т</p>"
+        summary += "<p>READY — базовый алгоритм; MILP — математический планировщик.</p>"
+        summary += (
+            "<p>"
+            + html.escape(item["conclusion"])
+            + "</p><p>"
+            + html.escape(item["search_status"])
+            + "</p>"
+        )
+        for name, row in item["rows"].items():
+            summary += (
+                f"<p>{name}: задание {'выполнено' if row['target_met'] else 'не выполнено'}</p>"
+            )
+        summary += "".join("<p>" + html.escape(w) + "</p>" for w in item["warnings"])
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Яна: расчёт</title>
 <style>{PLAIN_REPORT_STYLE}</style>
-<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}<table>{table}</table>
+<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{summary}<table>{table}</table>
 <p>Средняя приёмка взвешена по тоннам. Цели: сначала больше принято, затем меньше рейсов, затем раньше последняя приёмка. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
 <p><a href="results.json">Полные результаты и статусы решателя</a> · <a href="comparison.csv">Сравнение</a> · <a href="schedule.csv">Расписание</a> · <a href="events.csv">Баланс событий</a></p>{schedules}</html>"""
     (out / "report.html").write_text(_plain_report_markup(page), encoding="utf-8")
