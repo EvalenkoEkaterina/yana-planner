@@ -1,0 +1,5 @@
+﻿method,status,accepted_t,shortfall_t,trips,last_receipt_h,busy_vessel_h,weighted_mean_receipt_h
+"Первоначально, READY",valid_simulation,1650,0,6,276,510,136.6969696969697
+"Первоначально, MILP",valid_simulation,1650,0,5,224,404,146.42424242424244
+"После события, READY",valid_simulation,1650,0,6,284,510,161.06060606060606
+"После события, MILP",valid_simulation,1650,0,5,272,404,159.5151515151515

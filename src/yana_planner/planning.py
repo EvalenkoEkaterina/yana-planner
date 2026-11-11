@@ -363,6 +363,7 @@ def optimize(
 def compare(
     cfg: dict, deadline: int, *, time_limit: float = 3, incumbent: list[dict] | None = None
 ) -> dict:
+    """Run READY and MILP, independently validating tonnes and hours."""
     scenario = Scenario.from_dict(cfg)
     cfg = scenario.to_dict()
     baseline = ready(cfg, deadline)
@@ -374,6 +375,7 @@ def compare(
             "infeasible" if logs and logs[0].get("status") == 2 else "no_feasible_solution_found"
         )
     return dict(
+        target_t=cfg["target_t"],
         schema_version="1.0",
         scenario_id=cfg["id"],
         input_sha256=scenario.fingerprint,
