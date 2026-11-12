@@ -3,45 +3,35 @@
 <label>{{ label }}<input name="{{ name }}" type="number" value="{{ values.get(name, [fallback])[0] }}" min="{{ minimum }}" max="{{ maximum }}" required></label>
 {%- endmacro %}
 {% block content %}
-<p class="eyebrow">ПЛАНИРОВАНИЕ РЕЧНОЙ ДОСТАВКИ</p>
-<h1>Топливо вовремя.<br>Решения на основе расчёта.</h1>
-<p>Сравните базовый READY и оптимизационный MILP на одинаковых исходных данных.</p>
-{% if error %}<p role="alert" class="warning">{{ error }}</p>{% endif %}
+<div class="hero"><div><p class="eyebrow">РАБОЧЕЕ ПРОСТРАНСТВО / НОВЫЙ РАСЧЁТ</p><h1>Согласовать рейсы.<br><span class="accent">Доставить к сроку.</span></h1><p class="lead">Задайте условия перевозки. Сравните последовательный READY и математический планировщик MILP.</p><div class="hero-steps"><a href="#task"><span>01</span> Условия</a><span class="step-arrow" aria-hidden="true">→</span><a href="#vessel-section"><span>02</span> Ресурсы</a><span class="step-arrow" aria-hidden="true">→</span><a href="#run-section"><span>03</span> Расчёт</a></div></div>
+<aside class="route-panel"><div class="route-top"><span>ЯНА / РЕЧНАЯ ДОСТАВКА</span><span class="route-symbol" aria-hidden="true">↗</span></div><div class="route-points"><div><span class="route-dot"></span><small>ОТПРАВЛЕНИЕ</small><strong>Нижнеянск</strong></div><div><span class="route-dot filled"></span><small>ПРИЁМКА</small><strong>Усть-Куйга</strong></div></div><p>Учебный сценарий · Параметры можно менять</p></aside></div>
+{% if error %}<div role="alert" class="warning form-error"><strong>Проверьте условия расчёта</strong><p>{{ error }}</p></div>{% endif %}
 <form method="post" id="conditions-form" class="conditions-form" data-total-timeout="{{ total_timeout }}">
 <input type="hidden" name="customize" value="1">
-<section><h2>1. Задание</h2><p>Заполнены условия примера R03. Измените их для своего расчёта или <a href="/">восстановите пример</a>.</p>
+<div class="form-main">
+<section id="task"><div class="section-heading"><div><p class="eyebrow">01 / ПОСТАВКА</p><h2>Какую задачу решаем?</h2></div><a class="text-link" href="/">Восстановить R03 ↺</a></div><p class="section-intro">Заполнен учебный пример. Измените значения для своего расчёта.</p>
 <div class="fields-grid">
-<label>Режим расчёта<select name="scenario" id="scenario"><option value="r03" {% if values.get('scenario', ['r03'])[0] == 'r03' %}selected{% endif %}>Без задержки</option><option value="delay" {% if values.get('scenario', ['r03'])[0] == 'delay' %}selected{% endif %}>С задержкой топлива</option></select></label>
-{{ field('deadline', 'Срок приёмки, ч', 1, maximum) }}
+<label>Условия поступления<select name="scenario" id="scenario"><option value="r03" {% if values.get('scenario', ['r03'])[0] == 'r03' %}selected{% endif %}>Без задержки</option><option value="delay" {% if values.get('scenario', ['r03'])[0] == 'delay' %}selected{% endif %}>С задержкой топлива</option></select></label>
 {{ field('target_t', 'Требуется принять, т', 1, 1000000) }}
+{{ field('deadline', 'Принять до, ч', 1, maximum) }}
+</div>
+<details class="advanced-settings" {% if error %}open{% endif %}><summary>Запасы, возвращение и настройки поиска</summary><div class="fields-grid">
 {{ field('return_cutoff_h', 'Возврат судов до, ч', 1, maximum) }}
-{{ field('initial_source_t', 'Топливо в пункте отправления в начале, т', 0, 1000000) }}
-{{ field('destination_capacity_t', 'Вместимость хранилища получателя, т', 1, 1000000) }}
-<label>Время поиска на каждый этап<select name="search_seconds">{% for seconds, label in [('auto', 'Авто — до 30 с на этап'), ('2', '2 с — быстрый расчёт'), ('10', '10 с — более подробный поиск'), ('30', '30 с — расширенный поиск')] %}<option value="{{ seconds }}" {% if values.get('search_seconds', ['auto'])[0] == seconds %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-</div><p>Авто: сначала короткая попытка, затем более долгие при необходимости. Поиск останавливается при доказанном оптимуме или исчерпании бюджета. Лучший проверенный план сохраняется. Внутренний бюджет — до 30 с на этап. На сайте действует общий предел {{ total_timeout }} с на подготовку и все этапы вместе. При его достижении расчёт останавливается, введённые условия остаются в форме.</p><p>Все времена — целые часы от начала расчёта. Срок приёмки и срок возвращения судов задаются отдельно. В этой форме горизонт ограничен {{ maximum }} ч.</p></section>
-<section><h2>2. Суда</h2><p>У каждого судна своя вместимость и длительности операций. Можно задать от 1 до 6 судов.</p>
-<div id="vessels">
-{% for ident in values.get('vessel_id', []) %}{% set row = loop.index0 %}
-<fieldset class="vessel-row"><legend>Судно {{ loop.index }}</legend><div class="fields-grid">
-<label>Название<input name="vessel_id" value="{{ ident }}" maxlength="40" required></label>
-{% for key, label in vessel_fields.items() %}<label>{{ label }}<input type="number" name="vessel_{{ key }}" value="{{ values.get('vessel_' ~ key, [])[row] | default('') }}" min="{{ 0 if key == 'available_h' else 1 }}" max="{{ 1000000 if key == 'capacity_t' else maximum }}" required></label>{% endfor %}
-</div><button type="button" class="secondary remove-vessel">Убрать судно</button></fieldset>
-{% endfor %}</div><button type="button" id="add-vessel" class="secondary">Добавить судно</button></section>
-<section><h2>3. Поступления топлива</h2><p>Это пополнение запаса в пункте отправления, до погрузки на суда. От 1 до 12 поступлений.</p>
-<div id="arrivals">
-{% for hour in values.get('arrival_h', []) %}<fieldset class="arrival-row"><legend>Поступление {{ loop.index }}</legend><div class="fields-grid">
-<label>Час поступления<input name="arrival_h" type="number" value="{{ hour }}" min="0" max="{{ maximum }}" required></label>
-<label>Объём, т<input name="arrival_t" type="number" value="{{ values.get('arrival_t', [])[loop.index0] | default('') }}" min="1" max="1000000" required></label>
-</div><button type="button" class="secondary remove-arrival">Убрать поступление</button></fieldset>{% endfor %}
-</div><button type="button" id="add-arrival" class="secondary">Добавить поступление</button></section>
-<section id="delay-settings"><h2>4. Задержка</h2><p>Выберите поступление по номеру строки выше. Его исходное время берётся из этой строки. Начатые к моменту сообщения рейсы сохраняются.</p>
-<div class="fields-grid">
-{{ field('delayed_arrival', 'Номер поступления с задержкой', 1, 12) }}
-{{ field('announced_at_h', 'Когда узнали о задержке, ч', 0, maximum) }}
-{{ field('new_arrival_h', 'Новое время поступления, ч', 0, maximum) }}
-</div><p>Сообщение должно прийти до исходного поступления и срока приёмки. Новое поступление должно быть позже исходного.</p></section>
-<section><h2>Условия расчёта</h2><p id="conditions-summary" aria-live="polite"></p><p id="delay-summary"></p><button type="submit">Рассчитать</button><div id="calculation-progress" hidden role="status" aria-live="polite"><p id="calculation-elapsed"></p><p id="calculation-hint"></p></div></section>
+{{ field('initial_source_t', 'Начальный запас отправителя, т', 0, 1000000) }}
+{{ field('destination_capacity_t', 'Хранилище получателя, т', 1, 1000000) }}
+<label>Время поиска на этап<select name="search_seconds">{% for seconds, label in [('auto', 'Авто — до 30 с на этап'), ('2', '2 с — быстрый расчёт'), ('10', '10 с — подробный поиск'), ('30', '30 с — расширенный поиск')] %}<option value="{{ seconds }}" {% if values.get('search_seconds', ['auto'])[0] == seconds %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+</div><p class="field-help">Время перевозки задаётся в часах от начала, поиск — в секундах работы компьютера. Приёмка и возвращение имеют отдельные сроки. Авто увеличивает время попыток при необходимости. Общий предел всего вычисления на сайте — {{ total_timeout }} с.</p></details>
+</section>
+<section id="vessel-section"><div class="section-heading"><div><p class="eyebrow">02 / ФЛОТ</p><h2>Какие суда доступны?</h2></div><span class="section-counter">До 6 судов</span></div><p class="section-intro">Задайте вместимость и длительности операций каждого судна.</p>
+<div id="vessels">{% for ident in values.get('vessel_id', []) %}{% set row = loop.index0 %}
+<fieldset class="vessel-row"><legend>Судно {{ loop.index }}</legend><div class="fields-grid vessel-fields"><label>Название<input name="vessel_id" value="{{ ident }}" maxlength="40" required></label>{% for key, label in vessel_fields.items() %}<label>{{ label }}<input type="number" name="vessel_{{ key }}" value="{{ values.get('vessel_' ~ key, [])[row] | default('') }}" min="{{ 0 if key == 'available_h' else 1 }}" max="{{ 1000000 if key == 'capacity_t' else maximum }}" required></label>{% endfor %}</div><button type="button" class="remove-button remove-vessel">Убрать судно</button></fieldset>{% endfor %}</div><button type="button" id="add-vessel" class="button secondary">＋ Добавить судно</button>
+</section>
+<section><div class="section-heading"><div><p class="eyebrow">03 / ПОПОЛНЕНИЕ ЗАПАСА</p><h2>Когда поступит топливо?</h2></div><span class="section-counter">До 12 партий</span></div><p class="section-intro">Поступления в пункт отправления, до погрузки на суда.</p>
+<div id="arrivals">{% for hour in values.get('arrival_h', []) %}<fieldset class="arrival-row"><legend>Поступление {{ loop.index }}</legend><div class="fields-grid"><label>Час поступления<input name="arrival_h" type="number" value="{{ hour }}" min="0" max="{{ maximum }}" required></label><label>Объём, т<input name="arrival_t" type="number" value="{{ values.get('arrival_t', [])[loop.index0] | default('') }}" min="1" max="1000000" required></label></div><button type="button" class="remove-button remove-arrival">Убрать поступление</button></fieldset>{% endfor %}</div><button type="button" id="add-arrival" class="button secondary">＋ Добавить поступление</button></section>
+<section id="delay-settings"><div class="section-heading"><div><p class="eyebrow">ИЗМЕНЕНИЕ УСЛОВИЙ</p><h2>Что задерживается?</h2></div><span class="status-tag tag-warning">Перепланирование</span></div><p class="section-intro">Выберите поступление по номеру строки выше. Начатые к моменту сообщения рейсы сохранятся.</p><div class="fields-grid">{{ field('delayed_arrival', 'Номер поступления', 1, 12) }}{{ field('announced_at_h', 'Когда узнали о задержке, ч', 0, maximum) }}{{ field('new_arrival_h', 'Новое поступление, ч', 0, maximum) }}</div><p class="field-help">Сообщение должно прийти до исходного поступления и срока приёмки. Новое поступление — позже исходного.</p></section>
+<details class="model-note"><summary>Область применения модели</summary><p>Учебные данные. Один отправитель и один получатель, по одному причалу. Все времена — целые часы, горизонт до {{ maximum }} ч. Длительности операций фиксированы и не зависят от тоннажа. READY — база сравнения. Реальные условия перевозчика и денежная экономия требуют подтверждения.</p></details>
+</div>
+<aside class="plan-sidebar" id="run-section"><section class="summary-panel"><p class="eyebrow">ПЕРЕД ЗАПУСКОМ</p><h2>Ваше задание</h2><dl class="summary-metrics"><div><dt>Требуется принять</dt><dd><span id="target-preview">{{ values.get('target_t', [''])[0] }}</span> <small>т</small></dd></div><div class="summary-pair"><div><dt>Судов</dt><dd id="fleet-preview">{{ values.get('vessel_id', []) | length }}</dd></div><div><dt>Срок приёмки</dt><dd><span id="deadline-preview">{{ values.get('deadline', [''])[0] }}</span> <small>ч</small></dd></div></div></dl><p id="conditions-summary" class="summary-detail" aria-live="polite"></p><p id="delay-summary" class="summary-event"></p><button type="submit" class="button run-button">Рассчитать план <span aria-hidden="true">↗</span></button><p class="run-help">Общий предел вычисления — {{ total_timeout }} с. При остановке условия останутся в форме.</p><div id="calculation-progress" hidden role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span><p id="calculation-elapsed"></p><p id="calculation-hint"></p></div><div class="summary-bottom"><span aria-hidden="true">✓</span><span>Результат сохранится в истории</span></div></section><p class="sidebar-note">Сначала сравните принятый объём, затем рейсы и время. План утверждает диспетчер.</p></aside>
 </form>
-<aside>Данные учебные. Один пункт отправления и один получатель, по одному причалу. Длительности операций фиксированы и не зависят от объёма партии. READY — алгоритмическая база сравнения. Реальные расписания перевозчика и денежная экономия не подтверждены. Лимит поиска действует отдельно на каждом этапе MILP.</aside>
 <script src="{{ url_for('static', filename='conditions.js') }}" defer></script>
 {% endblock %}

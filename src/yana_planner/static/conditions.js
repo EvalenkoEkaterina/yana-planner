@@ -7,9 +7,12 @@ function update() {
   const delayed = value('scenario') === 'delay';
   document.getElementById('delay-settings').hidden = !delayed;
   document.querySelectorAll('#delay-settings input').forEach(input => { input.disabled = !delayed; });
-  const caps = fields('vessel_capacity_t').map(input => Number(input.value));
+  const caps = fields('vessel_capacity_t').map(input => input.value || '—');
+  document.getElementById('target-preview').textContent = value('target_t') || '—';
+  document.getElementById('fleet-preview').textContent = caps.length;
+  document.getElementById('deadline-preview').textContent = value('deadline') || '—';
   document.getElementById('conditions-summary').textContent =
-    `Цель: ${value('target_t')} т · Судов: ${caps.length} · Вместимости: ${caps.join(' / ')} т · Приёмка до ${value('deadline')} ч · Возврат до ${value('return_cutoff_h')} ч.`;
+    `Вместимости: ${caps.join(' / ')} т. Возврат до ${value('return_cutoff_h')} ч.`;
   const row = Number(value('delayed_arrival')) - 1;
   const hours = fields('arrival_h');
   const tonnes = fields('arrival_t');
@@ -81,7 +84,12 @@ window.addEventListener('pageshow', () => {
   clearInterval(progressTimer);
   const button = form.querySelector('[type="submit"]');
   button.disabled = false;
-  button.textContent = 'Рассчитать';
+  button.textContent = 'Рассчитать план ↗';
   document.getElementById('calculation-progress').hidden = true;
 });
 update();
+
+form.addEventListener('invalid', event => {
+  const details = event.target.closest('details');
+  if (details) details.open = true;
+}, true);
