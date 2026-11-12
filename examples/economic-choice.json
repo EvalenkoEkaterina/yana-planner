@@ -1,0 +1,27 @@
+{
+  "id": "ECONOMIC-CHOICE-DEMO",
+  "mode": "SIM_ONLY",
+  "label": "Учебный выбор между одним дорогим и двумя дешёвыми рейсами",
+  "navigation_assumed": true,
+  "reception_assumed": true,
+  "fleet_assumed": true,
+  "supply_assumed": true,
+  "target_t": 20,
+  "initial_source_t": 20,
+  "destination_capacity_t": 20,
+  "return_cutoff_h": 20,
+  "delivery_deadline_h": 13,
+  "arrivals": [],
+  "withdrawals": [],
+  "closures": [],
+  "payload_calendar": [{"from_h": 0, "capacity_t": 20}],
+  "vessels": [
+    {"id": "A", "available_h": 0, "capacity_t": 20, "load_h": 1, "up_h": 1, "unload_h": 1, "return_h": 1, "prep_h": 1},
+    {"id": "B", "available_h": 0, "capacity_t": 10, "load_h": 1, "up_h": 1, "unload_h": 1, "return_h": 1, "prep_h": 1}
+  ],
+  "provenance": {
+    "kind": "synthetic_scenario",
+    "origin": "Constructed verification of the cost objective, not actual transportation",
+    "operating_parameters": "All quantities and times are synthetic"
+  }
+}

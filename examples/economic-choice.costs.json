@@ -1,0 +1,22 @@
+{
+  "billing_mode": "all_available_time",
+  "currency": "RUB",
+  "horizon_h": 20,
+  "vessel_rates": {
+    "A": {
+      "separate_trip_operations_rub": 1000,
+      "active_vessel_hour_rub": 0,
+      "waiting_vessel_hour_rub": 0,
+      "rate_basis": "scenario",
+      "source": "Synthetic test tariff, not an operator quotation"
+    },
+    "B": {
+      "separate_trip_operations_rub": 100,
+      "active_vessel_hour_rub": 0,
+      "waiting_vessel_hour_rub": 0,
+      "rate_basis": "scenario",
+      "source": "Synthetic test tariff, not an operator quotation"
+    }
+  },
+  "note": "Все тарифы вымышлены для проверки выбора стратегии. Нулевые часовые ставки заданы явно для изоляции влияния расходов на рейс. Реальную экономию не подтверждают."
+}

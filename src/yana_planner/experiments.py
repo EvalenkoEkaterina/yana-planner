@@ -1,7 +1,7 @@
 """Shared interpretation of independently validated results (hours and tonnes)."""
 
 
-def summarize(ready, milp, target_t, solver):
+def summarize(ready, milp, target_t, solver, *, strategy="trips", costs=None):
     """Compare verified plans without equating different delivered volumes."""
     rows = {}
     for name, value in [("READY", ready), ("MILP", milp)]:
@@ -70,8 +70,24 @@ def summarize(ready, milp, target_t, solver):
         else:
             tradeoff += " У обоих методов оно одинаково."
     tradeoff += (
-        " Приоритеты MILP: больше принято топлива → меньше рейсов → раньше завершена приёмка."
+        " Приоритеты MILP: больше принято топлива → меньше сценарные затраты → раньше завершена приёмка."
+        if strategy == "cost"
+        else " Приоритеты MILP: больше принято топлива → меньше рейсов → раньше завершена приёмка."
     )
+    if costs is not None:
+        for name, key in [("READY", "baseline"), ("MILP", "planner")]:
+            priced = costs.get(key)
+            rows[name]["total_rub"] = priced.get("total_rub") if priced else None
+        difference = costs.get("scenario_difference_rub")
+        if same and difference is not None:
+            delta["scenario_cost_rub"] = difference
+            conclusion += (
+                f" Сценарные затраты MILP на {abs(difference):.2f} руб. "
+                f"{'меньше' if difference > 0 else 'больше'}, чем у READY."
+                if difference
+                else " Сценарные затраты одинаковы."
+            )
+        tradeoff += " Денежные результаты зависят от введённых ставок и схемы оплаты."
     search = (
         "Оптимальность подтверждена по всем этапам поиска"
         if optimal
@@ -106,7 +122,12 @@ def comparisons(result):
         }
     return {
         "Расчёт": summarize(
-            result["baseline"], result["planner"], result["target_t"], result["solver"]
+            result["baseline"],
+            result["planner"],
+            result["target_t"],
+            result["solver"],
+            strategy=result.get("planning_strategy", "trips"),
+            costs=result.get("costs"),
         )
     }
 

@@ -184,10 +184,44 @@ def export_result(directory: str | Path, result: dict):
                 f"<p>{name}: задание {'выполнено' if row['target_met'] else 'не выполнено'}</p>"
             )
         summary += "".join("<p>" + html.escape(w) + "</p>" for w in item["warnings"])
+    economics = ""
+    if result.get("costs") is not None:
+        economics = "<h2>Сценарная стоимость</h2><p>Схема: оплата всего доступного флота на общем горизонте. Источники ставок указаны пользователем и не проверяются автоматически.</p>"
+        for label, key in [("READY", "baseline"), ("MILP", "planner")]:
+            priced = result["costs"].get(key)
+            if not priced or priced.get("total_rub") is None:
+                economics += f"<p>{label}: стоимость не определена.</p>"
+                continue
+            economics += f"<h3>{label}: {cell(priced['total_rub'])} руб.</h3><p>Горизонт оплаты: {cell(priced['horizon_h'])} ч.</p>"
+            economics += "<table><tr><th>Судно</th><th>Рейсовые расходы, руб.</th><th>Активность, руб.</th><th>Ожидание, руб.</th><th>Итого, руб.</th><th>Основание ставок</th><th>Источник</th></tr>"
+            for row in priced["per_vessel"]:
+                basis = {
+                    "scenario": "Сценарные",
+                    "documented": "Указан документ",
+                    "unspecified": "Не указано",
+                }[row["rate_basis"]]
+                values = [
+                    row["vessel_id"],
+                    *row["components"].values(),
+                    row["total_rub"],
+                    basis,
+                    row["source"],
+                ]
+                economics += (
+                    "<tr>" + "".join(f"<td>{html.escape(cell(v))}</td>" for v in values) + "</tr>"
+                )
+            economics += "</table>"
+        if not result["costs"]["equal_volume"]:
+            economics += "<p>Принятые объёмы различаются или не подтверждены: разница затрат не представляется как экономия одинаковой работы.</p>"
+    priorities = (
+        "сначала больше принято, затем меньше сценарные затраты, затем раньше последняя приёмка"
+        if result.get("planning_strategy") == "cost"
+        else "сначала больше принято, затем меньше рейсов, затем раньше последняя приёмка"
+    )
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Яна: расчёт</title>
 <style>{PLAIN_REPORT_STYLE}</style>
-<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{summary}{effects}<h2>Расписание по судам</h2>{diagrams}<table>{table}</table>
-<p>Средняя приёмка взвешена по тоннам. Цели: сначала больше принято, затем меньше рейсов, затем раньше последняя приёмка. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
+<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{summary}{effects}{economics}<h2>Расписание по судам</h2>{diagrams}<table>{table}</table>
+<p>Средняя приёмка взвешена по тоннам. Цели: {priorities}. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
 <p><a href="results.json">Полные результаты и статусы решателя</a> · <a href="comparison.csv">Сравнение</a> · <a href="schedule.csv">Расписание</a> · <a href="events.csv">Баланс событий</a></p>{schedules}</html>"""
     (out / "report.html").write_text(_plain_report_markup(page), encoding="utf-8")
 

@@ -60,16 +60,12 @@ def _rubles(cents: int) -> float:
     return value
 
 
-def cost(cfg: dict, plan: list[dict], deadline: int, terms: dict) -> dict:
-    """Price a validated plan; unknown rates never become free resources.
+def resolve_cost_terms(cfg: dict, terms: dict) -> dict:
+    """Validate input independently of any plan; internal amounts are integer kopecks.
 
-    Legacy uniform rates and explicit per-vessel rates are mutually exclusive.
-    Each vessel's cost component is rounded to kopecks before summing the report.
+    The returned Decimal horizon is for core calculations, not a JSON response.
     """
     cfg = Scenario.from_dict(cfg).to_dict()
-    verdict = check_schedule(cfg, plan, deadline)
-    if verdict["status"] != "valid_simulation":
-        raise InputError("Стоимость требует допустимое расписание")
     if not isinstance(terms, Mapping):
         raise InputError("Условия стоимости должны быть JSON-объектом")
     if terms.get("currency", "RUB") != "RUB":
@@ -105,12 +101,36 @@ def cost(cfg: dict, plan: list[dict], deadline: int, terms: dict) -> dict:
         missing.append("horizon_h")
     else:
         horizon = _number(horizon, "horizon_h")
+    return dict(
+        horizon_h=horizon,
+        billing_mode=billing,
+        rates_format=rates_format,
+        vessel_rates=rates,
+        missing=missing,
+    )
+
+
+def cost(cfg: dict, plan: list[dict], deadline: int, terms: dict) -> dict:
+    """Price a validated plan; unknown rates never become free resources.
+
+    Legacy uniform rates and explicit per-vessel rates are mutually exclusive.
+    Each vessel's cost component is rounded to kopecks before summing the report.
+    """
+    cfg = Scenario.from_dict(cfg).to_dict()
+    verdict = check_schedule(cfg, plan, deadline)
+    if verdict["status"] != "valid_simulation":
+        raise InputError("Стоимость требует допустимое расписание")
+    resolved = resolve_cost_terms(cfg, terms)
+    missing = resolved["missing"]
     if missing:
         return dict(
             status="missing_cost_inputs",
             total_rub=None,
             missing=missing,
         )
+    horizon = resolved["horizon_h"]
+    fleet = {v["id"]: v for v in cfg["vessels"]}
+    rates = resolved["vessel_rates"]
     if horizon < max((t["ready_h"] for t in verdict["trips"]), default=0):
         raise InputError(
             "Оплачиваемый горизонт должен включать полный оборот всех выбранных рейсов"
@@ -157,8 +177,8 @@ def cost(cfg: dict, plan: list[dict], deadline: int, terms: dict) -> dict:
     return dict(
         status="scenario_cost",
         currency="RUB",
-        billing_mode=billing,
-        rates_format=rates_format,
+        billing_mode=resolved["billing_mode"],
+        rates_format=resolved["rates_format"],
         total_rub=_rubles(sum(total_components.values())),
         components={key: _rubles(value) for key, value in total_components.items()},
         per_vessel=per_vessel,

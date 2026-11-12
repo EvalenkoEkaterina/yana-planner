@@ -10,7 +10,15 @@ import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, milp
 from scipy.sparse import coo_matrix
 
-from .domain import InputError, InterventionRequired, Scenario, integer, proposals
+from .domain import (
+    ConfirmationRequired,
+    InputError,
+    InterventionRequired,
+    Scenario,
+    integer,
+    proposals,
+)
+from .economics import compare_cost, cost, resolve_cost_terms
 from .validation import check_schedule
 
 
@@ -166,6 +174,8 @@ def optimize(
     fixed: list[dict] | None = None,
     decision_h: int = 0,
     adaptive: bool = False,
+    strategy: str = "trips",
+    cost_terms: dict | None = None,
 ) -> tuple[list[dict], list[dict]]:
     cfg = Scenario.from_dict(cfg).to_dict()
     deadline = integer(deadline, "deadline_h")
@@ -179,6 +189,24 @@ def optimize(
         raise InputError("time_limit должен быть положительным числом секунд")
     fixed = _validate_fixed(cfg, fixed or [], deadline, decision_h)
     fleet = {v["id"]: v for v in cfg["vessels"]}
+    if strategy not in ("trips", "cost"):
+        raise InputError("strategy: выберите trips или cost")
+    resolved = None
+    trip_cost = {}
+    if strategy == "cost":
+        resolved = resolve_cost_terms(cfg, cost_terms)
+        if resolved["missing"]:
+            raise ConfirmationRequired(
+                "Для экономической оптимизации заполните: " + ", ".join(resolved["missing"])
+            )
+        for vessel_id, vessel in fleet.items():
+            rates = resolved["vessel_rates"][vessel_id]["cents"]
+            duration = sum(vessel[k] for k in ("load_h", "up_h", "unload_h", "return_h", "prep_h"))
+            # The paid fleet availability is a common constant. Only the change
+            # from waiting to active time belongs in the MILP objective.
+            trip_cost[vessel_id] = rates["separate_trip_operations_rub"] + duration * (
+                rates["active_vessel_hour_rub"] - rates["waiting_vessel_hour_rub"]
+            )
 
     def rank(plan):
         end = max(
@@ -188,7 +216,10 @@ def optimize(
             ),
             default=0,
         )
-        return (-sum(p["quantity_t"] for p in plan), len(plan), end)
+        secondary = (
+            sum(trip_cost[p["vessel_id"]] for p in plan) if strategy == "cost" else len(plan)
+        )
+        return (-sum(p["quantity_t"] for p in plan), secondary, end)
 
     def preserves_history(plan):
         return all(p in plan for p in fixed) and all(
@@ -235,6 +266,15 @@ def optimize(
                 )
             )
     cand.sort(key=lambda c: (c["start_h"], c["vessel_id"]))
+    if resolved is not None:
+        latest_ready = max((c["ready_h"] for c in cand), default=0)
+        if resolved["horizon_h"] < latest_ready:
+            raise InputError(
+                f"Для оптимизации горизонт оплаты должен покрывать все варианты рейсов: "
+                f"не менее {latest_ready} ч. Он не должен сокращать допустимые перевозки."
+            )
+        if sum(abs(trip_cost[c["vessel_id"]]) for c in cand) > 2**53 - 1:
+            raise InputError("Ставки слишком велики для точного денежного сравнения в MILP")
     n = len(cand)
     if not n:
         return best or [], [
@@ -396,16 +436,28 @@ def optimize(
     tonnes = -rank(best)[0]
     matrix.add([(n + i, 1) for i in range(n)], lower=tonnes, upper=tonnes)
     objective = np.zeros(2 * n + 1)
-    objective[:n] = 1
-    p = solve(objective, "minimize_trips_at_fixed_tonnes", 1)
+    objective[:n] = [trip_cost[c["vessel_id"]] for c in cand] if strategy == "cost" else 1
+    secondary_stage = (
+        "minimize_cost_at_fixed_tonnes" if strategy == "cost" else "minimize_trips_at_fixed_tonnes"
+    )
+    p = solve(objective, secondary_stage, 1)
     if p is not None and rank(p) < rank(best):
         best = p
-    count = len(best)
-    matrix.add([(i, 1) for i in range(n)], lower=count, upper=count)
+    secondary_value = rank(best)[1]
+    matrix.add(
+        [(i, float(objective[i])) for i in range(n)],
+        lower=secondary_value,
+        upper=secondary_value,
+    )
     upper[-1] = rank(best)[2]
     objective = np.zeros(2 * n + 1)
     objective[-1] = 1
-    p = solve(objective, "minimize_last_receipt_at_fixed_tonnes_trips", 2)
+    final_stage = (
+        "minimize_last_receipt_at_fixed_tonnes_cost"
+        if strategy == "cost"
+        else "minimize_last_receipt_at_fixed_tonnes_trips"
+    )
+    p = solve(objective, final_stage, 2)
     if p is not None and rank(p) < rank(best):
         best = p
     return proposals(best), logs
@@ -418,21 +470,24 @@ def compare(
     time_limit: float = 3,
     incumbent: list[dict] | None = None,
     adaptive: bool = False,
+    strategy: str = "trips",
+    cost_terms: dict | None = None,
 ) -> dict:
     """Run READY and MILP, independently validating tonnes and hours."""
     scenario = Scenario.from_dict(cfg)
     cfg = scenario.to_dict()
     baseline = ready(cfg, deadline)
-    plan, logs = optimize(
-        cfg, deadline, baseline, time_limit=time_limit, incumbent=incumbent, adaptive=adaptive
-    )
+    kwargs = dict(time_limit=time_limit, incumbent=incumbent, adaptive=adaptive)
+    if strategy != "trips" or cost_terms is not None:
+        kwargs.update(strategy=strategy, cost_terms=cost_terms)
+    plan, logs = optimize(cfg, deadline, baseline, **kwargs)
     a = check_schedule(cfg, baseline, deadline)
     b = check_schedule(cfg, plan, deadline)
     if b["status"] != "valid_simulation":
         b["status"] = (
             "infeasible" if logs and logs[0].get("status") == 2 else "no_feasible_solution_found"
         )
-    return dict(
+    result = dict(
         target_t=cfg["target_t"],
         schema_version="1.0",
         scenario_id=cfg["id"],
@@ -444,3 +499,42 @@ def compare(
         real_admissibility="requires_confirmation",
         actual_savings_rub=None,
     )
+    if strategy != "trips" or cost_terms is not None:
+        result.update(
+            planning_strategy=strategy,
+            objective_priority=[
+                "accepted_t",
+                "total_rub" if strategy == "cost" else "trip_count",
+                "last_receipt_h",
+            ],
+        )
+    if cost_terms is not None:
+        equal = (
+            a["status"] == b["status"] == "valid_simulation" and a["accepted_t"] == b["accepted_t"]
+        )
+        if equal:
+            priced = compare_cost(cfg, baseline, plan, deadline, cost_terms)
+            costs = dict(
+                baseline=priced["baseline"],
+                planner=priced["alternative"],
+                scenario_difference_rub=priced["scenario_difference_rub"],
+            )
+        else:
+            costs = dict(
+                baseline=cost(cfg, baseline, deadline, cost_terms)
+                if a["status"] == "valid_simulation"
+                else None,
+                planner=cost(cfg, plan, deadline, cost_terms)
+                if b["status"] == "valid_simulation"
+                else None,
+                scenario_difference_rub=None,
+            )
+        result.update(
+            cost_terms=deepcopy(cost_terms),
+            costs=dict(
+                **costs,
+                equal_volume=equal,
+                actual_savings_rub=None,
+            ),
+        )
+    return result
