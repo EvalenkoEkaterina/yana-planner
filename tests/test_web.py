@@ -203,3 +203,32 @@ class CustomInputTests(unittest.TestCase):
             self.assertEqual(bad.status_code, 400)
             self.assertIn('value="TEST-600"', bad.text)
             self.assertIn('value="-1"', bad.text)
+
+
+class SearchBudgetTests(unittest.TestCase):
+    def test_requested_budget_reaches_solver(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            client = create_app(
+                dict(TESTING=True, DATABASE=str(Path(tmp) / "runs.db"))
+            ).test_client()
+            with patch(
+                "yana_planner.web.calculate",
+                return_value=(*calculate("r03", "328", time_limit=0.1),),
+            ) as solver:
+                response = client.post(
+                    "/", data=dict(scenario="r03", deadline="328", search_seconds="10")
+                )
+                self.assertEqual(response.status_code, 303)
+                self.assertEqual(solver.call_args.kwargs["time_limit"], 10)
+
+    def test_invalid_budget_does_not_start_solver(self):
+        client = create_app(dict(TESTING=True)).test_client()
+        with patch("yana_planner.web.calculate") as solver:
+            for value in ["", "0", "-1", "3", "100000", "nan"]:
+                self.assertEqual(
+                    client.post(
+                        "/", data=dict(scenario="r03", deadline="328", search_seconds=value)
+                    ).status_code,
+                    400,
+                )
+            solver.assert_not_called()
