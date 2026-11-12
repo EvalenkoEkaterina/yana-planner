@@ -152,9 +152,6 @@ $('import-package').addEventListener('change',async e=>{
   catch(error){$('route-import-status').textContent=`Импорт отклонён: ${error.message}. Текущие условия сохранены.`;}
   finally{e.target.value='';loading=false;update();}
 });
-$('use-scenario-rates').addEventListener('click',()=>{
-  for(const row of form.querySelectorAll('.vessel-row')) {rateFields.forEach((f,i)=>row.querySelector(`[name="vessel_${f}"]`).value=[25000,1000,500][i]);row.querySelector('[name="vessel_rate_basis"]').value='scenario';row.querySelector('[name="vessel_rate_source"]').value='Предложение Ушановой 13.11.2026; не подтверждено перевозчиком';}update();
-});
 $('strategy').addEventListener('change',()=>{if($('strategy').value==='cost')$('economics-enabled').value='yes';update();});
 form.addEventListener('input',update); form.addEventListener('change',update);
 form.addEventListener('click',e=>{if(e.target.matches('.remove-vessel, .remove-arrival'))update();});
