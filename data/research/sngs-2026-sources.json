@@ -1,0 +1,121 @@
+[
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/83/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.docx",
+    "file": "outputs/research/sngs-2026/83/Документация.docx",
+    "sha256": "f2d4402cb224a43c1df2509e13a08cf0f56331d2fc3442179bd8f0abccbbf2b4",
+    "bytes": 243797,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470469+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/83/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%201%20%D0%BA%20%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D0%B8.xlsx",
+    "file": "outputs/research/sngs-2026/83/Приложение № 1 к Документации.xlsx",
+    "sha256": "98dfbd61026538dd69081cd61c8cb1dad4714b23757c6753f2696ff643402ce9",
+    "bytes": 24669,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470609+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/83/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%202%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.xlsx",
+    "file": "outputs/research/sngs-2026/83/Приложение № 2 к договору.xlsx",
+    "sha256": "551ccda531a4d510f872857f5addd8d9479eebb706b8bb7e1b6f3896f56782c7",
+    "bytes": 264274,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470611+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/83/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%203%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.pdf",
+    "file": "outputs/research/sngs-2026/83/Приложение № 3 к договору.pdf",
+    "sha256": "644ba1d7e6885aa6b3ced8a736776ca09c818feef3c8da57a8408f9e957006e9",
+    "bytes": 2222267,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470613+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/83/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%204%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.xlsx",
+    "file": "outputs/research/sngs-2026/83/Приложение № 4 к договору.xlsx",
+    "sha256": "8a67ee949dc79137917598939b0d31a4a1802980026799b5b544300de36a1a18",
+    "bytes": 101321,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470614+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/47/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.docx",
+    "file": "outputs/research/sngs-2026/47/Документация.docx",
+    "sha256": "f1c504013ffc4b0829d60a01550f6eed9ded71da572b51e83f4b954dfd63f699",
+    "bytes": 237014,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470615+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/47/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%201%20%D0%BA%20%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D0%B8.xlsx",
+    "file": "outputs/research/sngs-2026/47/Приложение № 1 к Документации.xlsx",
+    "sha256": "322501e228175f4d17ca89426bbdce0b4f7159cc955b6043599d6b2cd35e46f8",
+    "bytes": 27450,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470616+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/47/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%202%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.xlsx",
+    "file": "outputs/research/sngs-2026/47/Приложение № 2 к договору.xlsx",
+    "sha256": "551ccda531a4d510f872857f5addd8d9479eebb706b8bb7e1b6f3896f56782c7",
+    "bytes": 264274,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470617+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/47/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%203%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.pdf",
+    "file": "outputs/research/sngs-2026/47/Приложение № 3 к договору.pdf",
+    "sha256": "644ba1d7e6885aa6b3ced8a736776ca09c818feef3c8da57a8408f9e957006e9",
+    "bytes": 2222267,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470618+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/47/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%204%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.xlsx",
+    "file": "outputs/research/sngs-2026/47/Приложение № 4 к договору.xlsx",
+    "sha256": "8a67ee949dc79137917598939b0d31a4a1802980026799b5b544300de36a1a18",
+    "bytes": 101321,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470619+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/42/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.docx",
+    "file": "outputs/research/sngs-2026/42/Документация.docx",
+    "sha256": "5f0c239df24ac29915abe286b5f6f93d57ade8ed0b5fc990b6d1edc1763dda9d",
+    "bytes": 233792,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470620+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/42/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%201%20%D0%BA%20%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D0%B8%20%D0%BE%D1%82%2031.03.2026.xlsx",
+    "file": "outputs/research/sngs-2026/42/Приложение № 1 к Документации от 31.03.2026.xlsx",
+    "sha256": "40fb62e3f8c98497946fc62c92b05dd4310c16db71e9d25040cc9b02371fb624",
+    "bytes": 22423,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470621+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/42/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%202%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.xlsx",
+    "file": "outputs/research/sngs-2026/42/Приложение № 2 к договору.xlsx",
+    "sha256": "ffd796f2ea7bcbce3a6565898226c6ec1d7629e3b257936dd9e5970932459879",
+    "bytes": 265414,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470622+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/42/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%203%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.pdf",
+    "file": "outputs/research/sngs-2026/42/Приложение № 3 к договору.pdf",
+    "sha256": "644ba1d7e6885aa6b3ced8a736776ca09c818feef3c8da57a8408f9e957006e9",
+    "bytes": 2222267,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470622+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/42/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%204%20%D0%BA%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%83.xlsx",
+    "file": "outputs/research/sngs-2026/42/Приложение № 4 к договору.xlsx",
+    "sha256": "a64db08412368a6d4fb61e40042a2f83d97edb771eb60020536995c178ebd095",
+    "bytes": 51780,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470623+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/33/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.docx",
+    "file": "outputs/research/sngs-2026/33/Документация.docx",
+    "sha256": "e93033e782f6d00c576b579dd6f1889fa423285f44ab21c2269f8aeee4d4e768",
+    "bytes": 233485,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470624+00:00"
+  },
+  {
+    "url": "https://aosngs.ru/upload/tender/2026/33/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%E2%84%96%201%20%D0%BA%20%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D0%B8.xlsx",
+    "file": "outputs/research/sngs-2026/33/Приложение № 1 к Документации.xlsx",
+    "sha256": "33ec507f893204a162588c6474b47bbbda52f8aadb85821e67e97690b5a25267",
+    "bytes": 23032,
+    "retrieved_at_utc": "2026-11-12T22:26:48.470625+00:00"
+  }
+]
