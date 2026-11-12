@@ -1,0 +1,27 @@
+{
+  "id": "R03-RISK-DEMO",
+  "status": "synthetic_scenarios_not_empirical_probabilities",
+  "note": "Независимые учебные события для одного исходного плана. Не реальные погодные события и не вероятности.",
+  "cases": [
+    {
+      "id": "arrival-delay",
+      "label": "Поступление 120 → 168 ч",
+      "event": {"type": "arrival_delay", "announced_at_h": 60, "arrival_index": 1, "new_arrival_h": 168, "status": "scenario_assumption"}
+    },
+    {
+      "id": "movement-closure",
+      "label": "Запрет движения [120,132)",
+      "event": {"type": "weather_closure", "announced_at_h": 60, "closures": [[120, 132]], "rule_status": "scenario_assumption", "data_kind": "synthetic", "forecast_issued_at": null}
+    },
+    {
+      "id": "long-closure",
+      "label": "Длительный запрет [120,240)",
+      "event": {"type": "weather_closure", "announced_at_h": 60, "closures": [[120, 240]], "rule_status": "scenario_assumption", "data_kind": "synthetic", "forecast_issued_at": null}
+    },
+    {
+      "id": "committed-return-conflict",
+      "label": "Запрет на возврат начатого рейса [90,96)",
+      "event": {"type": "weather_closure", "announced_at_h": 60, "closures": [[90, 96]], "rule_status": "scenario_assumption", "data_kind": "synthetic", "forecast_issued_at": null}
+    }
+  ]
+}

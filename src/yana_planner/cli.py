@@ -17,6 +17,7 @@ from .experiments import comparisons
 from .io import export_failure, export_result, read_json, read_plan, write_json
 from .planning import compare
 from .replanning import run_replanning
+from .risk_analysis import analyze_risks, export_risk_report
 from .validation import check_schedule
 
 
@@ -57,6 +58,17 @@ def parser():
     q.add_argument("comparison")
     q.add_argument("--terms", required=True)
     q.add_argument("--deadline", type=int)
+    q.add_argument("--out", required=True)
+    q = sub.add_parser("risk", help="Проверить один сохранённый план на наборе отдельных событий")
+    q.add_argument("input")
+    q.add_argument("--schedule", required=True)
+    q.add_argument("--method", choices=["baseline", "planner"], default="planner")
+    q.add_argument("--cases", required=True)
+    q.add_argument("--deadline", type=int)
+    q.add_argument("--strategy", choices=["trips", "cost"], default="trips")
+    q.add_argument("--cost-terms")
+    q.add_argument("--time-limit", type=float, default=3)
+    q.add_argument("--adaptive", action="store_true")
     q.add_argument("--out", required=True)
     q = sub.add_parser("benchmark")
     q.add_argument("input", help="JSON с scenarios и grid_hours")
@@ -127,6 +139,25 @@ def main(argv=None):
             args.deadline if args.deadline is not None else cfg.get("delivery_deadline_h"),
             "deadline_h",
         )
+        if args.command == "risk":
+            result = analyze_risks(
+                cfg,
+                read_plan(args.schedule, args.method),
+                read_json(args.cases),
+                deadline,
+                strategy=args.strategy,
+                cost_terms=read_json(args.cost_terms) if args.cost_terms else None,
+                time_limit=args.time_limit,
+                adaptive=args.adaptive,
+            )
+            export_risk_report(args.out, result)
+            summary = result["summary"]
+            print(
+                f"Проверено событий: {summary['case_count']}; полный объём после пересчёта: {summary['replanned_full_delivery_cases']}; требуется вмешательство: {summary['intervention_cases']}"
+            )
+            print("Это покрытие заданных сценариев, не вероятность успешной доставки.")
+            print(f"Отчёт: {Path(args.out) / 'report.html'}")
+            return 0
         if args.command == "validate":
             verdict = check_schedule(cfg, read_plan(args.schedule, args.method), deadline)
             if args.out:
@@ -197,8 +228,12 @@ def main(argv=None):
         failure = dict(status=status, message=str(error), accepted_t=None, actual_savings_rub=None)
         if getattr(args, "out", None):
             try:
-                if args.command in ["plan", "replan", "benchmark"]:
+                if args.command in ["plan", "replan", "benchmark", "risk"]:
                     export_failure(args.out, failure)
+                    if args.command == "risk":
+                        (Path(args.out) / "risk-summary.csv").write_text(
+                            "status,accepted_t\n", encoding="utf-8-sig"
+                        )
                 else:
                     write_json(args.out, failure)
             except OSError:
