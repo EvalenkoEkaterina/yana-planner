@@ -21,6 +21,20 @@ def calculate_request_with_timeout(payload, *, total_timeout=30, max_deadline=49
     )
 
 
+def calculate_package_with_timeout(
+    package, *, search_seconds="auto", total_timeout=30, max_deadline=492
+):
+    return _run_worker(
+        dict(
+            operation="package",
+            payload=package,
+            search_seconds=search_seconds,
+            max_deadline=max_deadline,
+        ),
+        total_timeout,
+    )
+
+
 def _run_worker(request, total_timeout):
     try:
         payload = json.dumps(request, ensure_ascii=False, allow_nan=False)
@@ -54,11 +68,17 @@ def _run_worker(request, total_timeout):
 
 
 def main():
-    from .service import calculate, calculate_request
+    from .service import calculate, calculate_package, calculate_request
 
     try:
         payload = json.load(sys.stdin)
-        if payload.get("operation") == "request":
+        if payload.get("operation") == "package":
+            inputs, result = calculate_package(
+                payload["payload"],
+                search_seconds=payload["search_seconds"],
+                max_deadline=payload["max_deadline"],
+            )
+        elif payload.get("operation") == "request":
             inputs, result = calculate_request(
                 payload["payload"], max_deadline=payload["max_deadline"]
             )

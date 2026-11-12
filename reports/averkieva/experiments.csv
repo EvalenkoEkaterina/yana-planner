@@ -1,0 +1,11 @@
+case,phase,method,accepted_t,trips,last_receipt_h,active_h,waiting_h,cost_rub,all_stages_optimal
+control,static,baseline,600,4,186,366,570,751000,
+control,static,planner,600,3,180,285,651,685500,True
+deadline160,static,baseline,300,2,96,183,753,609500,
+deadline160,static,planner,300,2,96,183,753,609500,True
+payload100,static,baseline,600,6,264,549,387,892500,
+payload100,static,planner,600,6,264,549,387,892500,True
+static_closure,static,baseline,600,3,186,285,651,685500,
+static_closure,static,planner,600,3,186,285,651,685500,True
+arrival_delay,after,baseline,600,4,228,366,570,751000,
+arrival_delay,after,planner,600,3,228,285,651,685500,True

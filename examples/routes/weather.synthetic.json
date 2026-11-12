@@ -1,0 +1,14 @@
+{
+  "type": "weather_closure",
+  "announced_at_h": 60,
+  "closures": [
+    [
+      120,
+      132
+    ]
+  ],
+  "rule_status": "scenario_assumption",
+  "data_kind": "synthetic",
+  "forecast_issued_at": null,
+  "source": "Учебный интервал; метеорология не загружалась"
+}

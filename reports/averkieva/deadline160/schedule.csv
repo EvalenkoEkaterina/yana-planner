@@ -1,0 +1,5 @@
+﻿method,trip,vessel_id,start_h,quantity_t,load_end_h,arrival_h,receipt_h,return_h,ready_h
+READY,1,UKB-SIM-A,0,200,6,54,60,96,102
+READY,2,UKB-SIM-B,48,100,54,90,96,123,129
+MILP,1,UKB-SIM-A,0,200,6,54,60,96,102
+MILP,2,UKB-SIM-B,48,100,54,90,96,123,129

@@ -1,0 +1,293 @@
+{
+  "target_t": 600,
+  "schema_version": "1.0",
+  "scenario_id": "UKB-SIM-01",
+  "input_sha256": "e6b4d19dea833d24a1f09d2fba87d5e9ab144c909f07377aa6dd14bec20d71c7",
+  "deadline_h": 160,
+  "baseline": {
+    "status": "valid_simulation",
+    "accepted_t": 300,
+    "shortfall_t": 300,
+    "errors": [],
+    "trips": [
+      {
+        "trip": 1,
+        "vessel_id": "UKB-SIM-A",
+        "start_h": 0,
+        "quantity_t": 200,
+        "load_end_h": 6,
+        "arrival_h": 54,
+        "receipt_h": 60,
+        "return_h": 96,
+        "ready_h": 102
+      },
+      {
+        "trip": 2,
+        "vessel_id": "UKB-SIM-B",
+        "start_h": 48,
+        "quantity_t": 100,
+        "load_end_h": 54,
+        "arrival_h": 90,
+        "receipt_h": 96,
+        "return_h": 123,
+        "ready_h": 129
+      }
+    ],
+    "ledger": [
+      {
+        "h": 0,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 300,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 0,
+        "event": "load",
+        "quantity_t": 200,
+        "source_t": 100,
+        "in_transit_t": 200,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 48,
+        "event": "load",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 54,
+        "event": "reserve",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 200,
+        "destination_t": 0,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 60,
+        "event": "receive",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 0,
+        "destination_t": 200,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 90,
+        "event": "reserve",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 100,
+        "destination_t": 200,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 96,
+        "event": "receive",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 120,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 300,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      }
+    ],
+    "trip_count": 2,
+    "last_receipt_h": 96,
+    "last_return_h": 123,
+    "busy_vessel_h": 183,
+    "weighted_mean_receipt_h": 72.0,
+    "real_admissibility": "requires_confirmation"
+  },
+  "planner": {
+    "status": "valid_simulation",
+    "accepted_t": 300,
+    "shortfall_t": 300,
+    "errors": [],
+    "trips": [
+      {
+        "trip": 1,
+        "vessel_id": "UKB-SIM-A",
+        "start_h": 0,
+        "quantity_t": 200,
+        "load_end_h": 6,
+        "arrival_h": 54,
+        "receipt_h": 60,
+        "return_h": 96,
+        "ready_h": 102
+      },
+      {
+        "trip": 2,
+        "vessel_id": "UKB-SIM-B",
+        "start_h": 48,
+        "quantity_t": 100,
+        "load_end_h": 54,
+        "arrival_h": 90,
+        "receipt_h": 96,
+        "return_h": 123,
+        "ready_h": 129
+      }
+    ],
+    "ledger": [
+      {
+        "h": 0,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 300,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 0,
+        "event": "load",
+        "quantity_t": 200,
+        "source_t": 100,
+        "in_transit_t": 200,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 48,
+        "event": "load",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 54,
+        "event": "reserve",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 200,
+        "destination_t": 0,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 60,
+        "event": "receive",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 0,
+        "destination_t": 200,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 90,
+        "event": "reserve",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 100,
+        "destination_t": 200,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 96,
+        "event": "receive",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 120,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 300,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      }
+    ],
+    "trip_count": 2,
+    "last_receipt_h": 96,
+    "last_return_h": 123,
+    "busy_vessel_h": 183,
+    "weighted_mean_receipt_h": 72.0,
+    "real_admissibility": "requires_confirmation"
+  },
+  "solver": [
+    {
+      "stage": "maximize_tonnes",
+      "status": 0,
+      "optimal": true,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "dual_bound": -300.0,
+      "time_limit_s": 3,
+      "elapsed_s": 0.06588695803657174
+    },
+    {
+      "stage": "minimize_trips_at_fixed_tonnes",
+      "status": 0,
+      "optimal": true,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "dual_bound": 2.0,
+      "time_limit_s": 3,
+      "elapsed_s": 0.06788749992847443
+    },
+    {
+      "stage": "minimize_last_receipt_at_fixed_tonnes_trips",
+      "status": 0,
+      "optimal": true,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "dual_bound": 96.0,
+      "time_limit_s": 3,
+      "elapsed_s": 0.020874292007647455
+    }
+  ],
+  "real_admissibility": "requires_confirmation",
+  "actual_savings_rub": null
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "vessel_id": "UKB-SIM-A",
+    "start_h": 11,
+    "quantity_t": 200
+  },
+  {
+    "vessel_id": "UKB-SIM-A",
+    "start_h": 120,
+    "quantity_t": 200
+  },
+  {
+    "vessel_id": "UKB-SIM-B",
+    "start_h": 126,
+    "quantity_t": 200
+  }
+]

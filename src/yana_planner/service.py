@@ -3,6 +3,7 @@
 import hashlib
 import math
 import re
+from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -236,7 +237,17 @@ def calculate_request(payload, *, max_deadline=492):
         raise InputError("search_seconds: auto либо число 2, 10 или 30")
     adaptive = seconds == "auto"
     time_limit = 30 if adaptive else seconds
-    event = payload.get("event")
+    event = deepcopy(payload.get("event"))
+    if isinstance(event, dict) and event.get("type") == "arrival_delay":
+        index = integer(event.get("arrival_index"), "arrival_index")
+        original = payload["scenario"]["arrivals"]
+        if index >= len(original):
+            raise InputError("arrival_index вне списка поступлений")
+        event["arrival_index"] = next(
+            i
+            for i, (old, _) in enumerate(sorted(enumerate(original), key=lambda x: x[1]["h"]))
+            if old == index
+        )
     if event is not None:
         apply_event(cfg, event)
         if event["announced_at_h"] >= deadline:
@@ -250,6 +261,23 @@ def calculate_request(payload, *, max_deadline=492):
     inputs, result = _report(cfg, event, deadline, result, time_limit, None, adaptive)
     inputs["settings"]["strategy"] = strategy
     inputs["cost_terms"] = terms
+    return inputs, result
+
+
+def calculate_package(package, *, search_seconds="auto", max_deadline=492):
+    """Import a route envelope and retain its provenance with the calculation."""
+    from .route_import import import_route_package
+
+    package = import_route_package(package)
+    inputs, result = calculate_request(
+        {
+            key: package.get(key)
+            for key in ("scenario", "deadline_h", "event", "strategy", "cost_terms")
+        }
+        | dict(search_seconds=search_seconds),
+        max_deadline=max_deadline,
+    )
+    inputs["route_package"] = package
     return inputs, result
 
 

@@ -1,0 +1,3 @@
+method,status,accepted_t,trips,last_receipt_h,cost_rub
+baseline,valid_simulation,600,4,186,751000
+planner,valid_simulation,600,3,180,685500

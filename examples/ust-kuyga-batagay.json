@@ -1,0 +1,63 @@
+{
+  "mode": "SIM_ONLY",
+  "target_t": 600,
+  "initial_source_t": 0,
+  "destination_capacity_t": 600,
+  "t0": "2026-08-10T08:00:00+09:00",
+  "timezone": "Asia/Yakutsk",
+  "return_cutoff_h": 492,
+  "real_admissibility": "requires_confirmation",
+  "navigation_assumed": true,
+  "reception_assumed": true,
+  "fleet_assumed": true,
+  "supply_assumed": true,
+  "arrivals": [
+    {
+      "h": 0,
+      "t": 300
+    },
+    {
+      "h": 120,
+      "t": 300
+    }
+  ],
+  "withdrawals": [],
+  "closures": [],
+  "payload_calendar": [
+    {
+      "from_h": 0,
+      "capacity_t": 200
+    }
+  ],
+  "vessels": [
+    {
+      "id": "UKB-SIM-A",
+      "available_h": 0,
+      "capacity_t": 200,
+      "load_h": 6,
+      "up_h": 48,
+      "unload_h": 6,
+      "return_h": 36,
+      "prep_h": 6
+    },
+    {
+      "id": "UKB-SIM-B",
+      "available_h": 48,
+      "capacity_t": 200,
+      "load_h": 6,
+      "up_h": 36,
+      "unload_h": 6,
+      "return_h": 27,
+      "prep_h": 6
+    }
+  ],
+  "id": "UKB-SIM-01",
+  "label": "Усть-Куйга → Батагай: отдельный учебный маршрут",
+  "schema_version": "1.0",
+  "provenance": {
+    "kind": "synthetic_scenario",
+    "origin": "averkieva route study 2026-11-13",
+    "operating_parameters": "All demand, fleet, durations and payload assumptions are synthetic; route geography documented",
+    "target_volume_status": "600 t is not a procurement or historical delivery"
+  }
+}

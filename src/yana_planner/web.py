@@ -1,5 +1,6 @@
 """Russian Flask demo with persistent, refresh-safe results."""
 
+import json
 import os
 import sqlite3
 
@@ -10,7 +11,11 @@ from .domain import InputError
 from .experiments import comparisons
 from .presentation import STATUS, effects_html, event_card, schedule_sections
 from .service import NAMES, ROOT, VESSEL_FIELDS, form_defaults
-from .web_worker import CalculationTimeout, calculate_request_with_timeout
+from .web_worker import (
+    CalculationTimeout,
+    calculate_package_with_timeout,
+    calculate_request_with_timeout,
+)
 from .web_worker import calculate_with_timeout as calculate
 
 
@@ -32,6 +37,7 @@ def create_app(config=None):
         timed_out = False
         values = form_defaults()
         preset_name = None
+        restored_package = None
         if request.method == "GET" and "preset" in request.args:
             try:
                 preset = request.args["preset"]
@@ -46,21 +52,38 @@ def create_app(config=None):
             try:
                 key = request.form.get("scenario", "")
                 search_seconds = request.form.get("search_seconds")
+                if request.form.get("route_package_json"):
+                    for field, default in form_defaults().items():
+                        values.setdefault(field, default)
+                    try:
+                        restored_package = json.loads(request.form["route_package_json"])
+                    except ValueError as exc:
+                        raise InputError("Пакет маршрута: некорректный JSON") from exc
                 if search_seconds is not None and search_seconds not in {"auto", "2", "10", "30"}:
                     raise InputError("Время поиска: выберите автоматический режим, 2, 10 или 30 с")
-                inputs, result = calculate(
-                    key,
-                    request.form.get("deadline", ""),
-                    max_deadline=app.config["MAX_DEADLINE_H"],
-                    time_limit=(
-                        (30 if search_seconds == "auto" else int(search_seconds))
-                        if search_seconds is not None
-                        else app.config["SOLVER_TIME_LIMIT"]
-                    ),
-                    custom=values if request.form.get("customize") == "1" else None,
-                    adaptive=search_seconds == "auto",
-                    total_timeout=app.config["CALCULATION_TIMEOUT_S"],
-                )
+                if request.form.get("route_package_json"):
+                    inputs, result = calculate_package_with_timeout(
+                        restored_package,
+                        search_seconds="auto"
+                        if search_seconds in (None, "auto")
+                        else int(search_seconds),
+                        max_deadline=app.config["MAX_DEADLINE_H"],
+                        total_timeout=app.config["CALCULATION_TIMEOUT_S"],
+                    )
+                else:
+                    inputs, result = calculate(
+                        key,
+                        request.form.get("deadline", ""),
+                        max_deadline=app.config["MAX_DEADLINE_H"],
+                        time_limit=(
+                            (30 if search_seconds == "auto" else int(search_seconds))
+                            if search_seconds is not None
+                            else app.config["SOLVER_TIME_LIMIT"]
+                        ),
+                        custom=values if request.form.get("customize") == "1" else None,
+                        adaptive=search_seconds == "auto",
+                        total_timeout=app.config["CALCULATION_TIMEOUT_S"],
+                    )
                 inputs["settings"]["total_web_timeout_s"] = app.config["CALCULATION_TIMEOUT_S"]
                 result["report_html"] = result["report_html"].replace(
                     "<h1>",
@@ -74,6 +97,12 @@ def create_app(config=None):
                         "Свои условия" + (" — задержка топлива" if key == "delay" else "")
                         if inputs["scenario"]["id"] == "CUSTOM"
                         else NAMES[key]
+                    )
+                    if "route_package" not in inputs
+                    else (
+                        inputs["route_package"]["route"]["origin"]
+                        + " → "
+                        + inputs["route_package"]["route"]["destination"]
                     ),
                     inputs["deadline_h"],
                     inputs,
@@ -95,6 +124,10 @@ def create_app(config=None):
             vessel_fields=VESSEL_FIELDS,
             total_timeout=app.config["CALCULATION_TIMEOUT_S"],
             preset_name=preset_name,
+            dispatcher_capabilities=dict(
+                route_packages=True, economics=True, weather=True, loading_rate=True
+            ),
+            restored_package=restored_package,
         ), 408 if timed_out else 400 if error else 200
 
     def get_run(ident):

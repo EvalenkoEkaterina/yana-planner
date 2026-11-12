@@ -4,15 +4,6 @@ const arrivals = document.getElementById('arrivals');
 const value = name => form.elements.namedItem(name)?.value ?? '';
 const fields = name => [...form.querySelectorAll(`[name="${name}"]`)];
 function update() {
-  for (const row of vessels.querySelectorAll('.vessel-row')) {
-    const rate = row.querySelector('[name="vessel_load_rate_tph"]');
-    const fixed = row.querySelector('[name="vessel_load_h"]');
-    if (rate && fixed) {
-      const variable = rate.value.trim() !== '';
-      fixed.required = !variable;
-      fixed.readOnly = variable;
-    }
-  }
   const delayed = value('scenario') === 'delay';
   document.getElementById('delay-settings').hidden = !delayed;
   document.querySelectorAll('#delay-settings input').forEach(input => { input.disabled = !delayed; });
@@ -34,7 +25,7 @@ function update() {
   ]) {
     const rows = [...container.querySelectorAll(selector)];
     rows.forEach((row, i) => {
-      row.querySelector('legend').textContent = `${title} ${i + 1}`;
+      row.querySelector(':scope > legend').textContent = `${title} ${i + 1}`;
       row.querySelector('button').disabled = rows.length === 1;
     });
     document.getElementById(add).disabled = rows.length >= maximum;
@@ -52,6 +43,8 @@ function addRow(container, selector) {
     row.querySelector('[name="arrival_h"]').value = '';
     row.querySelector('[name="arrival_t"]').value = '';
   }
+  row.querySelectorAll('[data-rate] input').forEach(input => { input.value = ''; });
+  row.querySelectorAll('[name="vessel_rate_basis"]').forEach(input => { input.value = 'unspecified'; });
   container.append(row);
   update();
   row.querySelector('input').focus();
@@ -92,7 +85,7 @@ form.addEventListener('submit', () => {
 window.addEventListener('pageshow', () => {
   clearInterval(progressTimer);
   const button = form.querySelector('[type="submit"]');
-  button.disabled = false;
+  button.disabled = true; // dispatcher.js enables only server-supported settings.
   button.textContent = 'Рассчитать план ↗';
   document.getElementById('calculation-progress').hidden = true;
 });

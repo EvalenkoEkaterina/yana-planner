@@ -1,0 +1,17 @@
+﻿method,h,event,quantity_t,source_t,in_transit_t,reserved_t,destination_t,free_t,withdrawn_t
+READY,0,supply,300,300,0,0,0,600,0
+READY,0,load,200,100,200,0,0,600,0
+READY,48,load,100,0,300,0,0,600,0
+READY,54,reserve,200,0,300,200,0,400,0
+READY,60,receive,200,0,100,0,200,400,0
+READY,90,reserve,100,0,100,100,200,300,0
+READY,96,receive,100,0,0,0,300,300,0
+READY,120,supply,300,300,0,0,300,300,0
+MILP,0,supply,300,300,0,0,0,600,0
+MILP,0,load,200,100,200,0,0,600,0
+MILP,48,load,100,0,300,0,0,600,0
+MILP,54,reserve,200,0,300,200,0,400,0
+MILP,60,receive,200,0,100,0,200,400,0
+MILP,90,reserve,100,0,100,100,200,300,0
+MILP,96,receive,100,0,0,0,300,300,0
+MILP,120,supply,300,300,0,0,300,300,0

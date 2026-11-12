@@ -1,0 +1,425 @@
+{
+  "target_t": 600,
+  "schema_version": "1.0",
+  "scenario_id": "UKB-SIM-01",
+  "input_sha256": "e6b4d19dea833d24a1f09d2fba87d5e9ab144c909f07377aa6dd14bec20d71c7",
+  "deadline_h": 328,
+  "baseline": {
+    "status": "valid_simulation",
+    "accepted_t": 600,
+    "shortfall_t": 0,
+    "errors": [],
+    "trips": [
+      {
+        "trip": 1,
+        "vessel_id": "UKB-SIM-A",
+        "start_h": 0,
+        "quantity_t": 200,
+        "load_end_h": 6,
+        "arrival_h": 54,
+        "receipt_h": 60,
+        "return_h": 96,
+        "ready_h": 102
+      },
+      {
+        "trip": 2,
+        "vessel_id": "UKB-SIM-B",
+        "start_h": 48,
+        "quantity_t": 100,
+        "load_end_h": 54,
+        "arrival_h": 90,
+        "receipt_h": 96,
+        "return_h": 123,
+        "ready_h": 129
+      },
+      {
+        "trip": 3,
+        "vessel_id": "UKB-SIM-A",
+        "start_h": 120,
+        "quantity_t": 200,
+        "load_end_h": 126,
+        "arrival_h": 174,
+        "receipt_h": 180,
+        "return_h": 216,
+        "ready_h": 222
+      },
+      {
+        "trip": 4,
+        "vessel_id": "UKB-SIM-B",
+        "start_h": 138,
+        "quantity_t": 100,
+        "load_end_h": 144,
+        "arrival_h": 180,
+        "receipt_h": 186,
+        "return_h": 213,
+        "ready_h": 219
+      }
+    ],
+    "ledger": [
+      {
+        "h": 0,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 300,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 0,
+        "event": "load",
+        "quantity_t": 200,
+        "source_t": 100,
+        "in_transit_t": 200,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 48,
+        "event": "load",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 54,
+        "event": "reserve",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 200,
+        "destination_t": 0,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 60,
+        "event": "receive",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 0,
+        "destination_t": 200,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 90,
+        "event": "reserve",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 100,
+        "destination_t": 200,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 96,
+        "event": "receive",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 120,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 300,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 120,
+        "event": "load",
+        "quantity_t": 200,
+        "source_t": 100,
+        "in_transit_t": 200,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 138,
+        "event": "load",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 0,
+        "destination_t": 300,
+        "free_t": 300,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 174,
+        "event": "reserve",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 300,
+        "reserved_t": 200,
+        "destination_t": 300,
+        "free_t": 100,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 180,
+        "event": "receive",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 0,
+        "destination_t": 500,
+        "free_t": 100,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 180,
+        "event": "reserve",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 100,
+        "reserved_t": 100,
+        "destination_t": 500,
+        "free_t": 0,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 186,
+        "event": "receive",
+        "quantity_t": 100,
+        "source_t": 0,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 600,
+        "free_t": 0,
+        "withdrawn_t": 0
+      }
+    ],
+    "trip_count": 4,
+    "last_receipt_h": 186,
+    "last_return_h": 216,
+    "busy_vessel_h": 366,
+    "weighted_mean_receipt_h": 127.0,
+    "real_admissibility": "requires_confirmation"
+  },
+  "planner": {
+    "status": "valid_simulation",
+    "accepted_t": 600,
+    "shortfall_t": 0,
+    "errors": [],
+    "trips": [
+      {
+        "trip": 1,
+        "vessel_id": "UKB-SIM-A",
+        "start_h": 11,
+        "quantity_t": 200,
+        "load_end_h": 17,
+        "arrival_h": 65,
+        "receipt_h": 71,
+        "return_h": 107,
+        "ready_h": 113
+      },
+      {
+        "trip": 2,
+        "vessel_id": "UKB-SIM-A",
+        "start_h": 120,
+        "quantity_t": 200,
+        "load_end_h": 126,
+        "arrival_h": 174,
+        "receipt_h": 180,
+        "return_h": 216,
+        "ready_h": 222
+      },
+      {
+        "trip": 3,
+        "vessel_id": "UKB-SIM-B",
+        "start_h": 126,
+        "quantity_t": 200,
+        "load_end_h": 132,
+        "arrival_h": 168,
+        "receipt_h": 174,
+        "return_h": 201,
+        "ready_h": 207
+      }
+    ],
+    "ledger": [
+      {
+        "h": 0,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 300,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 11,
+        "event": "load",
+        "quantity_t": 200,
+        "source_t": 100,
+        "in_transit_t": 200,
+        "reserved_t": 0,
+        "destination_t": 0,
+        "free_t": 600,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 65,
+        "event": "reserve",
+        "quantity_t": 200,
+        "source_t": 100,
+        "in_transit_t": 200,
+        "reserved_t": 200,
+        "destination_t": 0,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 71,
+        "event": "receive",
+        "quantity_t": 200,
+        "source_t": 100,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 200,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 120,
+        "event": "supply",
+        "quantity_t": 300,
+        "source_t": 400,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 200,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 120,
+        "event": "load",
+        "quantity_t": 200,
+        "source_t": 200,
+        "in_transit_t": 200,
+        "reserved_t": 0,
+        "destination_t": 200,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 126,
+        "event": "load",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 400,
+        "reserved_t": 0,
+        "destination_t": 200,
+        "free_t": 400,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 168,
+        "event": "reserve",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 400,
+        "reserved_t": 200,
+        "destination_t": 200,
+        "free_t": 200,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 174,
+        "event": "receive",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 200,
+        "reserved_t": 0,
+        "destination_t": 400,
+        "free_t": 200,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 174,
+        "event": "reserve",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 200,
+        "reserved_t": 200,
+        "destination_t": 400,
+        "free_t": 0,
+        "withdrawn_t": 0
+      },
+      {
+        "h": 180,
+        "event": "receive",
+        "quantity_t": 200,
+        "source_t": 0,
+        "in_transit_t": 0,
+        "reserved_t": 0,
+        "destination_t": 600,
+        "free_t": 0,
+        "withdrawn_t": 0
+      }
+    ],
+    "trip_count": 3,
+    "last_receipt_h": 180,
+    "last_return_h": 216,
+    "busy_vessel_h": 285,
+    "weighted_mean_receipt_h": 141.66666666666666,
+    "real_admissibility": "requires_confirmation"
+  },
+  "solver": [
+    {
+      "stage": "maximize_tonnes",
+      "status": 0,
+      "optimal": true,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "dual_bound": -600.0,
+      "time_limit_s": 10.0,
+      "elapsed_s": 0.5808114169631153
+    },
+    {
+      "stage": "minimize_trips_at_fixed_tonnes",
+      "status": 0,
+      "optimal": true,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "dual_bound": 3.0,
+      "time_limit_s": 10.0,
+      "elapsed_s": 0.5880245409207419
+    },
+    {
+      "stage": "minimize_last_receipt_at_fixed_tonnes_trips",
+      "status": 0,
+      "optimal": true,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "dual_bound": 180.0,
+      "time_limit_s": 10.0,
+      "elapsed_s": 3.208120832918212
+    }
+  ],
+  "real_admissibility": "requires_confirmation",
+  "actual_savings_rub": null
+}

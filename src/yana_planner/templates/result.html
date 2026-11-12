@@ -16,6 +16,7 @@
 <div><span class="status-dot {{ 'dot-good' if plan.target_met else 'dot-warning' }}"></span><span>Задание<strong>{{ 'Выполнено' if plan.target_met else 'Не выполнено' if plan.valid else 'Не определено' }}</strong></span></div>
 <div><span class="status-dot {{ 'dot-good' if focus.optimal else 'dot-neutral' }}"></span><span>Оптимальность<strong>{{ 'Подтверждена' if focus.optimal else 'Не подтверждена' }}</strong></span></div>
 </div>
+{% include 'cost_result.html' %}
 {{ event_html | safe }}
 {% for title,c in comparison.items() %}
 <section class="comparison-section"><div class="section-heading"><div><p class="eyebrow">СРАВНЕНИЕ МЕТОДОВ</p><h2>{{ title }}</h2></div><span class="status-tag tag-neutral">Одинаковые условия</span></div>

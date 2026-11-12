@@ -1,0 +1,215 @@
+{
+  "package_version": "yana-route/1",
+  "route": {
+    "id": "ust-kuyga-batagay",
+    "origin": "Усть-Куйга",
+    "destination": "Батагай",
+    "direction": "upstream",
+    "length_km": 383,
+    "independent_fleet": true
+  },
+  "sources": [
+    {
+      "id": "nav2026",
+      "title": "Росморречфлот, АТ-442-р от 30.12.2025, приложение 2, строки 1397–1398; исходный план 2026",
+      "url": "https://www.albvvp.ru/upload/iblock/e1f/xecq5zy3xk0mbqrgn71j9g6uljy05cb6.pdf",
+      "accessed_at": "2026-11-13"
+    },
+    {
+      "id": "lorp2021",
+      "title": "ЛОРП, 08.06.2021: возврат в Усть-Куйгу для загрузки до Батагая",
+      "url": "https://lorp.ru/about/news/817-dnevnik-navigatsii-lorpa-flot-aktivno-rabotaet-na-vilyue/",
+      "accessed_at": "2026-11-13"
+    },
+    {
+      "id": "nkt2021",
+      "title": "ЛОРП, 16.06.2021: историческая доставка 1000 т НКТ в Батагай",
+      "url": "https://lorp.ru/about/news/823-dnevnik-navigatsii-padayut-urovni-vody-na-vilyue/",
+      "accessed_at": "2026-11-13"
+    },
+    {
+      "id": "close2026",
+      "title": "Администрация бассейна, 19.10.2026: закрытие участка Батагай — Усть-Куйга с 16 сентября",
+      "url": "https://www.albvvp.ru/press-center/news/novosti-organizatsii/itogi-arkticheskoy-navigatsii-2026-goda-zakrytie-sudokhodnoy-obstanovki-na-rekakh-yana-i-indigirka/",
+      "accessed_at": "2026-11-13"
+    },
+    {
+      "id": "hydro2026",
+      "title": "Якутское УГМС, 01.06.2026: обзор гидрологической обстановки",
+      "url": "https://ykuthydromet.ru/docs/obzor-sostoyaniya-vodnyh-obektov-na-1-ijunya-2026-goda/",
+      "accessed_at": "2026-11-13"
+    }
+  ],
+  "facts": [
+    {
+      "field": "route.length_km",
+      "value": 383,
+      "status": "documented",
+      "source_id": "nav2026",
+      "note": "280 + 103 км; сумма опубликованных участков, не измерение GPS"
+    },
+    {
+      "field": "segments.uk_adycha.length_km",
+      "value": 280,
+      "status": "documented",
+      "source_id": "nav2026"
+    },
+    {
+      "field": "segments.adycha_batagay.length_km",
+      "value": 103,
+      "status": "documented",
+      "source_id": "nav2026"
+    },
+    {
+      "field": "segments.uk_adycha.planned_depth_m",
+      "value": 1.0,
+      "status": "documented",
+      "source_id": "nav2026"
+    },
+    {
+      "field": "segments.adycha_batagay.planned_depth_m",
+      "value": 0.95,
+      "status": "documented",
+      "source_id": "nav2026"
+    },
+    {
+      "field": "route.planned_navigation_2026",
+      "value": [
+        "2026-06-04",
+        "2026-09-16"
+      ],
+      "status": "documented",
+      "source_id": "nav2026"
+    },
+    {
+      "field": "route.actual_notice_closure_2026",
+      "value": "2026-09-16",
+      "status": "documented",
+      "source_id": "close2026"
+    },
+    {
+      "field": "scenario.target_t",
+      "value": 600,
+      "status": "scenario_assumption",
+      "note": "Учебный объём, не заказ"
+    },
+    {
+      "field": "scenario.vessels",
+      "value": "UKB-SIM-A/B; все параметры условные",
+      "status": "scenario_assumption"
+    },
+    {
+      "field": "scenario.payload_calendar",
+      "value": 200,
+      "status": "scenario_assumption",
+      "note": "Не получено из глубины или уровня"
+    },
+    {
+      "field": "real_fleet_draft_curves",
+      "value": null,
+      "status": "unknown"
+    },
+    {
+      "field": "real_destination_storage_t",
+      "value": null,
+      "status": "unknown"
+    },
+    {
+      "field": "real_demand_t",
+      "value": null,
+      "status": "unknown"
+    },
+    {
+      "field": "actual_savings_rub",
+      "value": null,
+      "status": "unknown"
+    }
+  ],
+  "scenario": {
+    "mode": "SIM_ONLY",
+    "target_t": 600,
+    "initial_source_t": 0,
+    "destination_capacity_t": 600,
+    "t0": "2026-08-10T08:00:00+09:00",
+    "timezone": "Asia/Yakutsk",
+    "return_cutoff_h": 492,
+    "real_admissibility": "requires_confirmation",
+    "navigation_assumed": true,
+    "reception_assumed": true,
+    "fleet_assumed": true,
+    "supply_assumed": true,
+    "arrivals": [
+      {
+        "h": 0,
+        "t": 300
+      },
+      {
+        "h": 120,
+        "t": 300
+      }
+    ],
+    "withdrawals": [],
+    "closures": [],
+    "payload_calendar": [
+      {
+        "from_h": 0,
+        "capacity_t": 200
+      }
+    ],
+    "vessels": [
+      {
+        "id": "UKB-SIM-A",
+        "available_h": 0,
+        "capacity_t": 200,
+        "load_h": 6,
+        "up_h": 48,
+        "unload_h": 6,
+        "return_h": 36,
+        "prep_h": 6
+      },
+      {
+        "id": "UKB-SIM-B",
+        "available_h": 48,
+        "capacity_t": 200,
+        "load_h": 6,
+        "up_h": 36,
+        "unload_h": 6,
+        "return_h": 27,
+        "prep_h": 6
+      }
+    ],
+    "id": "UKB-SIM-01",
+    "label": "Усть-Куйга → Батагай: отдельный учебный маршрут",
+    "schema_version": "1.0",
+    "provenance": {
+      "kind": "synthetic_scenario",
+      "origin": "averkieva route study 2026-11-13",
+      "operating_parameters": "All demand, fleet, durations and payload assumptions are synthetic; route geography documented",
+      "target_volume_status": "600 t is not a procurement or historical delivery"
+    }
+  },
+  "deadline_h": 328,
+  "strategy": "trips",
+  "cost_terms": {
+    "billing_mode": "all_available_time",
+    "currency": "RUB",
+    "horizon_h": 492,
+    "vessel_rates": {
+      "UKB-SIM-A": {
+        "separate_trip_operations_rub": 25000,
+        "active_vessel_hour_rub": 1000,
+        "waiting_vessel_hour_rub": 500,
+        "rate_basis": "scenario",
+        "source": "Предложение Ушановой 13.11.2026; не подтверждено перевозчиком"
+      },
+      "UKB-SIM-B": {
+        "separate_trip_operations_rub": 25000,
+        "active_vessel_hour_rub": 1000,
+        "waiting_vessel_hour_rub": 500,
+        "rate_basis": "scenario",
+        "source": "Предложение Ушановой 13.11.2026; не подтверждено перевозчиком"
+      }
+    }
+  },
+  "event": null
+}

@@ -1,24 +1,34 @@
 <section><h2>Исходные условия этого расчёта</h2>
+{% if inputs.route_package is defined %}
+<p><strong>{{ inputs.route_package.route.origin }} → {{ inputs.route_package.route.destination }}</strong>. Независимый набор условий маршрута.</p>
+<details><summary>Источники и происхождение данных</summary>
+{% for source in inputs.route_package.sources %}<p><a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title }}</a> · проверено {{ source.accessed_at }}</p>{% endfor %}
+{% for fact in inputs.route_package.facts %}<p>{{ fact.field }}: {{ fact.value if fact.value is not none else 'неизвестно' }} · {{ {'documented':'из источника','scenario_assumption':'сценарное допущение','unknown':'не подтверждено'}.get(fact.status, fact.status) }}</p>{% endfor %}
+</details>
+{% endif %}
 <p>Требуется принять {{ inputs.scenario.target_t }} т. Начальный запас отправителя: {{ inputs.scenario.initial_source_t }} т. Хранилище получателя: {{ inputs.scenario.destination_capacity_t }} т. Приёмка до {{ inputs.deadline_h }} ч, возвращение судов до {{ inputs.scenario.return_cutoff_h }} ч.</p>
 <div class="table-scroll"><table><thead><tr><th>Судно</th><th>Доступно с, ч</th><th>Вместимость, т</th><th>Погрузка, ч</th><th>Движение, ч</th><th>Приёмка, ч</th><th>Возврат, ч</th><th>Подготовка, ч</th></tr></thead><tbody>
 {% for v in inputs.scenario.vessels %}<tr><th>{{ v.id }}</th><td>{{ v.available_h }}</td><td>{{ v.capacity_t }}</td><td>{% if v.load_rate_tph is defined %}{{ v.load_setup_h }} ч подготовки + объём / {{ v.load_rate_tph }} т/ч, округление вверх{% else %}{{ v.load_h }}{% endif %}</td>{% for key in ['up_h', 'unload_h', 'return_h', 'prep_h'] %}<td>{{ v[key] }}</td>{% endfor %}</tr>{% endfor %}
 </tbody></table></div>
 <p>Поступления в пункт отправления до изменения условий: {% for a in inputs.scenario.arrivals %}{{ a.t }} т в {{ a.h }} ч{{ '; ' if not loop.last else '.' }}{% endfor %}</p>
 {% if inputs.scenario.withdrawals %}<p><strong>Обязательные отборы топлива у получателя:</strong> {% for a in inputs.scenario.withdrawals %}{{ a.t }} т в {{ a.h }} ч{{ '; ' if not loop.last else '.' }}{% endfor %} К этому моменту получатель должен иметь достаточно принятого топлива. Это отдельное условие учебного сценария.</p>{% endif %}
-{% if inputs.event and inputs.event.type == 'arrival_delay' %}{% set a = inputs.scenario.arrivals[inputs.event.arrival_index] %}<p>На {{ inputs.event.announced_at_h }}-м часу стало известно: {{ a.t }} т поступят в {{ inputs.event.new_arrival_h }} ч вместо {{ a.h }} ч. Начатые рейсы сохраняются.</p>
-{% elif inputs.event and inputs.event.type == 'weather_closure' %}<p>Погодное событие объявлено на {{ inputs.event.announced_at_h }}-м часу. Запрет движения с грузом и возврата: {% for a, b in inputs.event.closures %}[{{ a }}, {{ b }}) ч{{ '; ' if not loop.last else '.' }}{% endfor %} Правило сценарное; тип данных: {{ {'synthetic': 'синтетические', 'reanalysis': 'исторический реанализ', 'forecast': 'прогноз'}.get(inputs.event.data_kind, inputs.event.data_kind) }}. Начатые рейсы сохраняются; конфликт требует вмешательства.</p>
-{% else %}<p>Изменение условий не задано.</p>{% endif %}
-<p>Приоритет выбора: максимальный принятый объём → {% if inputs.settings.strategy == 'cost' %}минимальная сценарная стоимость{% else %}минимальное число рейсов{% endif %} → последняя приёмка как можно раньше.</p>
+{% if inputs.event and inputs.event.type == 'weather_closure' %}
+<p>Погодное событие объявлено в {{ inputs.event.announced_at_h }} ч. Запрет движения и возврата: {% for a,b in inputs.event.closures %}[{{ a }}, {{ b }}) ч{{ '; ' if not loop.last else '.' }}{% endfor %}</p>
+<p>Тип данных: {{ {'synthetic':'синтетический опыт','reanalysis':'реанализ','forecast':'прогноз'}.get(inputs.event.data_kind, 'не указан') }}. Источник: {{ inputs.event.get('source') or 'не указан' }}. Правило сценарное.</p>
+{% elif inputs.event %}{% set a = inputs.scenario.arrivals[inputs.event.arrival_index] %}<p>На {{ inputs.event.announced_at_h }}-м часу стало известно: {{ a.t }} т поступят в {{ inputs.event.new_arrival_h }} ч вместо {{ a.h }} ч. Начатые рейсы сохраняются.</p>{% else %}<p>Событие перепланирования не задано.</p>{% endif %}
+{% set terms = inputs.get('cost_terms') or (search_result.get('cost_terms') if search_result is defined else none) %}
+{% if terms %}<h3>Сохранённые тарифы</h3><p>Схема оплаты: {{ terms.billing_mode }}. Общий горизонт: {{ terms.horizon_h }} ч. Оплачивается доступность всего заявленного флота.</p>
+<div class="table-scroll"><table><thead><tr><th>Судно</th><th>₽/рейс</th><th>₽/активный час</th><th>₽/час ожидания</th><th>Происхождение</th><th>Источник</th></tr></thead><tbody>{% for ident,r in terms.get('vessel_rates',{}).items() %}<tr><th>{{ ident }}</th>{% for k in ['separate_trip_operations_rub','active_vessel_hour_rub','waiting_vessel_hour_rub'] %}<td>{{ r.get(k) if r.get(k) is not none else 'Не задано' }}</td>{% endfor %}<td>{{ {'scenario':'Сценарные','documented':'Из источника','unspecified':'Не указано'}.get(r.rate_basis,'Не указано') }}</td><td>{{ r.source or 'Не задан' }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
 <p>Учебные условия. Один отправитель, один получатель, по одному причалу. Погрузка зависит от тоннажа, если задана скорость в т/ч. Остальные длительности фиксированы.</p>
 <p>Лимит поиска: {{ inputs.settings.time_limit_per_stage_s }} с на каждый этап MILP. Вызов содержит до трёх этапов, а при задержке расчёт выполняется до события и после него. Полное время ожидания может быть больше лимита этапа.</p>
 {% if inputs.settings.total_web_timeout_s is defined %}<p>Общий предел вычисления на сайте: {{ inputs.settings.total_web_timeout_s }} с. Он включает подготовку и все этапы. Этот расчёт завершился до общего предела.</p>{% endif %}
 {% if inputs.settings.adaptive_search %}
-<h3>Автоматический поиск</h3><p>Короткая попытка, затем дополнительные попытки в пределах общего бюджета этапа. Каждый новый план проходит проверку. Лучший план сохраняется по выбранным приоритетам.</p>
+<h3>Автоматический поиск</h3><p>Короткая попытка, затем дополнительные попытки в пределах общего бюджета этапа. Каждый новый план проходит проверку. Лучший план сохраняется по приоритетам: объём, затем выбранная стратегия (рейсы или стоимость), затем последняя приёмка.</p>
 {% if search_result is defined %}
 {% set groups = [('До события', search_result.initial), ('После события', search_result.revised_planner)] if 'initial' in search_result else [('Расчёт', search_result)] %}
 {% for title, group in groups %}<h4>{{ title }}</h4>
 {% for stage in group.solver %}
-<p>{{ {'maximize_tonnes': 'Объём топлива', 'minimize_trips_at_fixed_tonnes': 'Число рейсов', 'minimize_cost_at_fixed_tonnes': 'Сценарная стоимость', 'minimize_last_receipt_at_fixed_tonnes_cost': 'Последняя приёмка при выбранной стоимости', 'minimize_last_receipt_at_fixed_tonnes_trips': 'Последняя приёмка', 'no_candidates': 'Нет подходящих отправлений'}.get(stage.stage, stage.stage) }}:
+<p>{{ {'maximize_tonnes': 'Объём топлива', 'minimize_trips_at_fixed_tonnes': 'Число рейсов', 'minimize_last_receipt_at_fixed_tonnes_trips': 'Последняя приёмка', 'minimize_cost_at_fixed_tonnes': 'Сценарные затраты', 'minimize_last_receipt_at_fixed_tonnes_cost': 'Последняя приёмка', 'no_candidates': 'Нет подходящих отправлений'}.get(stage.stage, stage.stage) }}:
 {% if stage.attempts is defined %}попыток {{ stage.attempts | length }}, время поиска {{ '%.2f' | format(stage.total_elapsed_s) }} с.{% endif %}
 {{ 'Оптимум этапа подтверждён.' if stage.optimal else 'Оптимум этапа не подтверждён.' }}</p>
 {% endfor %}{% endfor %}
