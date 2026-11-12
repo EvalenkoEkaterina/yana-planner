@@ -1,0 +1,9 @@
+<section><h2>Исходные условия этого расчёта</h2>
+<p>Требуется принять {{ inputs.scenario.target_t }} т. Начальный запас отправителя: {{ inputs.scenario.initial_source_t }} т. Хранилище получателя: {{ inputs.scenario.destination_capacity_t }} т. Приёмка до {{ inputs.deadline_h }} ч, возвращение судов до {{ inputs.scenario.return_cutoff_h }} ч.</p>
+<div class="table-scroll"><table><thead><tr><th>Судно</th><th>Доступно с, ч</th><th>Вместимость, т</th><th>Погрузка, ч</th><th>Движение, ч</th><th>Приёмка, ч</th><th>Возврат, ч</th><th>Подготовка, ч</th></tr></thead><tbody>
+{% for v in inputs.scenario.vessels %}<tr><th>{{ v.id }}</th>{% for key in ['available_h', 'capacity_t', 'load_h', 'up_h', 'unload_h', 'return_h', 'prep_h'] %}<td>{{ v[key] }}</td>{% endfor %}</tr>{% endfor %}
+</tbody></table></div>
+<p>Поступления в пункт отправления до изменения условий: {% for a in inputs.scenario.arrivals %}{{ a.t }} т в {{ a.h }} ч{{ '; ' if not loop.last else '.' }}{% endfor %}</p>
+{% if inputs.event %}{% set a = inputs.scenario.arrivals[inputs.event.arrival_index] %}<p>На {{ inputs.event.announced_at_h }}-м часу стало известно: {{ a.t }} т поступят в {{ inputs.event.new_arrival_h }} ч вместо {{ a.h }} ч. Начатые рейсы сохраняются.</p>{% else %}<p>Задержка поступлений не задана.</p>{% endif %}
+<p>Учебные условия. Один отправитель, один получатель, по одному причалу. Все длительности фиксированы.</p>
+</section>
