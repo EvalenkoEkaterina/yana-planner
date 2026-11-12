@@ -1,0 +1,25 @@
+{
+  "billing_mode": "all_available_time",
+  "horizon_h": 492,
+  "status": "scenario_assumption_not_market_quote",
+  "rate_basis": "scenario",
+  "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+  "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices.",
+  "currency": "RUB",
+  "vessel_rates": {
+    "SIM-A": {
+      "separate_trip_operations_rub": 25000,
+      "active_vessel_hour_rub": 1000,
+      "waiting_vessel_hour_rub": 500,
+      "rate_basis": "scenario",
+      "source": "team_working_hypothesis_2026-11-13"
+    },
+    "SIM-B": {
+      "separate_trip_operations_rub": 25000,
+      "active_vessel_hour_rub": 1000,
+      "waiting_vessel_hour_rub": 500,
+      "rate_basis": "scenario",
+      "source": "team_working_hypothesis_2026-11-13"
+    }
+  }
+}

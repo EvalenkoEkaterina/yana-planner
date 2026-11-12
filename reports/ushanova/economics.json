@@ -1,0 +1,660 @@
+{
+  "status": "scenario_analysis_not_actual_savings",
+  "schedule_source": "saved_demo_schedules_revalidated_by_compare_cost",
+  "source_sha256": {
+    "examples/r03.json": "65f6f6f5c4f4127de10aa9c2082a6efcdf6c93b953591606d5f6e15089a138b1",
+    "examples/arrival_delay.json": "2ccec9dff95438bf6258f79acfa0fb43c9723b14221a3f069910fb682a8cb8e5",
+    "examples/ushanova/terms.json": "dee3307aa3f7415fa6bb9937b2bbec90b4c0f1dfabde854c0b74f93715ce9baa",
+    "examples/ushanova/vessel_rates.csv": "9ee6bec008394937eb671d789004aabf84efcd274e5f3f6dbaf3eda8a39fc928",
+    "examples/ushanova/project_budget.csv": "06d9d519c69d99efca0ce431e5a838035f64c7e1dff9a20f9f157873b8e22e22",
+    "demos/static/results.json": "4be206100e76af94bb9e1896a676dabf752d070b9a8ccadeb46b09bfdb3dd862",
+    "demos/replanning/results.json": "71553d4a143248a275b66508220d8e0e94f04c73f7eb941d4784837fc8edfc84"
+  },
+  "terms": {
+    "billing_mode": "all_available_time",
+    "horizon_h": 492,
+    "status": "scenario_assumption_not_market_quote",
+    "rate_basis": "scenario",
+    "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+    "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices.",
+    "currency": "RUB",
+    "vessel_rates": {
+      "SIM-A": {
+        "separate_trip_operations_rub": 25000,
+        "active_vessel_hour_rub": 1000,
+        "waiting_vessel_hour_rub": 500,
+        "rate_basis": "scenario",
+        "source": "team_working_hypothesis_2026-11-13"
+      },
+      "SIM-B": {
+        "separate_trip_operations_rub": 25000,
+        "active_vessel_hour_rub": 1000,
+        "waiting_vessel_hour_rub": 500,
+        "rate_basis": "scenario",
+        "source": "team_working_hypothesis_2026-11-13"
+      }
+    }
+  },
+  "sensitivity_terms": {
+    "billing_mode": "all_available_time",
+    "horizon_h": 492,
+    "separate_trip_operations_rub": 25000,
+    "active_vessel_hour_rub": 1000,
+    "waiting_vessel_hour_rub": 500,
+    "status": "scenario_assumption_not_market_quote",
+    "rate_basis": "scenario",
+    "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+    "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+  },
+  "sensitivity_scope": "Uniform rates across all vessels; fixed saved schedules, no reoptimization",
+  "phases": {
+    "static": {
+      "comparison": {
+        "baseline": {
+          "status": "scenario_cost",
+          "currency": "RUB",
+          "billing_mode": "all_available_time",
+          "rates_format": "per_vessel",
+          "total_rub": 873000.0,
+          "components": {
+            "separate_trip_operations_rub": 150000.0,
+            "active_time_rub": 510000.0,
+            "waiting_time_rub": 213000.0
+          },
+          "per_vessel": [
+            {
+              "vessel_id": "SIM-A",
+              "trip_count": 3,
+              "available_vessel_h": 492.0,
+              "active_vessel_h": 318,
+              "paid_waiting_h": 174.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 75000.0,
+                "active_time_rub": 318000.0,
+                "waiting_time_rub": 87000.0
+              },
+              "total_rub": 480000.0
+            },
+            {
+              "vessel_id": "SIM-B",
+              "trip_count": 3,
+              "available_vessel_h": 444.0,
+              "active_vessel_h": 192,
+              "paid_waiting_h": 252.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 75000.0,
+                "active_time_rub": 192000.0,
+                "waiting_time_rub": 126000.0
+              },
+              "total_rub": 393000.0
+            }
+          ],
+          "accepted_t": 1650,
+          "active_vessel_h": 510,
+          "paid_waiting_h": 426.0,
+          "horizon_h": 492,
+          "actual_savings_rub": null,
+          "assumptions": "All available time is paid through a common horizon; trip operations exclude time-rate inclusions"
+        },
+        "alternative": {
+          "status": "scenario_cost",
+          "currency": "RUB",
+          "billing_mode": "all_available_time",
+          "rates_format": "per_vessel",
+          "total_rub": 795000.0,
+          "components": {
+            "separate_trip_operations_rub": 125000.0,
+            "active_time_rub": 404000.0,
+            "waiting_time_rub": 266000.0
+          },
+          "per_vessel": [
+            {
+              "vessel_id": "SIM-A",
+              "trip_count": 2,
+              "available_vessel_h": 492.0,
+              "active_vessel_h": 212,
+              "paid_waiting_h": 280.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 50000.0,
+                "active_time_rub": 212000.0,
+                "waiting_time_rub": 140000.0
+              },
+              "total_rub": 402000.0
+            },
+            {
+              "vessel_id": "SIM-B",
+              "trip_count": 3,
+              "available_vessel_h": 444.0,
+              "active_vessel_h": 192,
+              "paid_waiting_h": 252.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 75000.0,
+                "active_time_rub": 192000.0,
+                "waiting_time_rub": 126000.0
+              },
+              "total_rub": 393000.0
+            }
+          ],
+          "accepted_t": 1650,
+          "active_vessel_h": 404,
+          "paid_waiting_h": 532.0,
+          "horizon_h": 492,
+          "actual_savings_rub": null,
+          "assumptions": "All available time is paid through a common horizon; trip operations exclude time-rate inclusions"
+        },
+        "scenario_difference_rub": 78000.0,
+        "actual_savings_rub": null
+      },
+      "grid": [
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 500,
+            "waiting_vessel_hour_rub": 250,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 511500.0,
+          "alternative_total_rub": 460000.0,
+          "scenario_difference_rub": 51500.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 500,
+            "waiting_vessel_hour_rub": 500,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 618000.0,
+          "alternative_total_rub": 593000.0,
+          "scenario_difference_rub": 25000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 500,
+            "waiting_vessel_hour_rub": 1000,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 831000.0,
+          "alternative_total_rub": 859000.0,
+          "scenario_difference_rub": -28000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 1000,
+            "waiting_vessel_hour_rub": 250,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 766500.0,
+          "alternative_total_rub": 662000.0,
+          "scenario_difference_rub": 104500.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 1000,
+            "waiting_vessel_hour_rub": 500,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 873000.0,
+          "alternative_total_rub": 795000.0,
+          "scenario_difference_rub": 78000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 1000,
+            "waiting_vessel_hour_rub": 1000,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1086000.0,
+          "alternative_total_rub": 1061000.0,
+          "scenario_difference_rub": 25000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 2000,
+            "waiting_vessel_hour_rub": 250,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1276500.0,
+          "alternative_total_rub": 1066000.0,
+          "scenario_difference_rub": 210500.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 2000,
+            "waiting_vessel_hour_rub": 500,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1383000.0,
+          "alternative_total_rub": 1199000.0,
+          "scenario_difference_rub": 184000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 2000,
+            "waiting_vessel_hour_rub": 1000,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1596000.0,
+          "alternative_total_rub": 1465000.0,
+          "scenario_difference_rub": 131000.0,
+          "actual_savings_rub": null
+        }
+      ],
+      "break_even": {
+        "parameter": "waiting_vessel_hour_rub",
+        "intercept_rub": 131000.0,
+        "coefficient": -106.0,
+        "threshold_rub": 1235.8490566037735,
+        "actual_savings_rub": null,
+        "mathematical_root_rub": 1235.8490566037735,
+        "status": "scenario_threshold",
+        "rate_increment_rub": 0.01,
+        "lower_grid_rate_rub": 1235.84,
+        "upper_grid_rate_rub": 1235.85,
+        "lower_grid_difference_rub": 0.96,
+        "upper_grid_difference_rub": -0.1
+      }
+    },
+    "after_delay": {
+      "comparison": {
+        "baseline": {
+          "status": "scenario_cost",
+          "currency": "RUB",
+          "billing_mode": "all_available_time",
+          "rates_format": "per_vessel",
+          "total_rub": 873000.0,
+          "components": {
+            "separate_trip_operations_rub": 150000.0,
+            "active_time_rub": 510000.0,
+            "waiting_time_rub": 213000.0
+          },
+          "per_vessel": [
+            {
+              "vessel_id": "SIM-A",
+              "trip_count": 3,
+              "available_vessel_h": 492.0,
+              "active_vessel_h": 318,
+              "paid_waiting_h": 174.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 75000.0,
+                "active_time_rub": 318000.0,
+                "waiting_time_rub": 87000.0
+              },
+              "total_rub": 480000.0
+            },
+            {
+              "vessel_id": "SIM-B",
+              "trip_count": 3,
+              "available_vessel_h": 444.0,
+              "active_vessel_h": 192,
+              "paid_waiting_h": 252.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 75000.0,
+                "active_time_rub": 192000.0,
+                "waiting_time_rub": 126000.0
+              },
+              "total_rub": 393000.0
+            }
+          ],
+          "accepted_t": 1650,
+          "active_vessel_h": 510,
+          "paid_waiting_h": 426.0,
+          "horizon_h": 492,
+          "actual_savings_rub": null,
+          "assumptions": "All available time is paid through a common horizon; trip operations exclude time-rate inclusions"
+        },
+        "alternative": {
+          "status": "scenario_cost",
+          "currency": "RUB",
+          "billing_mode": "all_available_time",
+          "rates_format": "per_vessel",
+          "total_rub": 795000.0,
+          "components": {
+            "separate_trip_operations_rub": 125000.0,
+            "active_time_rub": 404000.0,
+            "waiting_time_rub": 266000.0
+          },
+          "per_vessel": [
+            {
+              "vessel_id": "SIM-A",
+              "trip_count": 2,
+              "available_vessel_h": 492.0,
+              "active_vessel_h": 212,
+              "paid_waiting_h": 280.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 50000.0,
+                "active_time_rub": 212000.0,
+                "waiting_time_rub": 140000.0
+              },
+              "total_rub": 402000.0
+            },
+            {
+              "vessel_id": "SIM-B",
+              "trip_count": 3,
+              "available_vessel_h": 444.0,
+              "active_vessel_h": 192,
+              "paid_waiting_h": 252.0,
+              "rates": {
+                "separate_trip_operations_rub": 25000.0,
+                "active_vessel_hour_rub": 1000.0,
+                "waiting_vessel_hour_rub": 500.0
+              },
+              "rate_basis": "scenario",
+              "source": "team_working_hypothesis_2026-11-13",
+              "components": {
+                "separate_trip_operations_rub": 75000.0,
+                "active_time_rub": 192000.0,
+                "waiting_time_rub": 126000.0
+              },
+              "total_rub": 393000.0
+            }
+          ],
+          "accepted_t": 1650,
+          "active_vessel_h": 404,
+          "paid_waiting_h": 532.0,
+          "horizon_h": 492,
+          "actual_savings_rub": null,
+          "assumptions": "All available time is paid through a common horizon; trip operations exclude time-rate inclusions"
+        },
+        "scenario_difference_rub": 78000.0,
+        "actual_savings_rub": null
+      },
+      "grid": [
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 500,
+            "waiting_vessel_hour_rub": 250,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 511500.0,
+          "alternative_total_rub": 460000.0,
+          "scenario_difference_rub": 51500.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 500,
+            "waiting_vessel_hour_rub": 500,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 618000.0,
+          "alternative_total_rub": 593000.0,
+          "scenario_difference_rub": 25000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 500,
+            "waiting_vessel_hour_rub": 1000,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 831000.0,
+          "alternative_total_rub": 859000.0,
+          "scenario_difference_rub": -28000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 1000,
+            "waiting_vessel_hour_rub": 250,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 766500.0,
+          "alternative_total_rub": 662000.0,
+          "scenario_difference_rub": 104500.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 1000,
+            "waiting_vessel_hour_rub": 500,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 873000.0,
+          "alternative_total_rub": 795000.0,
+          "scenario_difference_rub": 78000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 1000,
+            "waiting_vessel_hour_rub": 1000,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1086000.0,
+          "alternative_total_rub": 1061000.0,
+          "scenario_difference_rub": 25000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 2000,
+            "waiting_vessel_hour_rub": 250,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1276500.0,
+          "alternative_total_rub": 1066000.0,
+          "scenario_difference_rub": 210500.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 2000,
+            "waiting_vessel_hour_rub": 500,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1383000.0,
+          "alternative_total_rub": 1199000.0,
+          "scenario_difference_rub": 184000.0,
+          "actual_savings_rub": null
+        },
+        {
+          "terms": {
+            "billing_mode": "all_available_time",
+            "horizon_h": 492,
+            "separate_trip_operations_rub": 25000,
+            "active_vessel_hour_rub": 2000,
+            "waiting_vessel_hour_rub": 1000,
+            "status": "scenario_assumption_not_market_quote",
+            "rate_basis": "scenario",
+            "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+            "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+          },
+          "status": "scenario_cost",
+          "baseline_total_rub": 1596000.0,
+          "alternative_total_rub": 1465000.0,
+          "scenario_difference_rub": 131000.0,
+          "actual_savings_rub": null
+        }
+      ],
+      "break_even": {
+        "parameter": "waiting_vessel_hour_rub",
+        "intercept_rub": 131000.0,
+        "coefficient": -106.0,
+        "threshold_rub": 1235.8490566037735,
+        "actual_savings_rub": null,
+        "mathematical_root_rub": 1235.8490566037735,
+        "status": "scenario_threshold",
+        "rate_increment_rub": 0.01,
+        "lower_grid_rate_rub": 1235.84,
+        "upper_grid_rate_rub": 1235.85,
+        "lower_grid_difference_rub": 0.96,
+        "upper_grid_difference_rub": -0.1
+      }
+    }
+  }
+}

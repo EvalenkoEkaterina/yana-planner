@@ -1,0 +1,16 @@
+{
+  "development": {
+    "subtotal_rub": 646000,
+    "contingency_20_percent_rub": 129200,
+    "total_rub": 775200
+  },
+  "monthly": {
+    "subtotal_rub": 48000,
+    "contingency_20_percent_rub": 9600,
+    "total_rub": 57600
+  },
+  "pilot_operating_months": 1.5,
+  "pilot_operations_rub": 86400.0,
+  "development_and_pilot_rub": 861600.0,
+  "status": "scenario_resource_budget_not_a_quote"
+}
