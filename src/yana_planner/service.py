@@ -6,11 +6,12 @@ import re
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from .domain import InputError, Scenario
+from .domain import InputError, Scenario, integer
+from .economics import resolve_cost_terms
 from .experiments import comparisons, event_effects
 from .io import _finite, export_result, read_json, read_plan
 from .planning import compare
-from .replanning import apply_arrival_delay, run_replanning
+from .replanning import apply_arrival_delay, apply_event, run_replanning
 
 ROOT = Path(__file__).resolve().parents[2]
 NAMES = {"r03": "R03 — обычный расчёт", "delay": "R03 — задержка топлива"}
@@ -199,6 +200,60 @@ def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None
         if event
         else compare(cfg, deadline, **kwargs)
     )
+    return _report(cfg, event, deadline, result, time_limit, reference, adaptive)
+
+
+def calculate_request(payload, *, max_deadline=492):
+    """JSON boundary for the frontend; never complete missing operational data."""
+    if not isinstance(payload, dict):
+        raise InputError("Запрос должен быть JSON-объектом")
+    allowed = {"scenario", "deadline_h", "event", "strategy", "cost_terms", "search_seconds"}
+    if set(payload) - allowed:
+        raise InputError("Неизвестные поля запроса: " + ", ".join(sorted(set(payload) - allowed)))
+    cfg = Scenario.from_dict(payload.get("scenario")).to_dict()
+    deadline = integer(payload.get("deadline_h"), "deadline_h", minimum=1)
+    if deadline > max_deadline or cfg["return_cutoff_h"] > max_deadline:
+        raise InputError(f"Веб-расчёт: срок приёмки и возврата не больше {max_deadline} ч")
+    if deadline > cfg["return_cutoff_h"]:
+        raise InputError("Срок приёмки не должен превышать срок возврата")
+    # Bound request size separately from the core/CLI campaign limits.
+    if len(cfg["vessels"]) > 6 or any(
+        len(cfg[name]) > 100 for name in ("arrivals", "withdrawals", "closures", "payload_calendar")
+    ):
+        raise InputError("Веб-расчёт: до 6 судов и до 100 записей в каждом календаре")
+    strategy = payload.get("strategy", "trips")
+    if strategy not in ("trips", "cost"):
+        raise InputError("strategy: выберите trips или cost")
+    terms = payload.get("cost_terms")
+    if strategy == "cost" and terms is None:
+        raise InputError("Для выбора по стоимости нужны cost_terms")
+    if terms is not None:
+        resolved = resolve_cost_terms(cfg, terms)
+        if strategy == "cost" and resolved["missing"]:
+            raise InputError("Для выбора по стоимости заполните: " + ", ".join(resolved["missing"]))
+    seconds = payload.get("search_seconds", "auto")
+    if type(seconds) not in (str, int) or seconds not in ("auto", 2, 10, 30):
+        raise InputError("search_seconds: auto либо число 2, 10 или 30")
+    adaptive = seconds == "auto"
+    time_limit = 30 if adaptive else seconds
+    event = payload.get("event")
+    if event is not None:
+        apply_event(cfg, event)
+        if event["announced_at_h"] >= deadline:
+            raise InputError("Событие должно быть объявлено раньше срока приёмки")
+    kwargs = dict(time_limit=time_limit, adaptive=adaptive, strategy=strategy, cost_terms=terms)
+    result = (
+        run_replanning(cfg, event, deadline, **kwargs)
+        if event is not None
+        else compare(cfg, deadline, **kwargs)
+    )
+    inputs, result = _report(cfg, event, deadline, result, time_limit, None, adaptive)
+    inputs["settings"]["strategy"] = strategy
+    inputs["cost_terms"] = terms
+    return inputs, result
+
+
+def _report(cfg, event, deadline, result, time_limit, reference, adaptive):
     result["comparisons"] = comparisons(result)
     result["event_effects"] = event_effects(result)
     with TemporaryDirectory() as directory:

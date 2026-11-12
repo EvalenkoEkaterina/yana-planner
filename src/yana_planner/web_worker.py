@@ -12,11 +12,20 @@ class CalculationTimeout(InputError):
 
 
 def calculate_with_timeout(scenario, deadline, *, total_timeout=30, **kwargs):
-    payload = json.dumps(
-        dict(scenario=scenario, deadline=deadline, kwargs=kwargs),
-        ensure_ascii=False,
-        allow_nan=False,
+    return _run_worker(dict(scenario=scenario, deadline=deadline, kwargs=kwargs), total_timeout)
+
+
+def calculate_request_with_timeout(payload, *, total_timeout=30, max_deadline=492):
+    return _run_worker(
+        dict(operation="request", payload=payload, max_deadline=max_deadline), total_timeout
     )
+
+
+def _run_worker(request, total_timeout):
+    try:
+        payload = json.dumps(request, ensure_ascii=False, allow_nan=False)
+    except (TypeError, ValueError) as exc:
+        raise InputError("Условия должны содержать только конечные числа и JSON-значения") from exc
     try:
         response = subprocess.run(
             [sys.executable, "-m", "yana_planner.web_worker"],
@@ -45,11 +54,18 @@ def calculate_with_timeout(scenario, deadline, *, total_timeout=30, **kwargs):
 
 
 def main():
-    from .service import calculate
+    from .service import calculate, calculate_request
 
     try:
         payload = json.load(sys.stdin)
-        inputs, result = calculate(payload["scenario"], payload["deadline"], **payload["kwargs"])
+        if payload.get("operation") == "request":
+            inputs, result = calculate_request(
+                payload["payload"], max_deadline=payload["max_deadline"]
+            )
+        else:
+            inputs, result = calculate(
+                payload["scenario"], payload["deadline"], **payload["kwargs"]
+            )
         json.dump(
             dict(inputs=inputs, result=result), sys.stdout, ensure_ascii=False, allow_nan=False
         )

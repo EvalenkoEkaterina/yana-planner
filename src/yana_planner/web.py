@@ -10,7 +10,7 @@ from .domain import InputError
 from .experiments import comparisons
 from .presentation import STATUS, effects_html, event_card, schedule_sections
 from .service import NAMES, ROOT, VESSEL_FIELDS, form_defaults
-from .web_worker import CalculationTimeout
+from .web_worker import CalculationTimeout, calculate_request_with_timeout
 from .web_worker import calculate_with_timeout as calculate
 
 
@@ -21,6 +21,7 @@ def create_app(config=None):
         MAX_DEADLINE_H=492,
         SOLVER_TIME_LIMIT=2,
         CALCULATION_TIMEOUT_S=30,
+        MAX_CONTENT_LENGTH=1_048_576,
     )
     app.config.update(config or {})
     app.jinja_env.filters["run_status"] = lambda value: STATUS.get(value, "Статус не определён")
@@ -101,6 +102,50 @@ def create_app(config=None):
         if run is None:
             abort(404)
         return run
+
+    @app.post("/api/plan")
+    def api_plan():
+        """Shared core for a new frontend; saved runs use the existing report pages."""
+        try:
+            inputs, result = calculate_request_with_timeout(
+                request.get_json(silent=True),
+                max_deadline=app.config["MAX_DEADLINE_H"],
+                total_timeout=app.config["CALCULATION_TIMEOUT_S"],
+            )
+            inputs["settings"]["total_web_timeout_s"] = app.config["CALCULATION_TIMEOUT_S"]
+            ident = storage.save(
+                app.config["DATABASE"],
+                inputs["scenario"].get("label", inputs["scenario"]["id"]),
+                inputs["deadline_h"],
+                inputs,
+                result,
+                result.get("code_version", "unknown"),
+            )
+            return jsonify(
+                id=ident,
+                inputs=inputs,
+                result=result,
+                links=dict(
+                    page=url_for("result_page", ident=ident),
+                    report=url_for("report", ident=ident),
+                    json=url_for("download", ident=ident),
+                ),
+            ), 201
+        except CalculationTimeout as exc:
+            return jsonify(error=str(exc), code="calculation_timeout", result=None), 408
+        except InputError as exc:
+            return jsonify(error=str(exc), code="invalid_input", result=None), 400
+        except (OSError, sqlite3.Error):
+            app.logger.exception("API calculation or persistence failed")
+            return jsonify(
+                error="Не удалось выполнить или сохранить расчёт", code="server_error"
+            ), 500
+
+    @app.errorhandler(413)
+    def too_large(error):
+        return jsonify(
+            error="Размер запроса не должен превышать 1 МиБ", code="request_too_large"
+        ), 413
 
     @app.get("/runs/<int:ident>")
     def result_page(ident):
