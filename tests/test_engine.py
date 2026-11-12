@@ -263,3 +263,18 @@ class ExcelTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UrgentStockExampleTests(unittest.TestCase):
+    def test_milp_coordinates_required_stock_when_ready_has_no_valid_plan(self):
+        cfg = json.loads((ROOT / "examples/urgent-stock.json").read_text())
+        result = compare(cfg, 8, time_limit=1, adaptive=True)
+        self.assertEqual(result["baseline"]["status"], "invalid")
+        self.assertIsNone(result["baseline"]["accepted_t"])
+        self.assertEqual(result["planner"]["status"], "valid_simulation")
+        self.assertEqual(result["planner"]["accepted_t"], 20)
+        self.assertEqual(result["planner"]["last_receipt_h"], 5)
+        self.assertTrue(all(s["optimal"] for s in result["solver"]))
+        self.assertEqual(
+            check_schedule(cfg, result["planner"]["trips"], 8)["status"], "valid_simulation"
+        )
