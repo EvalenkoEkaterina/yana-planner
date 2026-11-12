@@ -34,6 +34,7 @@ def form_defaults():
     values.update(
         scenario=["r03"],
         deadline=["328"],
+        search_seconds=["10"],
         announced_at_h=["60"],
         delayed_arrival=["2"],
         new_arrival_h=["168"],

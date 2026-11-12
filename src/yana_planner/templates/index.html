@@ -17,6 +17,7 @@
 {{ field('return_cutoff_h', 'Возврат судов до, ч', 1, maximum) }}
 {{ field('initial_source_t', 'Топливо в пункте отправления в начале, т', 0, 1000000) }}
 {{ field('destination_capacity_t', 'Вместимость хранилища получателя, т', 1, 1000000) }}
+<label>Время поиска на каждый этап<select name="search_seconds">{% for seconds, label in [('2', '2 с — быстрый расчёт'), ('10', '10 с — более подробный поиск'), ('30', '30 с — расширенный поиск')] %}<option value="{{ seconds }}" {% if values.get('search_seconds', ['10'])[0] == seconds %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
 </div><p>Все времена — целые часы от начала расчёта. Срок приёмки и срок возвращения судов задаются отдельно. В этой форме горизонт ограничен {{ maximum }} ч.</p></section>
 <section><h2>2. Суда</h2><p>У каждого судна своя вместимость и длительности операций. Можно задать от 1 до 6 судов.</p>
 <div id="vessels">
