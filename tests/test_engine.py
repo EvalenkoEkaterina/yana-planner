@@ -278,3 +278,16 @@ class UrgentStockExampleTests(unittest.TestCase):
         self.assertEqual(
             check_schedule(cfg, result["planner"]["trips"], 8)["status"], "valid_simulation"
         )
+
+
+class LoadingOrderExampleTests(unittest.TestCase):
+    def test_joint_loading_order_delivers_full_target(self):
+        cfg = json.loads((ROOT / "examples/loading-order.json").read_text())
+        result = compare(cfg, 8, time_limit=1, adaptive=True)
+        self.assertEqual(result["baseline"]["status"], "valid_simulation")
+        self.assertEqual(result["baseline"]["accepted_t"], 10)
+        self.assertEqual(result["planner"]["status"], "valid_simulation")
+        self.assertEqual(result["planner"]["accepted_t"], 20)
+        self.assertEqual(result["planner"]["last_receipt_h"], 8)
+        self.assertEqual(result["planner"]["trips"][0]["vessel_id"], "SIM-B")
+        self.assertTrue(all(s["optimal"] for s in result["solver"]))
