@@ -16,10 +16,38 @@ STATUS = {
 
 
 def event_card(result, cfg=None):
-    """Explain a delay from its saved event and original arrival snapshot."""
+    """Explain a saved event without inventing weather observations or forecasts."""
     event = result.get("event")
     if not event:
         return ""
+    if event.get("type") == "weather_closure":
+        intervals = (
+            "; ".join(f"[{a}, {b}) ч" for a, b in event.get("closures", [])) or "новых запретов нет"
+        )
+        kinds = {
+            "synthetic": "Синтетический пример",
+            "reanalysis": "Исторический реанализ",
+            "forecast": "Прогноз",
+        }
+        kind = kinds.get(event.get("data_kind"), "Тип данных не указан")
+        note = (
+            "Исторический реанализ используется для условного испытания расписания. Это не проверка качества прогноза и не подтверждение доступности будущей погоды диспетчеру."
+            if event.get("data_kind") == "reanalysis"
+            else "Интервалы заданы для проверки формата и алгоритма; реальные погодные события не подтверждены."
+            if event.get("data_kind") == "synthetic"
+            else "Проверено время выпуска прогноза относительно момента объявления. Порог погодного правила остаётся сценарным."
+        )
+        return (
+            "<aside class=event-card><h2>Погодный запрет движения</h2><p>"
+            + escape(intervals)
+            + f". Условное сообщение с {event['announced_at_h']} ч.</p><p>"
+            + escape(kind)
+            + ". Запрет действует на движение с грузом и возвращение. "
+            + "Начало интервала включено, конец не включён.</p><p>"
+            + escape(note)
+            + "</p><p>Правило воздействия сценарное. Начатые рейсы сохраняются; "
+            + "если новый запрет им противоречит, требуется вмешательство диспетчера.</p></aside>"
+        )
     # Replanning keeps an immutable original input in each snapshot.
     if cfg is None:
         cfg = result.get("original_input", {})

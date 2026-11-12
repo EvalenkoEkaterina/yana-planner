@@ -37,9 +37,8 @@ def parser():
         )
         if command == "replan":
             q.add_argument("--event", required=True)
-        else:
-            q.add_argument("--strategy", choices=["trips", "cost"], default="trips")
-            q.add_argument("--cost-terms", help="JSON тарифов для экономической стратегии/оценки")
+        q.add_argument("--strategy", choices=["trips", "cost"], default="trips")
+        q.add_argument("--cost-terms", help="JSON тарифов для экономической стратегии/оценки")
     q = sub.add_parser("validate")
     q.add_argument("input")
     q.add_argument("schedule")
@@ -160,6 +159,8 @@ def main(argv=None):
                 deadline,
                 time_limit=args.time_limit,
                 incumbent=incumbent,
+                strategy=args.strategy,
+                cost_terms=read_json(args.cost_terms) if args.cost_terms else None,
             )
         else:
             result = compare(

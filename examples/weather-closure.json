@@ -1,0 +1,10 @@
+{
+  "type": "weather_closure",
+  "announced_at_h": 60,
+  "closures": [[120, 132]],
+  "rule_status": "scenario_assumption",
+  "data_kind": "synthetic",
+  "forecast_issued_at": null,
+  "source": "Constructed format example; no meteorological data downloaded",
+  "note": "Интервал условный. Это не установленное событие ERA5 и не прогноз."
+}

@@ -186,7 +186,10 @@ def export_result(directory: str | Path, result: dict):
         summary += "".join("<p>" + html.escape(w) + "</p>" for w in item["warnings"])
     economics = ""
     if result.get("costs") is not None:
-        economics = "<h2>Сценарная стоимость</h2><p>Схема: оплата всего доступного флота на общем горизонте. Источники ставок указаны пользователем и не проверяются автоматически.</p>"
+        title = (
+            "Сценарная стоимость после события" if "initial" in result else "Сценарная стоимость"
+        )
+        economics = f"<h2>{title}</h2><p>Схема: оплата всего доступного флота на общем горизонте. Источники ставок указаны пользователем и не проверяются автоматически.</p>"
         for label, key in [("READY", "baseline"), ("MILP", "planner")]:
             priced = result["costs"].get(key)
             if not priced or priced.get("total_rub") is None:

@@ -118,6 +118,8 @@ def comparisons(result):
                 result["revised_planner"]["result"],
                 result["target_t"],
                 result["revised_planner"]["solver"],
+                strategy=result.get("planning_strategy", "trips"),
+                costs=result.get("costs"),
             ),
         }
     return {
