@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from math import isfinite
+from time import monotonic
 
 import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, milp
@@ -164,6 +165,7 @@ def optimize(
     incumbent: list[dict] | None = None,
     fixed: list[dict] | None = None,
     decision_h: int = 0,
+    adaptive: bool = False,
 ) -> tuple[list[dict], list[dict]]:
     cfg = Scenario.from_dict(cfg).to_dict()
     deadline = integer(deadline, "deadline_h")
@@ -300,26 +302,27 @@ def optimize(
     integral = np.array([1] * (2 * n) + [0])
     logs = []
 
-    def solve(objective, stage):
+    def attempt(objective, budget):
+        started = monotonic()
         result = milp(
             objective,
             integrality=integral,
             bounds=Bounds(lower, upper),
             constraints=matrix.constraint(),
-            options={"time_limit": time_limit, "mip_rel_gap": 0, "presolve": True},
+            options={"time_limit": budget, "mip_rel_gap": 0, "presolve": True},
         )
-        logs.append(
-            dict(
-                stage=stage,
-                status=int(result.status),
-                optimal=result.status == 0,
-                message=result.message,
-                mip_gap=getattr(result, "mip_gap", None),
-                dual_bound=getattr(result, "mip_dual_bound", None),
-            )
+        record = dict(
+            status=int(result.status),
+            optimal=result.status == 0,
+            message=result.message,
+            mip_gap=getattr(result, "mip_gap", None),
+            dual_bound=getattr(result, "mip_dual_bound", None),
+            time_limit_s=budget,
+            elapsed_s=monotonic() - started,
         )
         if result.x is None:
-            return None
+            record["optimal"] = False
+            return None, record
         plan = [
             dict(
                 vessel_id=c["vessel_id"],
@@ -331,13 +334,61 @@ def optimize(
         ]
         verdict = check_schedule(cfg, plan, deadline)
         if verdict["status"] != "valid_simulation" or not preserves_history(plan):
-            logs[-1]["checker_errors"] = verdict["errors"] or ["history changed"]
-            return None
-        return proposals(plan)
+            record["checker_errors"] = verdict["errors"] or ["history changed"]
+            record["optimal"] = False
+            return None, record
+        return proposals(plan), record
+
+    def solve(objective, stage, component):
+        if not adaptive:
+            plan, record = attempt(objective, time_limit)
+            logs.append(dict(stage=stage, **record))
+            return plan
+        # SciPy/HiGHS has no resumable search API. Restart with a tighter bound
+        # from the independently checked incumbent, retaining that plan outside the solver.
+        stage_best = best
+        attempts = []
+        started = monotonic()
+        budgets = [min(2, time_limit)]
+        if time_limit > 2:
+            budgets.append(min(8, time_limit - 2))
+        if time_limit > 10:
+            budgets.append(time_limit - 10)
+        entries = [(int(i), float(objective[i])) for i in np.flatnonzero(objective)]
+        for budget in budgets:
+            remaining = time_limit - (monotonic() - started)
+            if remaining <= 0:
+                break
+            if stage_best is not None:
+                matrix.add(entries, upper=rank(stage_best)[component])
+            plan, record = attempt(objective, min(budget, remaining))
+            if plan is not None and (stage_best is None or rank(plan) < rank(stage_best)):
+                stage_best = plan
+            record["best_objective"] = (
+                rank(stage_best)[component] if stage_best is not None else None
+            )
+            attempts.append(record)
+            if record["optimal"] or record["status"] != 1:
+                break
+        if not attempts:
+            # Budget is positive, but still preserve a known plan if preparation
+            # consumed it before the first call.
+            attempts = [dict(status=1, optimal=False, message="Stage budget exhausted")]
+        logs.append(
+            dict(
+                stage=stage,
+                **attempts[-1],
+                adaptive=True,
+                attempts=attempts,
+                budget_s=time_limit,
+                total_elapsed_s=monotonic() - started,
+            )
+        )
+        return stage_best
 
     objective = np.zeros(2 * n + 1)
     objective[n : 2 * n] = -1
-    p = solve(objective, "maximize_tonnes")
+    p = solve(objective, "maximize_tonnes", 0)
     if p is not None and (best is None or rank(p) < rank(best)):
         best = p
     if best is None:
@@ -346,7 +397,7 @@ def optimize(
     matrix.add([(n + i, 1) for i in range(n)], lower=tonnes, upper=tonnes)
     objective = np.zeros(2 * n + 1)
     objective[:n] = 1
-    p = solve(objective, "minimize_trips_at_fixed_tonnes")
+    p = solve(objective, "minimize_trips_at_fixed_tonnes", 1)
     if p is not None and rank(p) < rank(best):
         best = p
     count = len(best)
@@ -354,20 +405,27 @@ def optimize(
     upper[-1] = rank(best)[2]
     objective = np.zeros(2 * n + 1)
     objective[-1] = 1
-    p = solve(objective, "minimize_last_receipt_at_fixed_tonnes_trips")
+    p = solve(objective, "minimize_last_receipt_at_fixed_tonnes_trips", 2)
     if p is not None and rank(p) < rank(best):
         best = p
     return proposals(best), logs
 
 
 def compare(
-    cfg: dict, deadline: int, *, time_limit: float = 3, incumbent: list[dict] | None = None
+    cfg: dict,
+    deadline: int,
+    *,
+    time_limit: float = 3,
+    incumbent: list[dict] | None = None,
+    adaptive: bool = False,
 ) -> dict:
     """Run READY and MILP, independently validating tonnes and hours."""
     scenario = Scenario.from_dict(cfg)
     cfg = scenario.to_dict()
     baseline = ready(cfg, deadline)
-    plan, logs = optimize(cfg, deadline, baseline, time_limit=time_limit, incumbent=incumbent)
+    plan, logs = optimize(
+        cfg, deadline, baseline, time_limit=time_limit, incumbent=incumbent, adaptive=adaptive
+    )
     a = check_schedule(cfg, baseline, deadline)
     b = check_schedule(cfg, plan, deadline)
     if b["status"] != "valid_simulation":

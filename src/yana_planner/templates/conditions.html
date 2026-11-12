@@ -7,4 +7,15 @@
 {% if inputs.event %}{% set a = inputs.scenario.arrivals[inputs.event.arrival_index] %}<p>На {{ inputs.event.announced_at_h }}-м часу стало известно: {{ a.t }} т поступят в {{ inputs.event.new_arrival_h }} ч вместо {{ a.h }} ч. Начатые рейсы сохраняются.</p>{% else %}<p>Задержка поступлений не задана.</p>{% endif %}
 <p>Учебные условия. Один отправитель, один получатель, по одному причалу. Все длительности фиксированы.</p>
 <p>Лимит поиска: {{ inputs.settings.time_limit_per_stage_s }} с на каждый этап MILP. Вызов содержит до трёх этапов, а при задержке расчёт выполняется до события и после него. Полное время ожидания может быть больше лимита этапа.</p>
+{% if inputs.settings.adaptive_search %}
+<h3>Автоматический поиск</h3><p>Короткая попытка, затем дополнительные попытки в пределах общего бюджета этапа. Каждый новый план проходит проверку. Лучший план сохраняется по приоритетам: объём, число рейсов, последняя приёмка.</p>
+{% if search_result is defined %}
+{% set groups = [('До события', search_result.initial), ('После события', search_result.revised_planner)] if 'initial' in search_result else [('Расчёт', search_result)] %}
+{% for title, group in groups %}<h4>{{ title }}</h4>
+{% for stage in group.solver %}
+<p>{{ {'maximize_tonnes': 'Объём топлива', 'minimize_trips_at_fixed_tonnes': 'Число рейсов', 'minimize_last_receipt_at_fixed_tonnes_trips': 'Последняя приёмка', 'no_candidates': 'Нет подходящих отправлений'}.get(stage.stage, stage.stage) }}:
+{% if stage.attempts is defined %}попыток {{ stage.attempts | length }}, время поиска {{ '%.2f' | format(stage.total_elapsed_s) }} с.{% endif %}
+{{ 'Оптимум этапа подтверждён.' if stage.optimal else 'Оптимум этапа не подтверждён.' }}</p>
+{% endfor %}{% endfor %}
+{% endif %}{% endif %}
 </section>

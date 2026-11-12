@@ -33,21 +33,25 @@ def create_app(config=None):
             try:
                 key = request.form.get("scenario", "")
                 search_seconds = request.form.get("search_seconds")
-                if search_seconds is not None and search_seconds not in {"2", "10", "30"}:
-                    raise InputError("Время поиска: выберите 2, 10 или 30 секунд на этап")
+                if search_seconds is not None and search_seconds not in {"auto", "2", "10", "30"}:
+                    raise InputError("Время поиска: выберите автоматический режим, 2, 10 или 30 с")
                 inputs, result = calculate(
                     key,
                     request.form.get("deadline", ""),
                     max_deadline=app.config["MAX_DEADLINE_H"],
                     time_limit=(
-                        int(search_seconds)
+                        (30 if search_seconds == "auto" else int(search_seconds))
                         if search_seconds is not None
                         else app.config["SOLVER_TIME_LIMIT"]
                     ),
                     custom=values if request.form.get("customize") == "1" else None,
+                    adaptive=search_seconds == "auto",
                 )
                 result["report_html"] = result["report_html"].replace(
-                    "<body>", "<body>" + render_template("conditions.html", inputs=inputs), 1
+                    "<h1>",
+                    render_template("conditions.html", inputs=inputs, search_result=result)
+                    + "<h1>",
+                    1,
                 )
                 ident = storage.save(
                     app.config["DATABASE"],

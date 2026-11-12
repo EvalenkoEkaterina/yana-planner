@@ -34,7 +34,7 @@ def form_defaults():
     values.update(
         scenario=["r03"],
         deadline=["328"],
-        search_seconds=["10"],
+        search_seconds=["auto"],
         announced_at_h=["60"],
         delayed_arrival=["2"],
         new_arrival_h=["168"],
@@ -137,7 +137,7 @@ def custom_conditions(values, *, with_delay, maximum=492):
     return cfg, event
 
 
-def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None):
+def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None, adaptive=False):
     """Validate bounded hours, run existing core and retain complete inputs."""
     if scenario not in NAMES:
         raise InputError("Выберите расчёт без задержки или с задержкой топлива")
@@ -165,7 +165,7 @@ def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None
         if deadline == 328 and cfg["id"] == "R03"
         else None
     )
-    kwargs = dict(time_limit=time_limit, incumbent=reference)
+    kwargs = dict(time_limit=time_limit, incumbent=reference, adaptive=adaptive)
     result = (
         run_replanning(cfg, event, deadline, **kwargs)
         if event
@@ -187,6 +187,8 @@ def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None
         scenario=cfg,
         event=event,
         deadline_h=deadline,
-        settings=dict(time_limit_per_stage_s=time_limit, reference=reference),
+        settings=dict(
+            time_limit_per_stage_s=time_limit, reference=reference, adaptive_search=adaptive
+        ),
     )
     return inputs, _finite(result)
