@@ -1,7 +1,7 @@
 {
   "status": "planning_estimate_not_contracted",
   "scope": "One route, one dispatcher, prepared data, local retrospective pilot",
-  "labour_rate_rub_h": 1500,
+  "paid_labour_rate_rub_h": 1500,
   "labour_rate_status": "advertised_starting_rate_not_project_quote",
   "labour_rate_sources": [
     "https://godigital.rocks/python",
@@ -17,6 +17,7 @@
   ],
   "task_hours_status": "team_estimate_subject_to_data_review",
   "monthly_support_hours": 4,
+  "volunteer_labour_policy": "unpaid_record_hours_only_no_monetary_valuation",
   "paid_contingency_percent": 20,
   "incremental_setup_cash_rub": 0,
   "incremental_monthly_cash_rub": 0,

@@ -13,22 +13,28 @@ class PilotEconomicsTests(unittest.TestCase):
     def setUp(self):
         self.spec = json.loads((ROOT / "examples/ushanova/pilot_budget.json").read_text())
 
-    def test_volunteer_work_is_valued_despite_no_cash_payments(self):
+    def test_volunteer_work_is_recorded_in_hours_without_imputed_payment(self):
         budget = pilot_budget(self.spec, mode="student")
         self.assertEqual(budget["cash_total_rub"], 0)
-        self.assertEqual(budget["imputed_volunteer_setup_rub"], 90000)
-        self.assertEqual(budget["valued_resources_total_rub"], 162000)
+        self.assertEqual(budget["volunteer_setup_hours"], 60)
+        self.assertEqual(budget["volunteer_monthly_hours"], 4)
+        self.assertEqual(budget["volunteer_total_hours"], 108)
+        self.assertIsNone(budget["valued_resources_total_rub"])
+        self.assertNotIn("imputed_volunteer_setup_rub", budget)
         self.assertTrue(budget["unpriced_resources"])
         result = illustrative_payback(budget, 78000, cases=1)
         self.assertIsNone(result["cash_roi_percent"])
-        self.assertEqual(result["net_resource_effect_rub"], -84000)
+        self.assertIsNone(result["net_resource_effect_rub"])
+        self.assertEqual(result["payback_status"], "not_applicable_zero_cash_budget")
+        self.spec["paid_labour_rate_rub_h"] = None
+        self.assertEqual(pilot_budget(self.spec, mode="student")["cash_total_rub"], 0)
 
     def test_paid_year_accounts_for_reserve_and_maintenance_once(self):
         budget = pilot_budget(self.spec, mode="paid")
         self.assertEqual(budget["cash_setup_rub"], 108000)
         self.assertEqual(budget["cash_monthly_rub"], 6000)
         self.assertEqual(budget["cash_total_rub"], 180000)
-        self.assertEqual(budget["imputed_volunteer_setup_rub"], 0)
+        self.assertEqual(budget["volunteer_setup_hours"], 0)
         self.assertEqual(
             illustrative_payback(budget, 78000, cases=3)["net_resource_effect_rub"], 54000
         )
@@ -44,7 +50,7 @@ class PilotEconomicsTests(unittest.TestCase):
         self.spec.update(incremental_setup_cash_rub=1000, incremental_monthly_cash_rub=100)
         budget = pilot_budget(self.spec, mode="student", operating_months=2)
         self.assertEqual(budget["cash_total_rub"], 1400)
-        self.assertEqual(budget["valued_resources_total_rub"], 103400)
+        self.assertIsNone(budget["valued_resources_total_rub"])
 
     def test_order_value_exact_decimal_and_missing_not_zero(self):
         self.assertEqual(order_value(900, 7156.52)["order_value_rub"], 6440868)

@@ -81,7 +81,8 @@
         "cases": 1,
         "scenario_benefit_rub": 78000.0,
         "net_cash_effect_rub": 78000.0,
-        "net_resource_effect_rub": -84000.0,
+        "net_resource_effect_rub": null,
+        "payback_status": "not_applicable_zero_cash_budget",
         "cash_roi_percent": null,
         "actual_savings_rub": null
       },
@@ -90,7 +91,8 @@
         "cases": 3,
         "scenario_benefit_rub": 234000.0,
         "net_cash_effect_rub": 234000.0,
-        "net_resource_effect_rub": 72000.0,
+        "net_resource_effect_rub": null,
+        "payback_status": "not_applicable_zero_cash_budget",
         "cash_roi_percent": null,
         "actual_savings_rub": null
       },
@@ -99,7 +101,8 @@
         "cases": 3,
         "scenario_benefit_rub": -84000.0,
         "net_cash_effect_rub": -84000.0,
-        "net_resource_effect_rub": -246000.0,
+        "net_resource_effect_rub": null,
+        "payback_status": "not_applicable_zero_cash_budget",
         "cash_roi_percent": null,
         "actual_savings_rub": null
       }
@@ -111,6 +114,7 @@
         "scenario_benefit_rub": 78000.0,
         "net_cash_effect_rub": -102000.0,
         "net_resource_effect_rub": -102000.0,
+        "payback_status": "scenario_only",
         "cash_roi_percent": -56.67,
         "actual_savings_rub": null
       },
@@ -120,6 +124,7 @@
         "scenario_benefit_rub": 234000.0,
         "net_cash_effect_rub": 54000.0,
         "net_resource_effect_rub": 54000.0,
+        "payback_status": "scenario_only",
         "cash_roi_percent": 30.0,
         "actual_savings_rub": null
       },
@@ -129,6 +134,7 @@
         "scenario_benefit_rub": -84000.0,
         "net_cash_effect_rub": -264000.0,
         "net_resource_effect_rub": -264000.0,
+        "payback_status": "scenario_only",
         "cash_roi_percent": -146.67,
         "actual_savings_rub": null
       }
@@ -139,6 +145,6 @@
   "repeat_assumption": "Three comparable independent future cases are hypothetical; static and delayed phases of the same campaign are not added as separate savings. Historical facts are not pooled.",
   "source_sha256": {
     "examples/ushanova/evidence.json": "4537d7c038e85aeeca20a2adb2d916bf026a54992919557a359992d49dab00cb",
-    "examples/ushanova/pilot_budget.json": "37673791c9a6e2ce949c1637681e57e59ba3a923abc11dc7e5b8ca43eeed0e52"
+    "examples/ushanova/pilot_budget.json": "d8bff0097475e6c55142a9f6744e23a55bb1ee8bfccddc4827a20ebf2e1390af"
   }
 }
