@@ -8,6 +8,16 @@ function update() {
   document.getElementById('delay-settings').hidden = !delayed;
   document.querySelectorAll('#delay-settings input').forEach(input => { input.disabled = !delayed; });
   const caps = fields('vessel_capacity_t').map(input => input.value || '—');
+  const ids = fields('vessel_id').map(input => input.value || 'Без названия');
+  const supply = fields('arrival_h').map((input,i)=>`${fields('arrival_t')[i].value || '—'} т в ${input.value || '—'} ч`);
+  document.getElementById('resource-summary').textContent = ids.map((id,i)=>`${id} · ${caps[i]} т · с ${fields('vessel_available_h')[i].value || '—'} ч`).join(' / ');
+  document.getElementById('supply-summary').textContent = `Начальный запас: ${value('initial_source_t') || '0'} т. ${supply.join('; ') || 'Поступления не заданы'}`;
+  document.getElementById('resources-preview').textContent = `Судов: ${caps.length} · поступлений: ${supply.length}`;
+  const priced = value('economics_enabled') === 'yes';
+  const strategy = value('strategy') === 'cost' ? 'Минимум сценарных затрат' : 'Минимум рейсов';
+  document.getElementById('strategy-summary').textContent = `Сначала принятый объём → ${strategy.toLowerCase()} → ранняя приёмка`;
+  document.getElementById('cost-preview').textContent = `${strategy} · ${priced ? 'тарифы включены' : 'без оценки стоимости'}`;
+  document.getElementById('constraints-preview').textContent = delayed ? 'Задержка поступления топлива' : document.getElementById('weather-enabled').checked ? 'Событие запрета движения' : 'Дополнительное событие не задано';
   document.getElementById('target-preview').textContent = value('target_t') || '—';
   document.getElementById('fleet-preview').textContent = caps.length;
   document.getElementById('deadline-preview').textContent = value('deadline') || '—';
@@ -92,6 +102,13 @@ window.addEventListener('pageshow', () => {
 update();
 
 form.addEventListener('invalid', event => {
-  const details = event.target.closest('details');
-  if (details) details.open = true;
+  let parent = event.target.parentElement;
+  while(parent) { if(parent.tagName==='DETAILS') parent.open=true; parent=parent.parentElement; }
 }, true);
+
+document.addEventListener('click', event=>{
+  const button=event.target.closest('[data-open]');
+  if(!button) return;
+  const target=document.getElementById(button.dataset.open);
+  if(target) { target.open=true; target.scrollIntoView({block:'start',behavior:'smooth'}); }
+});

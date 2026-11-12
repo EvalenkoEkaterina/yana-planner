@@ -21,6 +21,7 @@ class VisualReportTests(unittest.TestCase):
         self.assertIn("На 1 меньше", view)
         self.assertIn("На 52 ч раньше", view)
         self.assertIn("Меньше рейсов, приёмка завершена раньше", view)
+        self.assertIn("Задание выполнено · принято 1 650 из 1 650 т", view)
         self.assertIn("Общая шкала: 0–276 ч", view)
         self.assertEqual(view.count('role="img"'), 3)
         self.assertIn('width="520.000"', view)
@@ -52,6 +53,7 @@ class VisualReportTests(unittest.TestCase):
         view = visual_summary(self.result)
         self.assertIn("Сценарные затраты ниже на 100 ₽", view)
         self.assertIn("На 24 ч позже", view)
+        self.assertIn("Учтите: Приёмка на 24 ч позже", view)
         self.assertIn("vr-delta vr-caution", view)
         self.assertIn("Фактическая экономия не установлена", view)
 

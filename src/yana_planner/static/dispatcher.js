@@ -122,6 +122,8 @@ function fill(p, key, restore=false) {
   $('horizon-h').value=p.cost_terms?.horizon_h??492; $('billing-confirmed').checked=restore&&$('billing-confirmed').dataset.restored==='true';
   $('scenario-t0').value=c.t0??'';
   $('weather-enabled').checked=p.event?.type==='weather_closure';
+  $('constraints-settings').open=Boolean(p.event);
+  $('cost-settings').open=Boolean(p.cost_terms);
   if(p.event?.type==='weather_closure') {
     const e=p.event; $('weather-data-kind').value=e.data_kind; $('weather-announced').value=e.announced_at_h; $('weather-source').value=e.source; $('forecast-issued-at').value=e.forecast_issued_at??'';
     const wtemplate=$('weather-intervals').firstElementChild?.cloneNode(true)??weatherTemplate.cloneNode(true); $('weather-intervals').replaceChildren();
@@ -164,7 +166,11 @@ form.addEventListener('submit',e=>{
     if(requiredCapabilities().length) throw new Error('Сервер ещё не поддерживает эти настройки. Скачайте пакет условий для интеграции.');
     // Preserve historical R03 behaviour when only the old transport fields are used.
     if(Object.keys(caps).length) $('route-package-json').value=JSON.stringify(gather());
-  }catch(error){e.preventDefault();e.stopImmediatePropagation();status(error.message);update();}
+  }catch(error){e.preventDefault();e.stopImmediatePropagation();status(error.message);update();
+    if($('economics-enabled').value==='yes'&&!$('billing-confirmed').checked) {
+      $('cost-settings').open=true; $('billing-confirmed').focus();
+    }
+  }
 },true);
 window.addEventListener('pageshow',update);
 $('show-route-report').addEventListener('click',async()=>{

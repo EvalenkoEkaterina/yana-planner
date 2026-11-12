@@ -14,6 +14,7 @@ VISUAL_STYLE = """
 .vr-delta{display:inline-block;border-radius:7px;padding:6px 10px;font-size:12px;font-weight:650;margin-top:5px!important;background:#f0edf0;color:#625b65}.vr-good{background:#e9f4ee;color:#246348}.vr-caution{background:#fff2df;color:#86510d}.vr-method{font-size:13px;color:#625b65}.vr-foot{margin-top:8px!important;font-size:12px;color:#747079;line-height:1.5}
 .vr-details{margin-top:20px;border:1px solid #e8e2e6;border-radius:12px;padding:17px;background:#fff}.vr-details>summary{cursor:pointer;color:#8b2050;font-size:14px;font-weight:650}.vr-details .vr-grid{margin-top:18px}.vr-event{margin-top:20px;padding:20px;border-left:4px solid #ae2f67;background:#faf7f9;border-radius:8px}.vr-event h3{margin-bottom:10px}.vr-event p+p{margin-top:8px}.vr-print{padding:11px 16px;border:0;border-radius:9px;background:#ae2f67;color:white;cursor:pointer;font:inherit}
 .vr-empty{min-height:135px;display:flex;align-items:center;color:#747079;font-size:14px;line-height:1.6;background:#faf8fa;border-radius:10px;padding:18px}
+.vr-goal{display:inline-block;padding:6px 10px;border-radius:7px;font-size:13px;font-weight:650;margin-bottom:13px!important;background:#e9f4ee;color:#246348}.vr-goal-warning{background:#fff2df;color:#86510d}.vr-compromise{margin-top:12px!important;font-size:13px;color:#86510d;line-height:1.6}
 @media(max-width:650px){.vr-grid{grid-template-columns:1fr}.vr-hero{padding:21px}.vr h2{font-size:23px}.vr-card{padding:18px}.vr-legend{gap:12px}}
 @media print{.vr-print{display:none}.vr-card,.vr-hero{break-inside:avoid}.vr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vr{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 """
@@ -135,6 +136,8 @@ def _headline(c, strategy, costs):
         return "Для того же объёма найдено меньше рейсов"
     if _known(hours) and hours > 0:
         return "Тот же объём принят раньше"
+    if trips == 0 and hours == 0:
+        return "Основные показатели планов совпали"
     return "Сравните найденные планы по выбранному приоритету"
 
 
@@ -150,9 +153,30 @@ def visual_summary(result, *, include_style=True):
     )
     headline = _headline(c, strategy, costs)
     priority = "сценарные затраты" if strategy == "cost" else "число рейсов"
+    plan = c["rows"]["MILP"]
+    goal = (
+        f"Задание выполнено · принято {_num(plan['accepted_t'])} из {_num(c['target_t'])} т"
+        if plan["target_met"]
+        else f"Задание пока не выполнено · недопоставка {_num(plan['shortfall_t'])} т"
+        if plan["valid"]
+        else "Результат требует проверки · допустимость не подтверждена"
+    )
+    goal_class = "" if plan["target_met"] else " vr-goal-warning"
+    notice = []
+    for key, label in (("last_receipt_h", "Приёмка"), ("trip_count", "Рейсов")):
+        delta = c["differences"].get(key)
+        if _known(delta) and delta < 0:
+            notice.append(
+                f"{label} на {_num(-delta)} {'ч позже' if key == 'last_receipt_h' else 'больше'}"
+            )
+    compromise = (
+        f'<p class="vr-compromise">Учтите: {escape("; ".join(notice))}. Проверьте, приемлем ли этот вариант для задачи.</p>'
+        if notice
+        else ""
+    )
     parts = [f"<style>{VISUAL_STYLE}</style>" if include_style else ""]
     parts.append(
-        f'<section class="vr" data-visual-summary="1"><header class="vr-hero"><p class="vr-kicker">Результат за минуту · {stage}</p><h2>{escape(headline)}</h2><p class="vr-note">{escape(c["conclusion"])}</p><p class="vr-foot">Задание: {_num(c["target_t"])} т · Приёмка до {_num(result["deadline_h"])} ч.</p><p class="vr-foot">Приоритет: объём → {priority} → ранняя последняя приёмка. {escape(c["search_status"])}.</p></header>'
+        f'<section class="vr" data-visual-summary="1"><header class="vr-hero"><p class="vr-kicker">Результат за минуту · {stage}</p><p class="vr-goal{goal_class}">{escape(goal)}</p><h2>{escape(headline)}</h2><p class="vr-note">{escape(c["conclusion"])}</p>{compromise}<p class="vr-foot">Задание: {_num(c["target_t"])} т · Приёмка до {_num(result["deadline_h"])} ч.</p><p class="vr-foot">Приоритет: объём → {priority} → ранняя последняя приёмка. {escape(c["search_status"])}.</p></header>'
     )
     parts.append(
         '<div class="vr-legend"><span><i class="vr-dot"></i>READY — последовательный план</span><span><i class="vr-dot vr-dot-milp"></i>MILP — математический планировщик</span></div>'
