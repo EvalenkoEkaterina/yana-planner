@@ -11,6 +11,7 @@ from .domain import InputError
 from .experiments import comparisons
 from .presentation import STATUS, effects_html, event_card, schedule_sections
 from .service import NAMES, ROOT, VESSEL_FIELDS, form_defaults
+from .visual_report import summary_page, visual_summary
 from .web_worker import (
     CalculationTimeout,
     calculate_package_with_timeout,
@@ -162,6 +163,7 @@ def create_app(config=None):
                     page=url_for("result_page", ident=ident),
                     report=url_for("report", ident=ident),
                     json=url_for("download", ident=ident),
+                    summary=url_for("visual_report", ident=ident),
                 ),
             ), 201
         except CalculationTimeout as exc:
@@ -190,6 +192,7 @@ def create_app(config=None):
             event_html=event_card(run["result"], run["inputs"]["scenario"]),
             diagrams=schedule_sections(run["result"]),
             effects=effects_html(run["result"]),
+            visuals=visual_summary(run["result"]),
         )
 
     @app.get("/runs/<int:ident>/results.json")
@@ -201,6 +204,18 @@ def create_app(config=None):
     @app.get("/runs/<int:ident>/report.html")
     def report(ident):
         return get_run(ident)["result"]["report_html"]
+
+    @app.get("/runs/<int:ident>/summary.html")
+    def visual_report(ident):
+        run = get_run(ident)
+        response = app.response_class(
+            summary_page(run["result"], run["scenario_name"]), mimetype="text/html"
+        )
+        if request.args.get("download") == "1":
+            response.headers["Content-Disposition"] = (
+                f'attachment; filename="yana-report-{ident}.html"'
+            )
+        return response
 
     @app.get("/history")
     def history_page():

@@ -12,6 +12,7 @@ from pathlib import Path
 from .domain import InputError, proposals
 from .experiments import comparisons
 from .presentation import STATUS, effects_html, event_card, schedule_sections
+from .visual_report import VISUAL_STYLE, visual_summary
 
 PLAIN_REPORT_STYLE = """.schedule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.schedule-panel{min-width:0}.timeline>svg{display:block;width:100%}.timeline p{font-size:12px}.timeline span svg{display:inline;width:12px;height:12px}@media(max-width:1000px){.schedule-grid{grid-template-columns:1fr}} body{font:14px Arial,sans-serif;line-height:1.4;max-width:1200px;margin:24px auto;padding:0 16px;color:#000;background:#fff}h1{font-size:18px}h2{font-size:16px;margin-top:20px}table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}th,td{border:1px solid #000;padding:6px;text-align:left;font-weight:normal}th{font-weight:bold}a,a:visited{color:#000;text-decoration:none}strong,b{font-weight:normal}.event{margin:16px 0;padding:0;border:0;background:none}.table{overflow:auto}img{max-width:100%}"""
 
@@ -25,7 +26,7 @@ def _plain_report_markup(page: str) -> str:
         lambda match: match[0].replace("—", "-").replace("–", "-"),
         page,
     )
-    return page.replace("</title>", f"</title><style>{PLAIN_REPORT_STYLE}</style>", 1)
+    return page.replace("</title>", f"</title><style>{PLAIN_REPORT_STYLE}{VISUAL_STYLE}</style>", 1)
 
 
 def read_json(path: str | Path):
@@ -240,7 +241,7 @@ def export_result(directory: str | Path, result: dict):
         loading += "<p>Округление до целого часа. Движение и приёмка пока фиксированы. Весь груз рейса должен быть доступен до начала его погрузки.</p>"
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Яна: расчёт</title>
 <style>{PLAIN_REPORT_STYLE}</style>
-<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{loading}{summary}{effects}{economics}<h2>Расписание по судам</h2>{diagrams}<table>{table}</table>
+<h1>План доставки: {html.escape(result["scenario_id"])}</h1>{visual_summary(result, include_style=False)}<p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{loading}<details><summary>Подробное сравнение и проверки</summary>{summary}{effects}{economics}<table>{table}</table></details><h2>Расписание по судам</h2>{diagrams}
 <p>Средняя приёмка взвешена по тоннам. Цели: {priorities}. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
 <p><a href="results.json">Полные результаты и статусы решателя</a> · <a href="comparison.csv">Сравнение</a> · <a href="schedule.csv">Расписание</a> · <a href="events.csv">Баланс событий</a></p>{schedules}</html>"""
     (out / "report.html").write_text(_plain_report_markup(page), encoding="utf-8")
