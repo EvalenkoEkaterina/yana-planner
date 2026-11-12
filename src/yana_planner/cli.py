@@ -12,6 +12,7 @@ from pathlib import Path
 from . import __version__
 from .domain import ConfirmationRequired, InputError, integer
 from .economics import compare_cost
+from .sensitivity import run_sensitivity
 from .excel_import import import_excel
 from .experiments import comparisons
 from .io import export_failure, export_result, read_json, read_plan, write_json
@@ -56,6 +57,15 @@ def parser():
     q.add_argument("--terms", required=True)
     q.add_argument("--deadline", type=int)
     q.add_argument("--out", required=True)
+    q = sub.add_parser("sensitivity")
+    q.add_argument("input", help="JSON сценария")
+    q.add_argument("comparison", help="JSON результата plan или replan")
+    q.add_argument("--deadline", type=int)
+    q.add_argument(
+        "--horizon", type=int, required=True,
+        help="Общий оплачиваемый горизонт для схемы all_available_time",
+    )
+    q.add_argument("--out", required=True)
     q = sub.add_parser("benchmark")
     q.add_argument("input", help="JSON с scenarios и grid_hours")
     q.add_argument("--out", required=True)
@@ -63,6 +73,30 @@ def parser():
     q.add_argument("--scenario")
     q.add_argument("--deadline", type=int)
     return p
+
+
+def _comparison_plans(data: dict) -> tuple[list[dict], list[dict]]:
+    """Accept standard compare output and revised replan output."""
+    if isinstance(data.get("baseline"), dict) and isinstance(data.get("planner"), dict):
+        baseline = data["baseline"]
+        planner = data["planner"]
+    elif isinstance(data.get("revised_baseline"), dict) and isinstance(
+        data.get("revised_planner"), dict
+    ):
+        baseline = data["revised_baseline"].get("result")
+        planner = data["revised_planner"].get("result")
+    else:
+        raise InputError(
+            "Нужен JSON результата сравнения plan или replan с READY и MILP"
+        )
+    if (
+        not isinstance(baseline, dict)
+        or not isinstance(planner, dict)
+        or not isinstance(baseline.get("trips"), list)
+        or not isinstance(planner.get("trips"), list)
+    ):
+        raise InputError("В результате сравнения не найдены списки trips для READY и MILP")
+    return baseline["trips"], planner["trips"]
 
 
 def main(argv=None):
@@ -145,6 +179,21 @@ def main(argv=None):
                 plans["planner"]["trips"],
                 deadline,
                 read_json(args.terms),
+            )
+            write_json(args.out, result)
+            print(json.dumps(result, ensure_ascii=False))
+            return 0
+        if args.command == "sensitivity":
+            comparison_data = read_json(args.comparison)
+            if not isinstance(comparison_data, dict):
+                raise InputError("Результат сравнения должен быть JSON-объектом")
+            ready_plan, milp_plan = _comparison_plans(comparison_data)
+            result = run_sensitivity(
+                cfg,
+                ready_plan,
+                milp_plan,
+                deadline,
+                horizon_h=integer(args.horizon, "horizon_h", minimum=0),
             )
             write_json(args.out, result)
             print(json.dumps(result, ensure_ascii=False))
