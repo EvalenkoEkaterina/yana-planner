@@ -1,0 +1,51 @@
+[
+  {
+    "id": "lorp-2020-06-23",
+    "url": "https://lorp.ru/about/news/631-dnevnik-navigatsii-v-ekspluatatsii-nakhoditsya-149-edinits-flota/",
+    "file": "outputs/research/operational/lorp-2020-06-23.html",
+    "sha256": "8e64e99cc6143f9b97c3579587efcfac920c4697cc084f1d19ee8596d5f65de7",
+    "retrieved_at_utc": "2026-11-12T22:33:19.591182+00:00"
+  },
+  {
+    "id": "lorp-2021-06-08",
+    "url": "https://lorp.ru/about/news/817-dnevnik-navigatsii-lorpa-flot-aktivno-rabotaet-na-vilyue/",
+    "file": "outputs/research/operational/lorp-2021-06-08.html",
+    "sha256": "0b9d5215b3196d6a41bc3d3254f677be3c330304204a02257e212958e1f04618",
+    "retrieved_at_utc": "2026-11-12T22:33:20.036815+00:00"
+  },
+  {
+    "id": "lorp-2020-05-12",
+    "url": "https://lorp.ru/about/news/612-dnevnik-navigatsii-suda-s-gruzom-zhdut-zaversheniya-ledokhoda/",
+    "file": "outputs/research/operational/lorp-2020-05-12.html",
+    "sha256": "20c871ab4eb4accf01c740ef4935760071be29594a4e84009070918d87339821",
+    "retrieved_at_utc": "2026-11-12T22:33:19.592886+00:00"
+  },
+  {
+    "id": "lorp-2020-05-15",
+    "url": "https://lorp.ru/about/news/614-dnevnik-navigatsii-otgruzheno-24-tysyachi-tonn-gruzov/",
+    "file": "outputs/research/operational/lorp-2020-05-15.html",
+    "sha256": "09cce263a5dcee8dad532ae1762030cecfa4510e4a104c059ad50375ff77c2cf",
+    "retrieved_at_utc": "2026-11-12T22:33:19.572844+00:00"
+  },
+  {
+    "id": "lorp-2021-06-10",
+    "url": "https://lorp.ru/about/news/821-dnevnik-navigatsii-lorpa-ot-10-06-na-vodnykh-magistralyakh-rabotayut-142-sudna/",
+    "file": "outputs/research/operational/lorp-2021-06-10.html",
+    "sha256": "53d7cd5a7ddc8fd01575a3df2d6f211bd6bd856e67e9e078e6b7e66ca0cbf6e2",
+    "retrieved_at_utc": "2026-11-12T22:33:19.696481+00:00"
+  },
+  {
+    "id": "court-A58-1321-2024-mirror",
+    "url": "https://sudact.ru/arbitral/doc/UA6x5NysdOga/",
+    "file": "outputs/research/operational/court-A58-1321-2024-mirror.html",
+    "sha256": "d05e84b9fb4fefdd259f128110b6445bfb9d0feb48c25cb3e25d6d6ab6037d3d",
+    "retrieved_at_utc": "2026-11-12T22:33:25.500573+00:00"
+  },
+  {
+    "id": "lorp-2022-08-15",
+    "url": "https://lorp.ru/about/news/1009-kapitan-orlov-rejs-na-pevek/",
+    "file": "outputs/research/operational/lorp-2022-08-15.html",
+    "sha256": "8ab5184ddb587314b295f7fdb7d48e62bda5e08e5b2d1911b9186c4a9eebaff6",
+    "retrieved_at_utc": "2026-11-12T22:33:19.721119+00:00"
+  }
+]
