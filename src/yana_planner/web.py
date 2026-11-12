@@ -9,7 +9,7 @@ from . import storage
 from .domain import InputError
 from .experiments import comparisons
 from .presentation import STATUS, effects_html, event_card, schedule_sections
-from .service import NAMES, ROOT, calculate
+from .service import NAMES, ROOT, VESSEL_FIELDS, calculate, form_defaults
 
 
 def create_app(config=None):
@@ -25,7 +25,11 @@ def create_app(config=None):
     @app.route("/", methods=["GET", "POST"])
     def index():
         error = None
+        values = form_defaults()
         if request.method == "POST":
+            values = request.form.to_dict(flat=False)
+            for field in ("announced_at_h", "delayed_arrival", "new_arrival_h"):
+                values.setdefault(field, form_defaults()[field])
             try:
                 key = request.form.get("scenario", "")
                 inputs, result = calculate(
@@ -33,10 +37,18 @@ def create_app(config=None):
                     request.form.get("deadline", ""),
                     max_deadline=app.config["MAX_DEADLINE_H"],
                     time_limit=app.config["SOLVER_TIME_LIMIT"],
+                    custom=values if request.form.get("customize") == "1" else None,
+                )
+                result["report_html"] = result["report_html"].replace(
+                    "<body>", "<body>" + render_template("conditions.html", inputs=inputs), 1
                 )
                 ident = storage.save(
                     app.config["DATABASE"],
-                    NAMES[key],
+                    (
+                        "Свои условия" + (" — задержка топлива" if key == "delay" else "")
+                        if inputs["scenario"]["id"] == "CUSTOM"
+                        else NAMES[key]
+                    ),
                     inputs["deadline_h"],
                     inputs,
                     result,
@@ -46,7 +58,12 @@ def create_app(config=None):
             except (InputError, OSError, sqlite3.Error) as exc:
                 error = str(exc)
         return render_template(
-            "index.html", names=NAMES, error=error, maximum=app.config["MAX_DEADLINE_H"]
+            "index.html",
+            names=NAMES,
+            error=error,
+            maximum=app.config["MAX_DEADLINE_H"],
+            values=values,
+            vessel_fields=VESSEL_FIELDS,
         ), 400 if error else 200
 
     def get_run(ident):

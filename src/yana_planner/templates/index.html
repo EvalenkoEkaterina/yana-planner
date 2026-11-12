@@ -1,1 +1,46 @@
-{% extends 'base.html' %}{% block content %}<p class="eyebrow">ПЛАНИРОВАНИЕ РЕЧНОЙ ДОСТАВКИ</p><h1>Топливо вовремя.<br>Решения на основе расчёта.</h1><p>Сравните базовый READY и оптимизационный MILP на одинаковых исходных данных.</p><section><h2>Новый расчёт</h2>{% if error %}<p role="alert" class="warning">{{ error }}</p>{% endif %}<form method="post" onsubmit="this.querySelector('button').disabled=true;this.querySelector('button').textContent='Идёт расчёт…'"><label>Сценарий<select name="scenario">{% for key,name in names.items() %}<option value="{{ key }}">{{ name }}</option>{% endfor %}</select></label><label>Срок приёмки, часов от начала<input name="deadline" type="number" value="328" min="1" max="{{ maximum }}" required></label><button>Рассчитать</button></form><p>Цель: 1650 т · 2 судна · партии до 400 т · возврат до 492 ч.</p><p>Задержка: на 60-м часу стало известно, что 825 т поступят в 168 ч вместо 120 ч. Начатые рейсы сохраняются.</p></section><aside>Данные учебные. READY — алгоритмическая база сравнения. Реальные расписания перевозчика и экономия не подтверждены. Лимит поиска действует отдельно на каждом этапе MILP; запрос может занять больше указанного лимита.</aside>{% endblock %}
+{% extends 'base.html' %}
+{% macro field(name, label, minimum=0, maximum=492, fallback='') -%}
+<label>{{ label }}<input name="{{ name }}" type="number" value="{{ values.get(name, [fallback])[0] }}" min="{{ minimum }}" max="{{ maximum }}" required></label>
+{%- endmacro %}
+{% block content %}
+<p class="eyebrow">ПЛАНИРОВАНИЕ РЕЧНОЙ ДОСТАВКИ</p>
+<h1>Топливо вовремя.<br>Решения на основе расчёта.</h1>
+<p>Сравните базовый READY и оптимизационный MILP на одинаковых исходных данных.</p>
+{% if error %}<p role="alert" class="warning">{{ error }}</p>{% endif %}
+<form method="post" id="conditions-form" class="conditions-form">
+<input type="hidden" name="customize" value="1">
+<section><h2>1. Задание</h2><p>Заполнены условия примера R03. Измените их для своего расчёта или <a href="/">восстановите пример</a>.</p>
+<div class="fields-grid">
+<label>Режим расчёта<select name="scenario" id="scenario"><option value="r03" {% if values.get('scenario', ['r03'])[0] == 'r03' %}selected{% endif %}>Без задержки</option><option value="delay" {% if values.get('scenario', ['r03'])[0] == 'delay' %}selected{% endif %}>С задержкой топлива</option></select></label>
+{{ field('deadline', 'Срок приёмки, ч', 1, maximum) }}
+{{ field('target_t', 'Требуется принять, т', 1, 1000000) }}
+{{ field('return_cutoff_h', 'Возврат судов до, ч', 1, maximum) }}
+{{ field('initial_source_t', 'Топливо в пункте отправления в начале, т', 0, 1000000) }}
+{{ field('destination_capacity_t', 'Вместимость хранилища получателя, т', 1, 1000000) }}
+</div><p>Все времена — целые часы от начала расчёта. Срок приёмки и срок возвращения судов задаются отдельно. В этой форме горизонт ограничен {{ maximum }} ч.</p></section>
+<section><h2>2. Суда</h2><p>У каждого судна своя вместимость и длительности операций. Можно задать от 1 до 6 судов.</p>
+<div id="vessels">
+{% for ident in values.get('vessel_id', []) %}{% set row = loop.index0 %}
+<fieldset class="vessel-row"><legend>Судно {{ loop.index }}</legend><div class="fields-grid">
+<label>Название<input name="vessel_id" value="{{ ident }}" maxlength="40" required></label>
+{% for key, label in vessel_fields.items() %}<label>{{ label }}<input type="number" name="vessel_{{ key }}" value="{{ values.get('vessel_' ~ key, [])[row] | default('') }}" min="{{ 0 if key == 'available_h' else 1 }}" max="{{ 1000000 if key == 'capacity_t' else maximum }}" required></label>{% endfor %}
+</div><button type="button" class="secondary remove-vessel">Убрать судно</button></fieldset>
+{% endfor %}</div><button type="button" id="add-vessel" class="secondary">Добавить судно</button></section>
+<section><h2>3. Поступления топлива</h2><p>Это пополнение запаса в пункте отправления, до погрузки на суда. От 1 до 12 поступлений.</p>
+<div id="arrivals">
+{% for hour in values.get('arrival_h', []) %}<fieldset class="arrival-row"><legend>Поступление {{ loop.index }}</legend><div class="fields-grid">
+<label>Час поступления<input name="arrival_h" type="number" value="{{ hour }}" min="0" max="{{ maximum }}" required></label>
+<label>Объём, т<input name="arrival_t" type="number" value="{{ values.get('arrival_t', [])[loop.index0] | default('') }}" min="1" max="1000000" required></label>
+</div><button type="button" class="secondary remove-arrival">Убрать поступление</button></fieldset>{% endfor %}
+</div><button type="button" id="add-arrival" class="secondary">Добавить поступление</button></section>
+<section id="delay-settings"><h2>4. Задержка</h2><p>Выберите поступление по номеру строки выше. Его исходное время берётся из этой строки. Начатые к моменту сообщения рейсы сохраняются.</p>
+<div class="fields-grid">
+{{ field('delayed_arrival', 'Номер поступления с задержкой', 1, 12) }}
+{{ field('announced_at_h', 'Когда узнали о задержке, ч', 0, maximum) }}
+{{ field('new_arrival_h', 'Новое время поступления, ч', 0, maximum) }}
+</div><p>Сообщение должно прийти до исходного поступления и срока приёмки. Новое поступление должно быть позже исходного.</p></section>
+<section><h2>Условия расчёта</h2><p id="conditions-summary" aria-live="polite"></p><p id="delay-summary"></p><button type="submit">Рассчитать</button></section>
+</form>
+<aside>Данные учебные. Один пункт отправления и один получатель, по одному причалу. Длительности операций фиксированы и не зависят от объёма партии. READY — алгоритмическая база сравнения. Реальные расписания перевозчика и денежная экономия не подтверждены. Лимит поиска действует отдельно на каждом этапе MILP.</aside>
+<script src="{{ url_for('static', filename='conditions.js') }}" defer></script>
+{% endblock %}
