@@ -1,0 +1,22 @@
+{
+  "billing_mode": "all_available_time",
+  "currency": "RUB",
+  "horizon_h": 492,
+  "vessel_rates": {
+    "SIM-A": {
+      "separate_trip_operations_rub": 1000,
+      "active_vessel_hour_rub": 100,
+      "waiting_vessel_hour_rub": 10,
+      "rate_basis": "scenario",
+      "source": "Synthetic arithmetic example for R03, not actual operator rates"
+    },
+    "SIM-B": {
+      "separate_trip_operations_rub": 1500,
+      "active_vessel_hour_rub": 200,
+      "waiting_vessel_hour_rub": 20,
+      "rate_basis": "scenario",
+      "source": "Synthetic arithmetic example for R03, not actual operator rates"
+    }
+  },
+  "note": "Ставки вымышлены для проверки арифметики. Горизонт 492 ч подходит сохранённым планам demos/static; для нового плана его нужно проверить. Разница затрат не является фактической экономией."
+}

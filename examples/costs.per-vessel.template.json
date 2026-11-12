@@ -1,0 +1,22 @@
+{
+  "billing_mode": "all_available_time",
+  "currency": "RUB",
+  "horizon_h": null,
+  "vessel_rates": {
+    "SIM-A": {
+      "separate_trip_operations_rub": null,
+      "active_vessel_hour_rub": null,
+      "waiting_vessel_hour_rub": null,
+      "rate_basis": "unspecified",
+      "source": null
+    },
+    "SIM-B": {
+      "separate_trip_operations_rub": null,
+      "active_vessel_hour_rub": null,
+      "waiting_vessel_hour_rub": null,
+      "rate_basis": "unspecified",
+      "source": null
+    }
+  },
+  "note": "Заполнить по каждому судну. Неизвестное не равно нулю. Это шаблон схемы оплаты, а не подтверждённый договор."
+}
