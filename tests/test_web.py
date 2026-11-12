@@ -254,3 +254,52 @@ class AutoSearchWebTests(unittest.TestCase):
             self.assertEqual(saved["result"]["planner"]["accepted_t"], 600)
             self.assertIn("Автоматический поиск", client.get(response.location).text)
             self.assertIn("попыток 1", client.get(response.location + "/report.html").text)
+
+
+class WholeCalculationTimeoutTests(unittest.TestCase):
+    def test_timeout_preserves_fields_and_does_not_save_result(self):
+        from yana_planner.web_worker import CalculationTimeout
+
+        with tempfile.TemporaryDirectory() as tmp:
+            client = create_app(
+                dict(TESTING=True, DATABASE=str(Path(tmp) / "runs.db"))
+            ).test_client()
+            with patch(
+                "yana_planner.web.calculate",
+                side_effect=CalculationTimeout(
+                    "Расчёт остановлен: общий лимит 30 с исчерпан. Условия сохранены в форме."
+                ),
+            ):
+                response = client.post(
+                    "/",
+                    data=dict(
+                        scenario="r03",
+                        deadline="246",
+                        target_t="1700",
+                        vessel_id="Моё судно",
+                        search_seconds="auto",
+                    ),
+                )
+            self.assertEqual(response.status_code, 408)
+            self.assertIn('value="1700"', response.text)
+            self.assertIn('value="Моё судно"', response.text)
+            self.assertIn("общий лимит 30 с", response.text)
+            self.assertNotIn("СОХРАНЁННЫЙ РАСЧЁТ", response.text)
+
+    def test_real_child_process_is_stopped_on_wall_timeout(self):
+        import subprocess
+        import sys
+        import time
+
+        from yana_planner.web_worker import CalculationTimeout, calculate_with_timeout
+
+        real_run = subprocess.run
+
+        def slow_child(command, **kwargs):
+            return real_run([sys.executable, "-c", "import time; time.sleep(5)"], **kwargs)
+
+        started = time.monotonic()
+        with patch("yana_planner.web_worker.subprocess.run", side_effect=slow_child):
+            with self.assertRaises(CalculationTimeout):
+                calculate_with_timeout("r03", "328", total_timeout=0.05)
+        self.assertLess(time.monotonic() - started, 1.5)

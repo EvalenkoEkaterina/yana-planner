@@ -54,9 +54,34 @@ form.addEventListener('click', event => {
 });
 form.addEventListener('input', update);
 form.addEventListener('change', update);
+let progressTimer;
 form.addEventListener('submit', () => {
   const button = form.querySelector('[type="submit"]');
   button.disabled = true;
   button.textContent = 'Идёт расчёт…';
+  const progress = document.getElementById('calculation-progress');
+  const limit = Number(form.dataset.totalTimeout);
+  const started = Date.now();
+  progress.hidden = false;
+  function tick() {
+    const seconds = Math.floor((Date.now() - started) / 1000);
+    document.getElementById('calculation-elapsed').textContent = `Прошло ${seconds} с. Общий предел вычисления — ${limit} с.`;
+    document.getElementById('calculation-hint').textContent = seconds >= limit
+      ? 'Ожидаем сообщение сервера о завершении или достижении лимита. Повторно запускать расчёт не нужно.'
+      : seconds >= 10
+        ? 'Поиск продолжается. Если времени не хватит, условия останутся в форме. Можно будет выбрать быстрый режим.'
+        : 'Подготавливаем данные и ищем допустимое расписание. Дождитесь результата.';
+  }
+  tick();
+  clearInterval(progressTimer);
+  progressTimer = setInterval(tick, 1000);
+  progress.scrollIntoView({block: 'center', behavior: 'smooth'});
+});
+window.addEventListener('pageshow', () => {
+  clearInterval(progressTimer);
+  const button = form.querySelector('[type="submit"]');
+  button.disabled = false;
+  button.textContent = 'Рассчитать';
+  document.getElementById('calculation-progress').hidden = true;
 });
 update();

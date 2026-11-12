@@ -7,7 +7,7 @@
 <h1>Топливо вовремя.<br>Решения на основе расчёта.</h1>
 <p>Сравните базовый READY и оптимизационный MILP на одинаковых исходных данных.</p>
 {% if error %}<p role="alert" class="warning">{{ error }}</p>{% endif %}
-<form method="post" id="conditions-form" class="conditions-form">
+<form method="post" id="conditions-form" class="conditions-form" data-total-timeout="{{ total_timeout }}">
 <input type="hidden" name="customize" value="1">
 <section><h2>1. Задание</h2><p>Заполнены условия примера R03. Измените их для своего расчёта или <a href="/">восстановите пример</a>.</p>
 <div class="fields-grid">
@@ -18,7 +18,7 @@
 {{ field('initial_source_t', 'Топливо в пункте отправления в начале, т', 0, 1000000) }}
 {{ field('destination_capacity_t', 'Вместимость хранилища получателя, т', 1, 1000000) }}
 <label>Время поиска на каждый этап<select name="search_seconds">{% for seconds, label in [('auto', 'Авто — до 30 с на этап'), ('2', '2 с — быстрый расчёт'), ('10', '10 с — более подробный поиск'), ('30', '30 с — расширенный поиск')] %}<option value="{{ seconds }}" {% if values.get('search_seconds', ['auto'])[0] == seconds %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-</div><p>Авто: сначала короткая попытка, затем более долгие при необходимости. Поиск останавливается при доказанном оптимуме или исчерпании бюджета. Лучший проверенный план сохраняется. Бюджет — до 30 с на этап, до 90 с на обычный расчёт и до 180 с при задержке, плюс подготовка и проверка.</p><p>Все времена — целые часы от начала расчёта. Срок приёмки и срок возвращения судов задаются отдельно. В этой форме горизонт ограничен {{ maximum }} ч.</p></section>
+</div><p>Авто: сначала короткая попытка, затем более долгие при необходимости. Поиск останавливается при доказанном оптимуме или исчерпании бюджета. Лучший проверенный план сохраняется. Внутренний бюджет — до 30 с на этап. На сайте действует общий предел {{ total_timeout }} с на подготовку и все этапы вместе. При его достижении расчёт останавливается, введённые условия остаются в форме.</p><p>Все времена — целые часы от начала расчёта. Срок приёмки и срок возвращения судов задаются отдельно. В этой форме горизонт ограничен {{ maximum }} ч.</p></section>
 <section><h2>2. Суда</h2><p>У каждого судна своя вместимость и длительности операций. Можно задать от 1 до 6 судов.</p>
 <div id="vessels">
 {% for ident in values.get('vessel_id', []) %}{% set row = loop.index0 %}
@@ -40,7 +40,7 @@
 {{ field('announced_at_h', 'Когда узнали о задержке, ч', 0, maximum) }}
 {{ field('new_arrival_h', 'Новое время поступления, ч', 0, maximum) }}
 </div><p>Сообщение должно прийти до исходного поступления и срока приёмки. Новое поступление должно быть позже исходного.</p></section>
-<section><h2>Условия расчёта</h2><p id="conditions-summary" aria-live="polite"></p><p id="delay-summary"></p><button type="submit">Рассчитать</button></section>
+<section><h2>Условия расчёта</h2><p id="conditions-summary" aria-live="polite"></p><p id="delay-summary"></p><button type="submit">Рассчитать</button><div id="calculation-progress" hidden role="status" aria-live="polite"><p id="calculation-elapsed"></p><p id="calculation-hint"></p></div></section>
 </form>
 <aside>Данные учебные. Один пункт отправления и один получатель, по одному причалу. Длительности операций фиксированы и не зависят от объёма партии. READY — алгоритмическая база сравнения. Реальные расписания перевозчика и денежная экономия не подтверждены. Лимит поиска действует отдельно на каждом этапе MILP.</aside>
 <script src="{{ url_for('static', filename='conditions.js') }}" defer></script>

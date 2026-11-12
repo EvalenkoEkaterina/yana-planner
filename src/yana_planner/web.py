@@ -9,7 +9,9 @@ from . import storage
 from .domain import InputError
 from .experiments import comparisons
 from .presentation import STATUS, effects_html, event_card, schedule_sections
-from .service import NAMES, ROOT, VESSEL_FIELDS, calculate, form_defaults
+from .service import NAMES, ROOT, VESSEL_FIELDS, form_defaults
+from .web_worker import CalculationTimeout
+from .web_worker import calculate_with_timeout as calculate
 
 
 def create_app(config=None):
@@ -18,6 +20,7 @@ def create_app(config=None):
         DATABASE=os.environ.get("YANA_DATABASE", str(ROOT / "instance/runs.sqlite3")),
         MAX_DEADLINE_H=492,
         SOLVER_TIME_LIMIT=2,
+        CALCULATION_TIMEOUT_S=30,
     )
     app.config.update(config or {})
     app.jinja_env.filters["run_status"] = lambda value: STATUS.get(value, "Статус не определён")
@@ -25,6 +28,7 @@ def create_app(config=None):
     @app.route("/", methods=["GET", "POST"])
     def index():
         error = None
+        timed_out = False
         values = form_defaults()
         if request.method == "POST":
             values = request.form.to_dict(flat=False)
@@ -46,7 +50,9 @@ def create_app(config=None):
                     ),
                     custom=values if request.form.get("customize") == "1" else None,
                     adaptive=search_seconds == "auto",
+                    total_timeout=app.config["CALCULATION_TIMEOUT_S"],
                 )
+                inputs["settings"]["total_web_timeout_s"] = app.config["CALCULATION_TIMEOUT_S"]
                 result["report_html"] = result["report_html"].replace(
                     "<h1>",
                     render_template("conditions.html", inputs=inputs, search_result=result)
@@ -66,6 +72,9 @@ def create_app(config=None):
                     result.get("code_version", "unknown"),
                 )
                 return redirect(url_for("result_page", ident=ident), code=303)
+            except CalculationTimeout as exc:
+                error = str(exc)
+                timed_out = True
             except (InputError, OSError, sqlite3.Error) as exc:
                 error = str(exc)
         return render_template(
@@ -75,7 +84,8 @@ def create_app(config=None):
             maximum=app.config["MAX_DEADLINE_H"],
             values=values,
             vessel_fields=VESSEL_FIELDS,
-        ), 400 if error else 200
+            total_timeout=app.config["CALCULATION_TIMEOUT_S"],
+        ), 408 if timed_out else 400 if error else 200
 
     def get_run(ident):
         run = storage.load(app.config["DATABASE"], ident)
