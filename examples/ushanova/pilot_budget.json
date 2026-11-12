@@ -1,0 +1,38 @@
+{
+  "status": "planning_estimate_not_contracted",
+  "scope": "One route, one dispatcher, prepared data, local retrospective pilot",
+  "paid_labour_rate_rub_h": 1500,
+  "labour_rate_status": "advertised_starting_rate_not_project_quote",
+  "labour_rate_sources": [
+    "https://godigital.rocks/python",
+    "https://kreinstudio.ru/"
+  ],
+  "sources_checked_on": "2026-11-13",
+  "tasks": [
+    {"item": "Data and payment agreement", "hours": 8},
+    {"item": "Economic mode integration", "hours": 16},
+    {"item": "One route data preparation", "hours": 12},
+    {"item": "Retrospective evaluation", "hours": 16},
+    {"item": "Local setup and user training", "hours": 8}
+  ],
+  "task_hours_status": "team_estimate_subject_to_data_review",
+  "monthly_support_hours": 4,
+  "volunteer_labour_policy": "unpaid_record_hours_only_no_monetary_valuation",
+  "paid_contingency_percent": 20,
+  "incremental_setup_cash_rub": 0,
+  "incremental_monthly_cash_rub": 0,
+  "zero_cash_conditions": [
+    "Voluntary work is agreed by all contributors, not assumed to be secured",
+    "A suitable existing computer and backup storage are provided",
+    "Ready permitted data are provided without paid subscriptions",
+    "No travel, hardware procurement or corporate integrations are required"
+  ],
+  "excluded_unpriced_resources": [
+    "Customer dispatcher and economist time",
+    "University supervision if required",
+    "Existing hardware depreciation and incremental electricity",
+    "Any previously completed prototype development"
+  ],
+  "funding_confirmed": false,
+  "customer_confirmed": false
+}

@@ -6,7 +6,7 @@
     "examples/arrival_delay.json": "2ccec9dff95438bf6258f79acfa0fb43c9723b14221a3f069910fb682a8cb8e5",
     "examples/ushanova/terms.json": "dee3307aa3f7415fa6bb9937b2bbec90b4c0f1dfabde854c0b74f93715ce9baa",
     "examples/ushanova/vessel_rates.csv": "9ee6bec008394937eb671d789004aabf84efcd274e5f3f6dbaf3eda8a39fc928",
-    "examples/ushanova/project_budget.csv": "06d9d519c69d99efca0ce431e5a838035f64c7e1dff9a20f9f157873b8e22e22",
+    "examples/ushanova/pilot_budget.json": "d8bff0097475e6c55142a9f6744e23a55bb1ee8bfccddc4827a20ebf2e1390af",
     "demos/static/results.json": "4be206100e76af94bb9e1896a676dabf752d070b9a8ccadeb46b09bfdb3dd862",
     "demos/replanning/results.json": "71553d4a143248a275b66508220d8e0e94f04c73f7eb941d4784837fc8edfc84"
   },

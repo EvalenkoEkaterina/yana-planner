@@ -1,0 +1,67 @@
+{
+  "checked_on": "2026-11-13",
+  "procurement_positions": [
+    {
+      "id": "sngs-42-yana-2026",
+      "route": "Нижнеянск — Усть-Куйга",
+      "cargo": "Сырая нефть",
+      "quantity_t": 900,
+      "rate_rub_t": 7156.52,
+      "published_total_rub": 6440868,
+      "deadline": "2026-07-31",
+      "vat": "included_as_published",
+      "status": "published_initial_price_not_awarded_contract",
+      "source_url": "https://aosngs.ru/upload/tender/2026/42/Приложение%20№%201%20к%20Документации%20от%2031.03.2026.xlsx",
+      "locator": "First worksheet, F6/J6/K6/L6",
+      "source_sha256": "40fb62e3f8c98497946fc62c92b05dd4310c16db71e9d25040cc9b02371fb624"
+    },
+    {
+      "id": "sngs-83-lena-2026",
+      "route": "Усть-Кут — Ленск",
+      "cargo": "АИ-92",
+      "quantity_t": 8850,
+      "rate_rub_t": 12605.04,
+      "published_total_rub": 111554604,
+      "deadline": "2026-08-15",
+      "vat": "included_as_published",
+      "status": "published_initial_price_not_awarded_contract",
+      "source_url": "https://aosngs.ru/upload/tender/2026/83/Приложение%20№%201%20к%20Документации.xlsx",
+      "locator": "First worksheet, F6/J6/K6/L6",
+      "source_sha256": "98dfbd61026538dd69081cd61c8cb1dad4714b23757c6753f2696ff643402ce9"
+    }
+  ],
+  "waiting_case": {
+    "id": "lensk-beketov-2020",
+    "vessel": "Пётр Бекетов + МН-2800",
+    "destination": "Ленск",
+    "quantity_t": 3500,
+    "cargo": "Нефтепродукты",
+    "waiting_start_date": "2020-05-08",
+    "still_waiting_report_date": "2020-05-15",
+    "cause": "Receiving berth not ready as reported on 2020-05-12",
+    "exact_start_time": null,
+    "waiting_end": null,
+    "waiting_hours": null,
+    "waiting_rate_rub_h": null,
+    "actual_loss_rub": null,
+    "avoidable_loss_rub": null,
+    "status": "observed_waiting_no_monetary_estimate",
+    "source_urls": [
+      "https://lorp.ru/about/news/612-dnevnik-navigatsii-suda-s-gruzom-zhdut-zaversheniya-ledokhoda/",
+      "https://lorp.ru/about/news/614-dnevnik-navigatsii-otgruzheno-24-tysyachi-tonn-gruzov/"
+    ]
+  },
+  "contract": {
+    "status": "published_draft_not_signed_contract",
+    "source_url": "https://aosngs.ru/upload/tender/2026/42/Документация.docx",
+    "payment_locator": "Draft contract, 4.1-4.2",
+    "payments": "30% advance; 40% after shipment; 20% after delivery; final settlement after reconciliation",
+    "included_services": "Carriage, tank cleaning, forwarding and other listed expenses, 4.1",
+    "waiting_locator": "Draft contract, 6.1-6.3; conditional, not every idle hour",
+    "waiting_rate_rub_h": null,
+    "loading_locator": "Draft contract, 6.4; tariffs based on full loading",
+    "processing_separate_rate_rub_t": null,
+    "active_vessel_rate_rub_h": null,
+    "actual_carrier_cost_rub": null
+  }
+}
