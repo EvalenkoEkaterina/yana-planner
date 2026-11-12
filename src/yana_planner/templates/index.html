@@ -5,11 +5,13 @@
 {% block content %}
 <div class="hero"><div><p class="eyebrow">РАБОЧЕЕ ПРОСТРАНСТВО / НОВЫЙ РАСЧЁТ</p><h1>Согласовать рейсы.<br><span class="accent">Доставить к сроку.</span></h1><p class="lead">Задайте условия перевозки. Сравните последовательный READY и математический планировщик MILP.</p><div class="hero-steps"><a href="#task"><span>01</span> Условия</a><span class="step-arrow" aria-hidden="true">→</span><a href="#vessel-section"><span>02</span> Ресурсы</a><span class="step-arrow" aria-hidden="true">→</span><a href="#run-section"><span>03</span> Расчёт</a></div></div>
 <aside class="route-panel"><div class="route-top"><span>ЯНА / РЕЧНАЯ ДОСТАВКА</span><span class="route-symbol" aria-hidden="true">↗</span></div><div class="route-points"><div><span class="route-dot"></span><small>ОТПРАВЛЕНИЕ</small><strong>Нижнеянск</strong></div><div><span class="route-dot filled"></span><small>ПРИЁМКА</small><strong>Усть-Куйга</strong></div></div><p>Учебный сценарий · Параметры можно менять</p></aside></div>
+<div class="preset-strip"><div><strong>Готовые примеры</strong><p>Кнопки восстанавливают все поля. Затем нажмите «Рассчитать план».</p></div><div class="preset-actions"><a class="button secondary" href="{{ url_for('index', preset='r03') }}">Обычный расчёт — 328 ч</a><a class="button secondary" href="{{ url_for('index', preset='delay') }}">Задержка — 280 ч</a></div></div>
+{% if preset_name %}<p class="preset-notice" role="status">Загружен пример «{{ preset_name }}». Суда, поступления, запасы, сроки и поиск восстановлены.</p>{% endif %}
 {% if error %}<div role="alert" class="warning form-error"><strong>Проверьте условия расчёта</strong><p>{{ error }}</p></div>{% endif %}
 <form method="post" id="conditions-form" class="conditions-form" data-total-timeout="{{ total_timeout }}">
 <input type="hidden" name="customize" value="1">
 <div class="form-main">
-<section id="task"><div class="section-heading"><div><p class="eyebrow">01 / ПОСТАВКА</p><h2>Какую задачу решаем?</h2></div><a class="text-link" href="/">Восстановить R03 ↺</a></div><p class="section-intro">Заполнен учебный пример. Измените значения для своего расчёта.</p>
+<section id="task"><div class="section-heading"><div><p class="eyebrow">01 / ПОСТАВКА</p><h2>Какую задачу решаем?</h2></div><a class="text-link" href="{{ url_for('index', preset='r03') }}">Восстановить R03 ↺</a></div><p class="section-intro">Заполнен учебный пример. Измените значения для своего расчёта.</p>
 <div class="fields-grid">
 <label>Условия поступления<select name="scenario" id="scenario"><option value="r03" {% if values.get('scenario', ['r03'])[0] == 'r03' %}selected{% endif %}>Без задержки</option><option value="delay" {% if values.get('scenario', ['r03'])[0] == 'delay' %}selected{% endif %}>С задержкой топлива</option></select></label>
 {{ field('target_t', 'Требуется принять, т', 1, 1000000) }}

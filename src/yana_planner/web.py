@@ -30,6 +30,14 @@ def create_app(config=None):
         error = None
         timed_out = False
         values = form_defaults()
+        preset_name = None
+        if request.method == "GET" and "preset" in request.args:
+            try:
+                preset = request.args["preset"]
+                values = form_defaults(preset)
+                preset_name = NAMES[preset]
+            except InputError as exc:
+                error = str(exc)
         if request.method == "POST":
             values = request.form.to_dict(flat=False)
             for field in ("announced_at_h", "delayed_arrival", "new_arrival_h"):
@@ -85,6 +93,7 @@ def create_app(config=None):
             values=values,
             vessel_fields=VESSEL_FIELDS,
             total_timeout=app.config["CALCULATION_TIMEOUT_S"],
+            preset_name=preset_name,
         ), 408 if timed_out else 400 if error else 200
 
     def get_run(ident):
