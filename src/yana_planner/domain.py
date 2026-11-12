@@ -7,6 +7,7 @@ import math
 from collections.abc import Mapping
 from copy import deepcopy
 from dataclasses import asdict, dataclass
+from fractions import Fraction
 from hashlib import sha256
 from typing import Any
 
@@ -31,6 +32,15 @@ def integer(value: Any, name: str, *, minimum: int = 0) -> int:
     if not math.isfinite(value) or value != int(value) or value < minimum:
         raise InputError(f"{name}: требуется целое число >= {minimum}")
     return int(value)
+
+
+def loading_hours(vessel: Mapping[str, Any], tonnes: int) -> int:
+    """Planner-side hourly duration; the execution checker reconstructs it independently."""
+    if "load_rate_tph" not in vessel:
+        return vessel["load_h"]
+    rate = Fraction(str(vessel["load_rate_tph"]))
+    transfer_h = (tonnes * rate.denominator + rate.numerator - 1) // rate.numerator
+    return vessel.get("load_setup_h", 0) + transfer_h
 
 
 @dataclass(frozen=True)
@@ -91,13 +101,34 @@ class Scenario:
             for k in [
                 "available_h",
                 "capacity_t",
-                "load_h",
                 "up_h",
                 "unload_h",
                 "return_h",
                 "prep_h",
             ]:
                 v[k] = integer(v.get(k), f"{v['id']}.{k}", minimum=0 if k == "available_h" else 1)
+            if "load_rate_tph" in v:
+                rate = v["load_rate_tph"]
+                try:
+                    valid_rate = (
+                        not isinstance(rate, bool)
+                        and isinstance(rate, (int, float))
+                        and math.isfinite(rate)
+                        and rate > 0
+                    )
+                except OverflowError:
+                    valid_rate = False
+                if not valid_rate:
+                    raise InputError(
+                        f"{v['id']}.load_rate_tph: требуется положительная скорость, т/ч"
+                    )
+                v["load_setup_h"] = integer(v.get("load_setup_h", 0), f"{v['id']}.load_setup_h")
+                if "load_h" in v:
+                    v["load_h"] = integer(v["load_h"], f"{v['id']}.load_h", minimum=1)
+            else:
+                v["load_h"] = integer(v.get("load_h"), f"{v['id']}.load_h", minimum=1)
+                if "load_setup_h" in v:
+                    raise InputError(f"{v['id']}: load_setup_h требует load_rate_tph")
         if len(ids) != len(set(ids)):
             raise InputError("Повторяющиеся ID судов")
         for name in ["arrivals", "withdrawals"]:

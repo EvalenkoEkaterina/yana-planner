@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from fractions import Fraction
 from math import isfinite
 from time import monotonic
 
@@ -16,36 +17,84 @@ from .domain import (
     InterventionRequired,
     Scenario,
     integer,
+    loading_hours,
     proposals,
 )
 from .economics import compare_cost, cost, resolve_cost_terms
 from .validation import check_schedule
+
+MAX_LOADING_CANDIDATES = 12_000
+
+
+def _times(vessel, start, quantity):
+    le = start + loading_hours(vessel, quantity)
+    ar = le + vessel["up_h"]
+    re = ar + vessel["unload_h"]
+    rt = re + vessel["return_h"]
+    return dict(
+        load_end_h=le, arrival_h=ar, receipt_h=re, return_h=rt, ready_h=rt + vessel["prep_h"]
+    )
+
+
+def _matches(candidate, trip):
+    return (
+        candidate["vessel_id"] == trip["vessel_id"]
+        and candidate["start_h"] == trip["start_h"]
+        and candidate.get("min_t", 1) <= trip["quantity_t"] <= candidate["cap"]
+    )
 
 
 def candidates(cfg: dict, deadline: int, *, decision_h: int = 0) -> list[dict]:
     result = []
     calendar = cfg["payload_calendar"]
     for v in cfg["vessels"]:
+        rate = Fraction(str(v["load_rate_tph"])) if "load_rate_tph" in v else None
+        quantity_limit = min(
+            v["capacity_t"],
+            cfg["target_t"],
+            cfg["initial_source_t"] + sum(a["t"] for a in cfg["arrivals"]),
+        )
         for start in range(max(v["available_h"], decision_h), deadline + 1):
-            le = start + v["load_h"]
-            ar = le + v["up_h"]
-            re = ar + v["unload_h"]
-            rt = re + v["return_h"]
-            rd = rt + v["prep_h"]
-            if re > deadline or rt > cfg["return_cutoff_h"]:
-                continue
-            if any(max(a, le) < min(b, ar) or max(a, re) < min(b, rt) for a, b in cfg["closures"]):
-                continue
-            caps = [
-                p["capacity_t"]
-                for i, p in enumerate(calendar)
-                if max(le, p["from_h"])
-                < min(ar, calendar[i + 1]["from_h"] if i + 1 < len(calendar) else float("inf"))
-            ]
-            cap = min(v["capacity_t"], *caps)
-            if cap:
-                result.append(
-                    dict(
+            if rate is None:
+                durations = [v["load_h"]]
+            elif quantity_limit:
+                durations = range(
+                    v["load_setup_h"] + 1,
+                    min(
+                        loading_hours(v, quantity_limit),
+                        deadline - start - v["up_h"] - v["unload_h"],
+                        cfg["return_cutoff_h"] - start - v["up_h"] - v["unload_h"] - v["return_h"],
+                    )
+                    + 1,
+                )
+            else:
+                durations = []
+            for duration in durations:
+                le = start + duration
+                ar = le + v["up_h"]
+                re = ar + v["unload_h"]
+                rt = re + v["return_h"]
+                rd = rt + v["prep_h"]
+                if re > deadline or rt > cfg["return_cutoff_h"]:
+                    continue
+                if any(
+                    max(a, le) < min(b, ar) or max(a, re) < min(b, rt) for a, b in cfg["closures"]
+                ):
+                    continue
+                caps = [
+                    p["capacity_t"]
+                    for i, p in enumerate(calendar)
+                    if max(le, p["from_h"])
+                    < min(ar, calendar[i + 1]["from_h"] if i + 1 < len(calendar) else float("inf"))
+                ]
+                minimum = 1
+                cap = min(v["capacity_t"], *caps)
+                if rate is not None:
+                    transfer = duration - v["load_setup_h"]
+                    minimum = ((transfer - 1) * rate.numerator) // rate.denominator + 1
+                    cap = min(cap, quantity_limit, (transfer * rate.numerator) // rate.denominator)
+                if cap >= minimum:
+                    item = dict(
                         vessel_id=v["id"],
                         start_h=start,
                         cap=cap,
@@ -55,7 +104,14 @@ def candidates(cfg: dict, deadline: int, *, decision_h: int = 0) -> list[dict]:
                         return_h=rt,
                         ready_h=rd,
                     )
-                )
+                    if rate is not None:
+                        item["min_t"] = minimum
+                    result.append(item)
+                    if len(result) > MAX_LOADING_CANDIDATES:
+                        raise InputError(
+                            "Слишком много вариантов погрузки. Сократите горизонт или число судов "
+                            "для одного расчёта; проверьте единицы скорости (т/ч)."
+                        )
     return sorted(result, key=lambda x: (x["start_h"], x["vessel_id"]))
 
 
@@ -76,8 +132,7 @@ def _validate_fixed(cfg: dict, fixed: list[dict], deadline: int, decision_h: int
         if any(p["vessel_id"] not in fleet for p in fixed):
             raise InputError("Неизвестное судно в fixed")
         end = max(
-            p["start_h"] + sum(fleet[p["vessel_id"]][k] for k in ["load_h", "up_h", "unload_h"])
-            for p in fixed
+            _times(fleet[p["vessel_id"]], p["start_h"], p["quantity_t"])["receipt_h"] for p in fixed
         )
         verdict = check_schedule(_prefix_config(cfg, end), fixed, deadline)
         if verdict["status"] != "valid_simulation":
@@ -96,7 +151,11 @@ def ready(
     plan = _validate_fixed(cfg, fixed or [], deadline, decision_h)
     fleet = {v["id"]: v for v in cfg["vessels"]}
     fixed_keys = {(p["vessel_id"], p["start_h"]) for p in plan}
-    for c in candidates(cfg, deadline, decision_h=decision_h):
+    ordered = sorted(
+        candidates(cfg, deadline, decision_h=decision_h),
+        key=lambda c: (c["start_h"], c["vessel_id"], -c["cap"]),
+    )
+    for c in ordered:
         if (c["vessel_id"], c["start_h"]) in fixed_keys:
             continue
         available = (
@@ -106,7 +165,7 @@ def ready(
         )
         arrivals = [
             (
-                p["start_h"] + fleet[p["vessel_id"]]["load_h"] + fleet[p["vessel_id"]]["up_h"],
+                _times(fleet[p["vessel_id"]], p["start_h"], p["quantity_t"])["arrival_h"],
                 p["quantity_t"],
             )
             for p in plan
@@ -122,19 +181,19 @@ def ready(
             for point in future_points
         )
         q = min(c["cap"], available, cfg["target_t"] - sum(p["quantity_t"] for p in plan), free)
-        if q < 1:
+        if q < c.get("min_t", 1):
             continue
         candidate = dict(vessel_id=c["vessel_id"], start_h=c["start_h"], quantity_t=q)
         trial = plan + [candidate]
         end = max(
-            p["start_h"] + sum(fleet[p["vessel_id"]][k] for k in ["load_h", "up_h", "unload_h"])
-            for p in trial
+            _times(fleet[p["vessel_id"]], p["start_h"], p["quantity_t"])["receipt_h"] for p in trial
         )
         if (
             check_schedule(_prefix_config(cfg, end), trial, deadline)["status"]
             == "valid_simulation"
         ):
             plan.append(candidate)
+            fixed_keys.add((c["vessel_id"], c["start_h"]))
     return proposals(plan)
 
 
@@ -192,32 +251,39 @@ def optimize(
     if strategy not in ("trips", "cost"):
         raise InputError("strategy: выберите trips или cost")
     resolved = None
-    trip_cost = {}
     if strategy == "cost":
         resolved = resolve_cost_terms(cfg, cost_terms)
         if resolved["missing"]:
             raise ConfirmationRequired(
                 "Для экономической оптимизации заполните: " + ", ".join(resolved["missing"])
             )
-        for vessel_id, vessel in fleet.items():
-            rates = resolved["vessel_rates"][vessel_id]["cents"]
-            duration = sum(vessel[k] for k in ("load_h", "up_h", "unload_h", "return_h", "prep_h"))
-            # The paid fleet availability is a common constant. Only the change
-            # from waiting to active time belongs in the MILP objective.
-            trip_cost[vessel_id] = rates["separate_trip_operations_rub"] + duration * (
-                rates["active_vessel_hour_rub"] - rates["waiting_vessel_hour_rub"]
-            )
+
+    def turn_cost(vessel_id, duration):
+        rates = resolved["vessel_rates"][vessel_id]["cents"]
+        # Availability is a common constant; a turn replaces paid waiting.
+        return rates["separate_trip_operations_rub"] + duration * (
+            rates["active_vessel_hour_rub"] - rates["waiting_vessel_hour_rub"]
+        )
 
     def rank(plan):
         end = max(
             (
-                p["start_h"] + sum(fleet[p["vessel_id"]][k] for k in ["load_h", "up_h", "unload_h"])
+                _times(fleet[p["vessel_id"]], p["start_h"], p["quantity_t"])["receipt_h"]
                 for p in plan
             ),
             default=0,
         )
         secondary = (
-            sum(trip_cost[p["vessel_id"]] for p in plan) if strategy == "cost" else len(plan)
+            sum(
+                turn_cost(
+                    p["vessel_id"],
+                    _times(fleet[p["vessel_id"]], p["start_h"], p["quantity_t"])["ready_h"]
+                    - p["start_h"],
+                )
+                for p in plan
+            )
+            if strategy == "cost"
+            else len(plan)
         )
         return (-sum(p["quantity_t"] for p in plan), secondary, end)
 
@@ -248,24 +314,21 @@ def optimize(
     cand = candidates(cfg, deadline, decision_h=decision_h)
     for p in fixed:
         v = fleet[p["vessel_id"]]
-        le = p["start_h"] + v["load_h"]
-        ar = le + v["up_h"]
-        re = ar + v["unload_h"]
-        rt = re + v["return_h"]
-        if not any(c["vessel_id"] == p["vessel_id"] and c["start_h"] == p["start_h"] for c in cand):
+        if not any(_matches(c, p) for c in cand):
             cand.append(
                 dict(
                     vessel_id=p["vessel_id"],
                     start_h=p["start_h"],
                     cap=p["quantity_t"],
-                    load_end_h=le,
-                    arrival_h=ar,
-                    receipt_h=re,
-                    return_h=rt,
-                    ready_h=rt + v["prep_h"],
+                    **_times(v, p["start_h"], p["quantity_t"]),
                 )
             )
     cand.sort(key=lambda c: (c["start_h"], c["vessel_id"]))
+    trip_costs = (
+        [turn_cost(c["vessel_id"], c["ready_h"] - c["start_h"]) for c in cand]
+        if resolved is not None
+        else []
+    )
     if resolved is not None:
         latest_ready = max((c["ready_h"] for c in cand), default=0)
         if resolved["horizon_h"] < latest_ready:
@@ -273,7 +336,7 @@ def optimize(
                 f"Для оптимизации горизонт оплаты должен покрывать все варианты рейсов: "
                 f"не менее {latest_ready} ч. Он не должен сокращать допустимые перевозки."
             )
-        if sum(abs(trip_cost[c["vessel_id"]]) for c in cand) > 2**53 - 1:
+        if sum(abs(value) for value in trip_costs) > 2**53 - 1:
             raise InputError("Ставки слишком велики для точного денежного сравнения в MILP")
     n = len(cand)
     if not n:
@@ -288,7 +351,7 @@ def optimize(
     matrix = _Matrix(2 * n + 1)
     for i, c in enumerate(cand):
         matrix.add([(n + i, 1), (i, -c["cap"])], upper=0)
-        matrix.add([(i, 1), (n + i, -1)], upper=0)
+        matrix.add([(i, c.get("min_t", 1)), (n + i, -1)], upper=0)
         matrix.add([(i, c["receipt_h"]), (2 * n, -1)], upper=0)
     horizon = max(c["ready_h"] for c in cand)
     for vid in fleet:
@@ -332,11 +395,7 @@ def optimize(
     lower = np.zeros(2 * n + 1)
     upper = np.array([1] * n + [c["cap"] for c in cand] + [deadline], dtype=float)
     for p in fixed:
-        i = next(
-            i
-            for i, c in enumerate(cand)
-            if c["vessel_id"] == p["vessel_id"] and c["start_h"] == p["start_h"]
-        )
+        i = next(i for i, c in enumerate(cand) if _matches(c, p))
         lower[i] = upper[i] = 1
         lower[n + i] = upper[n + i] = p["quantity_t"]
     integral = np.array([1] * (2 * n) + [0])
@@ -436,7 +495,7 @@ def optimize(
     tonnes = -rank(best)[0]
     matrix.add([(n + i, 1) for i in range(n)], lower=tonnes, upper=tonnes)
     objective = np.zeros(2 * n + 1)
-    objective[:n] = [trip_cost[c["vessel_id"]] for c in cand] if strategy == "cost" else 1
+    objective[:n] = trip_costs if strategy == "cost" else 1
     secondary_stage = (
         "minimize_cost_at_fixed_tonnes" if strategy == "cost" else "minimize_trips_at_fixed_tonnes"
     )
@@ -499,6 +558,18 @@ def compare(
         real_admissibility="requires_confirmation",
         actual_savings_rub=None,
     )
+    if any("load_rate_tph" in v for v in cfg["vessels"]):
+        result["loading_models"] = [
+            dict(
+                vessel_id=v["id"],
+                mode="rate",
+                load_rate_tph=v["load_rate_tph"],
+                load_setup_h=v["load_setup_h"],
+            )
+            if "load_rate_tph" in v
+            else dict(vessel_id=v["id"], mode="fixed", load_h=v["load_h"])
+            for v in cfg["vessels"]
+        ]
     if strategy != "trips" or cost_terms is not None:
         result.update(
             planning_strategy=strategy,

@@ -218,9 +218,26 @@ def export_result(directory: str | Path, result: dict):
         if result.get("planning_strategy") == "cost"
         else "сначала больше принято, затем меньше рейсов, затем раньше последняя приёмка"
     )
+    loading = ""
+    loading_models = result.get(
+        "loading_models", result.get("initial", {}).get("loading_models", [])
+    )
+    if loading_models:
+        loading = "<h2>Модель погрузки</h2>"
+        for model in loading_models:
+            name = html.escape(model["vessel_id"])
+            if model["mode"] == "rate":
+                loading += (
+                    f"<p>{name}: скорость {cell(model['load_rate_tph'])} т/ч, "
+                    f"подготовка к погрузке {model['load_setup_h']} ч. "
+                    "Время погрузки = подготовка + округление вверх (тоннаж / скорость).</p>"
+                )
+            else:
+                loading += f"<p>{name}: фиксированная погрузка {model['load_h']} ч.</p>"
+        loading += "<p>Округление до целого часа. Движение и приёмка пока фиксированы. Весь груз рейса должен быть доступен до начала его погрузки.</p>"
     page = f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Яна: расчёт</title>
 <style>{PLAIN_REPORT_STYLE}</style>
-<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{summary}{effects}{economics}<h2>Расписание по судам</h2>{diagrams}<table>{table}</table>
+<h1>Доставка НКТ: {html.escape(result["scenario_id"])}</h1><p>Сценарный расчёт. Срок приёмки: {result["deadline_h"]} ч от T0. Реальная допустимость требует подтверждения. Экономия предприятия не установлена.</p>{event}{loading}{summary}{effects}{economics}<h2>Расписание по судам</h2>{diagrams}<table>{table}</table>
 <p>Средняя приёмка взвешена по тоннам. Цели: {priorities}. Числа разных объёмов не означают одинаковый уровень выполнения задания.</p>
 <p><a href="results.json">Полные результаты и статусы решателя</a> · <a href="comparison.csv">Сравнение</a> · <a href="schedule.csv">Расписание</a> · <a href="events.csv">Баланс событий</a></p>{schedules}</html>"""
     (out / "report.html").write_text(_plain_report_markup(page), encoding="utf-8")

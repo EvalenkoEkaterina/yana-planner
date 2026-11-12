@@ -1,0 +1,36 @@
+{
+  "id": "LOADING-RATE-DEMO",
+  "mode": "SIM_ONLY",
+  "label": "Учебная зависимость погрузки от тоннажа",
+  "navigation_assumed": true,
+  "reception_assumed": true,
+  "fleet_assumed": true,
+  "supply_assumed": true,
+  "target_t": 500,
+  "initial_source_t": 500,
+  "destination_capacity_t": 500,
+  "return_cutoff_h": 25,
+  "delivery_deadline_h": 20,
+  "arrivals": [],
+  "withdrawals": [],
+  "closures": [],
+  "payload_calendar": [{"from_h": 0, "capacity_t": 500}],
+  "vessels": [
+    {
+      "id": "SIM-PUMP",
+      "available_h": 0,
+      "capacity_t": 500,
+      "load_rate_tph": 50,
+      "load_setup_h": 1,
+      "up_h": 1,
+      "unload_h": 1,
+      "return_h": 1,
+      "prep_h": 1
+    }
+  ],
+  "provenance": {
+    "kind": "synthetic_scenario",
+    "origin": "Constructed hourly throughput test, not actual vessel/pump specifications",
+    "operating_parameters": "All quantities, durations and throughput are scenario assumptions"
+  }
+}

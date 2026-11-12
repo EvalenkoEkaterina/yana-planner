@@ -1,6 +1,7 @@
 """Small adapter over existing planners; no independent scheduling logic."""
 
 import hashlib
+import math
 import re
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -17,11 +18,11 @@ NAMES = {"r03": "R03 — обычный расчёт", "delay": "R03 — зад�
 VESSEL_FIELDS = {
     "available_h": "Доступно с, ч",
     "capacity_t": "Вместимость, т",
-    "load_h": "Погрузка, ч",
+    "load_h": "Погрузка без скорости, ч",
     "up_h": "Движение с грузом, ч",
     "unload_h": "Приёмка, ч",
     "return_h": "Возвращение, ч",
-    "prep_h": "Подготовка, ч",
+    "prep_h": "Подготовка после возврата, ч",
 }
 
 
@@ -78,12 +79,19 @@ def custom_conditions(values, *, with_delay, maximum=492):
         raise InputError("Добавьте от 1 до 6 судов")
     if any(len(values.get("vessel_" + k, [])) != len(ids) for k in VESSEL_FIELDS):
         raise InputError("Заполните все параметры каждого судна")
+    for key in ["vessel_load_rate_tph", "vessel_load_setup_h"]:
+        if key in values and len(values[key]) != len(ids):
+            raise InputError("Параметры скорости погрузки должны соответствовать строкам судов")
     cfg["vessels"] = []
     for i, ident in enumerate(ids):
         if not ident.strip() or len(ident.strip()) > 40:
             raise InputError("Название судна: от 1 до 40 символов")
         v = {"id": ident.strip()}
+        raw_rate = values.get("vessel_load_rate_tph", [""] * len(ids))[i].strip()
+        raw_setup = values.get("vessel_load_setup_h", ["0"] * len(ids))[i].strip()
         for key, label in VESSEL_FIELDS.items():
+            if key == "load_h" and raw_rate:
+                continue  # A fixed duration is not an input to the throughput model.
             v[key] = number(
                 "vessel_" + key,
                 f"{v['id']}: {label}",
@@ -91,6 +99,24 @@ def custom_conditions(values, *, with_delay, maximum=492):
                 upper=1_000_000 if key == "capacity_t" else maximum,
                 index=i,
             )
+        if raw_rate:
+            if len(raw_rate) > 24:
+                raise InputError(f"{v['id']}: слишком длинное значение скорости погрузки")
+            try:
+                rate = float(raw_rate.replace(",", "."))
+            except ValueError as error:
+                raise InputError(f"{v['id']}: скорость погрузки — число т/ч") from error
+            if not math.isfinite(rate) or not 0 < rate <= 1_000_000:
+                raise InputError(f"{v['id']}: скорость погрузки — больше 0 и до 1000000 т/ч")
+            v["load_rate_tph"] = rate
+            if raw_setup and "vessel_load_setup_h" in values:
+                v["load_setup_h"] = number(
+                    "vessel_load_setup_h", "Подготовка к погрузке, ч", index=i
+                )
+            else:
+                v["load_setup_h"] = 0
+        elif raw_setup not in ("", "0"):
+            raise InputError(f"{v['id']}: для подготовки к погрузке укажите скорость, т/ч")
         cfg["vessels"].append(v)
     hours = values.get("arrival_h", [])
     if not 1 <= len(hours) <= 12 or len(values.get("arrival_t", [])) != len(hours):

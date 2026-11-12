@@ -4,6 +4,15 @@ const arrivals = document.getElementById('arrivals');
 const value = name => form.elements.namedItem(name)?.value ?? '';
 const fields = name => [...form.querySelectorAll(`[name="${name}"]`)];
 function update() {
+  for (const row of vessels.querySelectorAll('.vessel-row')) {
+    const rate = row.querySelector('[name="vessel_load_rate_tph"]');
+    const fixed = row.querySelector('[name="vessel_load_h"]');
+    if (rate && fixed) {
+      const variable = rate.value.trim() !== '';
+      fixed.required = !variable;
+      fixed.readOnly = variable;
+    }
+  }
   const delayed = value('scenario') === 'delay';
   document.getElementById('delay-settings').hidden = !delayed;
   document.querySelectorAll('#delay-settings input').forEach(input => { input.disabled = !delayed; });

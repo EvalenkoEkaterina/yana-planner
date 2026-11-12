@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from fractions import Fraction
 from typing import Any
 
 from .domain import ConfirmationRequired, InputError, Scenario, integer, proposals
@@ -44,7 +45,14 @@ def check_schedule(
         v = fleet[p["vessel_id"]]
         s = p["start_h"]
         q = p["quantity_t"]
-        le = s + v["load_h"]
+        if "load_rate_tph" in v:
+            # Reconstruct from cargo independently of planner candidates.
+            rate = Fraction(str(v["load_rate_tph"]))
+            whole, remainder = divmod(q * rate.denominator, rate.numerator)
+            load_h = v["load_setup_h"] + whole + bool(remainder)
+        else:
+            load_h = v["load_h"]
+        le = s + load_h
         ar = le + v["up_h"]
         re = ar + v["unload_h"]
         rt = re + v["return_h"]
