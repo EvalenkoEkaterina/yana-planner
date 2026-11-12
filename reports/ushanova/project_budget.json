@@ -1,16 +1,99 @@
 {
-  "development": {
-    "subtotal_rub": 646000,
-    "contingency_20_percent_rub": 129200,
-    "total_rub": 775200
+  "scope": "One route, one dispatcher, prepared data, local retrospective pilot",
+  "assumptions": {
+    "status": "planning_estimate_not_contracted",
+    "scope": "One route, one dispatcher, prepared data, local retrospective pilot",
+    "labour_rate_rub_h": 1500,
+    "labour_rate_status": "advertised_starting_rate_not_project_quote",
+    "labour_rate_sources": [
+      "https://godigital.rocks/python",
+      "https://kreinstudio.ru/"
+    ],
+    "sources_checked_on": "2026-11-13",
+    "tasks": [
+      {
+        "item": "Data and payment agreement",
+        "hours": 8
+      },
+      {
+        "item": "Economic mode integration",
+        "hours": 16
+      },
+      {
+        "item": "One route data preparation",
+        "hours": 12
+      },
+      {
+        "item": "Retrospective evaluation",
+        "hours": 16
+      },
+      {
+        "item": "Local setup and user training",
+        "hours": 8
+      }
+    ],
+    "task_hours_status": "team_estimate_subject_to_data_review",
+    "monthly_support_hours": 4,
+    "paid_contingency_percent": 20,
+    "incremental_setup_cash_rub": 0,
+    "incremental_monthly_cash_rub": 0,
+    "zero_cash_conditions": [
+      "Voluntary work is agreed by all contributors, not assumed to be secured",
+      "A suitable existing computer and backup storage are provided",
+      "Ready permitted data are provided without paid subscriptions",
+      "No travel, hardware procurement or corporate integrations are required"
+    ],
+    "excluded_unpriced_resources": [
+      "Customer dispatcher and economist time",
+      "University supervision if required",
+      "Existing hardware depreciation and incremental electricity",
+      "Any previously completed prototype development"
+    ],
+    "funding_confirmed": false,
+    "customer_confirmed": false
   },
-  "monthly": {
-    "subtotal_rub": 48000,
-    "contingency_20_percent_rub": 9600,
-    "total_rub": 57600
+  "student": {
+    "mode": "student",
+    "status": "conditional_planning_estimate",
+    "setup_hours": 60.0,
+    "cash_setup_rub": 0.0,
+    "cash_monthly_rub": 0.0,
+    "cash_setup_contingency_rub": 0.0,
+    "imputed_volunteer_setup_rub": 90000.0,
+    "imputed_volunteer_monthly_rub": 6000.0,
+    "valued_resources_setup_rub": 90000.0,
+    "operating_months": 12.0,
+    "cash_total_rub": 0.0,
+    "valued_resources_total_rub": 162000.0,
+    "valuation_scope": "listed incremental cash and valued team labour only",
+    "unpriced_resources": [
+      "Customer dispatcher and economist time",
+      "University supervision if required",
+      "Existing hardware depreciation and incremental electricity",
+      "Any previously completed prototype development"
+    ],
+    "actual_savings_rub": null
   },
-  "pilot_operating_months": 1.5,
-  "pilot_operations_rub": 86400.0,
-  "development_and_pilot_rub": 861600.0,
-  "status": "scenario_resource_budget_not_a_quote"
+  "paid": {
+    "mode": "paid",
+    "status": "conditional_planning_estimate",
+    "setup_hours": 60.0,
+    "cash_setup_rub": 108000.0,
+    "cash_monthly_rub": 6000.0,
+    "cash_setup_contingency_rub": 18000.0,
+    "imputed_volunteer_setup_rub": 0.0,
+    "imputed_volunteer_monthly_rub": 0.0,
+    "valued_resources_setup_rub": 108000.0,
+    "operating_months": 12.0,
+    "cash_total_rub": 180000.0,
+    "valued_resources_total_rub": 180000.0,
+    "valuation_scope": "listed incremental cash and valued team labour only",
+    "unpriced_resources": [
+      "Customer dispatcher and economist time",
+      "University supervision if required",
+      "Existing hardware depreciation and incremental electricity",
+      "Any previously completed prototype development"
+    ],
+    "actual_savings_rub": null
+  }
 }
