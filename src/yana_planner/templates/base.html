@@ -1,1 +1,13 @@
-<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Yana Planner</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"><body><header><a href="/">YANA / PLANNER</a><nav><a href="/">Расчёт</a><a href="/history">История</a></nav></header><main>{% block content %}<h1>{{ message }}</h1>{% endblock %}</main><footer>Нижнеянск → Усть-Куйга · Учебная модель доставки топлива</footer></body></html>
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f7f5f6"><title>{% block title %}Yana Planner{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<a class="skip-link" href="#main">К содержимому</a>
+<header class="site-header"><div class="header-inner">
+<a class="brand" href="{{ url_for('index') }}" aria-label="Yana Planner — новый расчёт"><span class="brand-symbol" aria-hidden="true">y<span>.</span></span><span>YANA<span class="brand-light">PLANNER</span></span></a>
+<nav aria-label="Основная навигация"><a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %}>Новый расчёт</a><a href="{{ url_for('history_page') }}" {% if request.endpoint == 'history_page' %}aria-current="page"{% endif %}>История</a></nav>
+<span class="header-caption">Планирование речной доставки</span>
+</div></header>
+<main id="main">{% block content %}<section class="empty-state"><p class="eyebrow">YANA PLANNER</p><h1>{{ message }}</h1><a class="button" href="{{ url_for('index') }}">Вернуться к расчёту</a></section>{% endblock %}</main>
+<footer class="site-footer"><strong>Yana Planner</strong><span>Нижнеянск — Усть-Куйга</span><span>Учебная модель · Решение утверждает диспетчер</span></footer>
+</body></html>
