@@ -232,3 +232,25 @@ class SearchBudgetTests(unittest.TestCase):
                     400,
                 )
             solver.assert_not_called()
+
+
+class AutoSearchWebTests(unittest.TestCase):
+    def test_auto_mode_passes_budget_and_is_saved_in_report(self):
+        from werkzeug.datastructures import MultiDict
+
+        values = CustomInputTests().conditions()
+        values["search_seconds"] = ["auto"]
+        with tempfile.TemporaryDirectory() as tmp:
+            client = create_app(
+                dict(TESTING=True, DATABASE=str(Path(tmp) / "runs.db"))
+            ).test_client()
+            response = client.post(
+                "/", data=MultiDict((k, v) for k, xs in values.items() for v in xs)
+            )
+            self.assertEqual(response.status_code, 303)
+            saved = client.get(response.location + "/results.json").json
+            self.assertTrue(saved["inputs"]["settings"]["adaptive_search"])
+            self.assertEqual(saved["inputs"]["settings"]["time_limit_per_stage_s"], 30)
+            self.assertEqual(saved["result"]["planner"]["accepted_t"], 600)
+            self.assertIn("Автоматический поиск", client.get(response.location).text)
+            self.assertIn("попыток 1", client.get(response.location + "/report.html").text)

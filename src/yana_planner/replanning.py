@@ -39,6 +39,7 @@ def replan(
     *,
     method: str = "milp",
     time_limit: float = 3,
+    adaptive: bool = False,
 ) -> dict:
     if method not in ("ready", "milp"):
         raise InputError("method должен быть ready или milp")
@@ -58,6 +59,7 @@ def replan(
                 fixed=committed,
                 decision_h=at + 1,
                 time_limit=time_limit,
+                adaptive=adaptive,
             )
         else:
             schedule, logs = fallback, []
@@ -99,10 +101,11 @@ def run_replanning(
     *,
     time_limit: float = 3,
     incumbent: list[dict] | None = None,
+    adaptive: bool = False,
 ) -> dict:
     """Replan after one event; already started trips remain immutable."""
     # Crucially: the initial optimizer receives only the original input.
-    initial = compare(cfg, deadline, time_limit=time_limit, incumbent=incumbent)
+    initial = compare(cfg, deadline, time_limit=time_limit, incumbent=incumbent, adaptive=adaptive)
     if any(initial[k]["status"] != "valid_simulation" for k in ["baseline", "planner"]):
         raise InputError("Начальные планы должны быть допустимыми до сравнения перепланирования")
     revised_ready = replan(
@@ -120,6 +123,7 @@ def run_replanning(
         deadline,
         method="milp",
         time_limit=time_limit,
+        adaptive=adaptive,
     )
     return dict(
         target_t=cfg["target_t"],
