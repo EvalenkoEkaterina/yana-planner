@@ -25,15 +25,17 @@ VESSEL_FIELDS = {
 }
 
 
-def form_defaults():
+def form_defaults(preset="r03"):
+    if preset not in NAMES:
+        raise InputError("Неизвестный пример. Выберите обычный R03 или задержку топлива")
     cfg = read_json(ROOT / "examples/r03.json")
     values = {
         key: [str(cfg[key])]
         for key in ("target_t", "initial_source_t", "destination_capacity_t", "return_cutoff_h")
     }
     values.update(
-        scenario=["r03"],
-        deadline=["328"],
+        scenario=[preset],
+        deadline=["280" if preset == "delay" else "328"],
         search_seconds=["auto"],
         announced_at_h=["60"],
         delayed_arrival=["2"],

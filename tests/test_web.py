@@ -303,3 +303,93 @@ class WholeCalculationTimeoutTests(unittest.TestCase):
             with self.assertRaises(CalculationTimeout):
                 calculate_with_timeout("r03", "328", total_timeout=0.05)
         self.assertLess(time.monotonic() - started, 1.5)
+
+
+class DemoPresetTests(unittest.TestCase):
+    @staticmethod
+    def fields(page):
+        from html.parser import HTMLParser
+
+        class Fields(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.values = {}
+                self.select = None
+
+            def handle_starttag(self, tag, attrs):
+                a = dict(attrs)
+                if tag == "input" and a.get("name"):
+                    self.values.setdefault(a["name"], []).append(a.get("value", ""))
+                elif tag == "select":
+                    self.select = a["name"]
+                elif tag == "option" and self.select:
+                    if self.select not in self.values or "selected" in a:
+                        self.values[self.select] = [a["value"]]
+
+            def handle_endtag(self, tag):
+                if tag == "select":
+                    self.select = None
+
+        parser = Fields()
+        parser.feed(page)
+        return parser.values
+
+    def test_both_presets_restore_complete_original_conditions_without_solving(self):
+        import json
+
+        from yana_planner.service import ROOT, custom_conditions
+
+        original = json.loads((ROOT / "examples/r03.json").read_text())
+        client = create_app(dict(TESTING=True)).test_client()
+        with patch("yana_planner.web.calculate") as solver:
+            for preset, deadline in [("r03", "328"), ("delay", "280")]:
+                response = client.get("/?preset=" + preset)
+                self.assertEqual(response.status_code, 200)
+                fields = self.fields(response.text)
+                self.assertEqual(fields["scenario"], [preset])
+                self.assertEqual(fields["deadline"], [deadline])
+                self.assertEqual(fields["search_seconds"], ["auto"])
+                cfg, event = custom_conditions(fields, with_delay=preset == "delay")
+                for key in [
+                    "target_t",
+                    "initial_source_t",
+                    "destination_capacity_t",
+                    "return_cutoff_h",
+                    "vessels",
+                    "arrivals",
+                ]:
+                    self.assertEqual(cfg[key], original[key], key)
+                if event:
+                    self.assertEqual(event["announced_at_h"], 60)
+                    self.assertEqual(event["arrival_index"], 1)
+                    self.assertEqual(event["new_arrival_h"], 168)
+            solver.assert_not_called()
+
+    def test_edited_form_is_not_overwritten_by_preset_query_on_submit(self):
+        from werkzeug.datastructures import MultiDict
+
+        from yana_planner.service import form_defaults
+
+        values = form_defaults("delay")
+        values.update(customize=["1"], target_t=["1600"], deadline=["250"])
+        with tempfile.TemporaryDirectory() as tmp:
+            client = create_app(
+                dict(TESTING=True, DATABASE=str(Path(tmp) / "runs.db"))
+            ).test_client()
+            with patch(
+                "yana_planner.web.calculate", return_value=calculate("r03", "328", time_limit=0.1)
+            ) as solver:
+                response = client.post(
+                    "/?preset=delay", data=MultiDict((k, x) for k, xs in values.items() for x in xs)
+                )
+            self.assertEqual(response.status_code, 303)
+            self.assertEqual(solver.call_args.args, ("delay", "250"))
+            self.assertEqual(solver.call_args.kwargs["custom"]["target_t"], ["1600"])
+
+    def test_unknown_preset_is_rejected_without_solver(self):
+        client = create_app(dict(TESTING=True)).test_client()
+        with patch("yana_planner.web.calculate") as solver:
+            response = client.get("/?preset=unknown")
+            self.assertEqual(response.status_code, 400)
+            self.assertIn("Неизвестный пример", response.text)
+            solver.assert_not_called()
