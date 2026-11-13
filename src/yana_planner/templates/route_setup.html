@@ -3,6 +3,18 @@
 
 <div class="route-cards"><button type="button" class="route-choice selected" data-route="r03" aria-pressed="true"><small>01 / КОНТРОЛЬНЫЙ ПРИМЕР</small><strong>Нижнеянск → Усть-Куйга</strong><span>R03 · 1650 т · учебный флот SIM-A/B</span></button><button type="button" class="route-choice" data-route="ust-kuyga-batagay" aria-pressed="false"><small>02 / НОВОЕ НАПРАВЛЕНИЕ</small><strong>Усть-Куйга → Батагай</strong><span>383 км по опубликованным участкам · учебные 600 т</span></button></div>
 <p class="field-help" id="route-import-status" role="status">Числа перевозки — сценарные. Выбор направления загружает отдельный набор условий; флот между маршрутами не распределяется.</p>
+<details class="inline-details graph-workspace" id="graph-workspace">
+<summary>Выбрать пункты в тестовой речной сети</summary>
+<p class="field-help">Прототип · Все пункты, соединения и расстояния вымышленные. Проверяем поиск пути; это не навигационная карта.</p>
+<div class="fields-grid"><label>Откуда<select id="graph-origin" name="graph_origin" disabled><option value="">Загрузка сети…</option></select></label><label>Куда<select id="graph-destination" name="graph_destination" disabled><option value="">Загрузка сети…</option></select></label></div>
+<button type="button" class="button secondary" id="find-river-path" disabled>Найти водный путь</button>
+<div id="graph-result" role="status" aria-live="polite"></div>
+<div id="graph-apply-panel" hidden>
+<p class="field-help">Для расчёта потребуется задать время движения каждого судна туда и обратно. Расстояние не меняет время автоматически. Промежуточные пункты — только прохождение пути, без разгрузки. Экономику и погодные события нужно задать заново: их применимость к новому маршруту не подтверждена.</p>
+<label class="graph-confirm"><input type="checkbox" id="graph-confirm">Использовать текущие суда и поставки как учебные условия нового маршрута. Времена движения проверю вручную. Тарифы и события будут сброшены.</label>
+<button type="button" class="button secondary" id="apply-river-path" disabled>Использовать маршрут в расчёте</button>
+</div>
+</details>
 <details class="inline-details"><summary>Источники, импорт и сохранённый пример</summary><div class="river-strip" aria-label="Схема направлений, без географического масштаба"><span>Нижнеянск</span><span aria-hidden="true">→</span><span>Усть-Куйга</span><span aria-hidden="true">→</span><span>Устье Адычи</span><span aria-hidden="true">→</span><span>Батагай</span></div><div class="route-toolbar"><label class="button secondary">Загрузить JSON-пакет<input type="file" id="import-package" accept=".json,application/json" class="sr-only"></label><a class="text-link" href="{{ url_for('static', filename='data/ust-kuyga-batagay.package.json') }}" download>Пример формата ↓</a><button type="button" class="text-button" id="show-route-report">Сохранённый расчёт Батагая</button></div>
 <div id="route-facts"><p>R03 — существующий учебный контроль. Данные нового направления доступны в JSON-пакете.</p></div></details>
 <div id="saved-route-report" hidden></div>

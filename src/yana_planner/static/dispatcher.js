@@ -39,7 +39,7 @@ function update() {
   button.disabled=loading || missing.length>0;
   button.textContent=missing.length ? 'Ожидает подключения расчёта' : 'Рассчитать план ↗';
 }
-function gather() {
+function gather({requireBilling=true}={}) {
   if(!current) throw new Error('Дождитесь загрузки пакета направления');
   const p=structuredClone(current), c=p.scenario;
   for(const key of ['target_t','initial_source_t','destination_capacity_t','return_cutoff_h']) c[key]=getNumber(first(key));
@@ -64,7 +64,7 @@ function gather() {
   if(routeKey==='r03'&&!current.facts.some(f=>f.field==='custom_payload_calendar')) c.payload_calendar=[{from_h:0,capacity_t:Math.max(...c.vessels.map(v=>v.capacity_t))}];
   p.cost_terms=null;
   if($('economics-enabled').value==='yes') {
-    if(!$('billing-confirmed').checked) throw new Error('Подтвердите схему оплаты всего доступного флота');
+    if(requireBilling&&!$('billing-confirmed').checked) throw new Error('Подтвердите схему оплаты всего доступного флота');
     p.cost_terms={billing_mode:'all_available_time',currency:'RUB',horizon_h:getNumber($('horizon-h')),vessel_rates:Object.fromEntries([...form.querySelectorAll('.vessel-row')].map((row,i)=>[c.vessels[i].id,{
       ...Object.fromEntries(rateFields.map(f=>[f,getNumber(row.querySelector(`[name="vessel_${f}"]`))])),
       rate_basis:row.querySelector('[name="vessel_rate_basis"]').value,
@@ -83,7 +83,7 @@ function gather() {
 }
 function renderFacts(p) {
   const host=$('route-facts'); host.replaceChildren();
-  host.append(node('p',`${p.route.origin} → ${p.route.destination}. ${p.route.length_km ? p.route.length_km+' км — сумма опубликованных участков.' : 'Контрольный пример R03.'}`));
+  host.append(node('p',`${p.route.origin} → ${p.route.destination}. ${p.route.graph_path ? p.route.length_km+' км по графу · '+(p.route.graph_path.distance_status==='scenario_assumption'?'условные расстояния.':'по источникам участков.') : p.route.length_km ? p.route.length_km+' км — сумма опубликованных участков.' : 'Контрольный пример R03.'}`));
   const list=node('ul');
   for(const f of p.facts) list.append(node('li',`${f.field}: ${f.value===null ? 'неизвестно' : typeof f.value==='object' ? JSON.stringify(f.value) : f.value} · ${{documented:'из источника',scenario_assumption:'сценарное допущение',unknown:'не подтверждено'}[f.status]}`));
   host.append(list);
@@ -190,3 +190,63 @@ if(restored) {
   try{const r=await fetch(`${base}r03.package.json`);if(!r.ok)throw new Error('Не удалось загрузить метаданные R03');current=validatePackage(await r.json());$('scenario-t0').value=current.scenario.t0??'';renderFacts(current);}catch(e){status(e.message);}
 }
 update();
+
+// The graph selects geography only: never infer travel times or alter solver objectives.
+let graphPath=null, graphRequest=0;
+const graphResult=$('graph-result'), graphPanel=$('graph-apply-panel');
+function resetGraphResult() {
+  graphRequest++; graphPath=null; graphResult.replaceChildren(); graphPanel.hidden=true;
+  $('graph-confirm').checked=false; $('apply-river-path').disabled=true;
+}
+function invalidateGraph() {
+  resetGraphResult();
+  // Input changes while routing must not accidentally reuse a stale response.
+}
+for(const id of ['graph-origin','graph-destination']) $(id).addEventListener('change',invalidateGraph);
+$('graph-confirm').addEventListener('change',()=>{$('apply-river-path').disabled=!graphPath||!$('graph-confirm').checked;});
+$('find-river-path').addEventListener('click',async()=>{
+  resetGraphResult(); const token=graphRequest;
+  graphResult.textContent='Ищем путь по соединениям сети…';
+  try {
+    const r=await fetch('/api/river-path',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({origin_id:$('graph-origin').value,destination_id:$('graph-destination').value})});
+    const p=await r.json(); if(token!==graphRequest)return;
+    if(!r.ok)throw new Error(p.error||'Не удалось найти путь');
+    graphResult.replaceChildren();
+    if(p.status==='no_path') {graphResult.textContent='В подготовленной сети нет пути между выбранными пунктами.';return;}
+    graphPath=p;
+    graphResult.append(node('h3',`${new Intl.NumberFormat('ru-RU').format(p.length_km)} км · кратчайший путь по длине`));
+    const chain=node('div',null,'graph-path-chain');
+    p.nodes.forEach((point,i)=>{if(i)chain.append(node('span','→','graph-path-arrow'));chain.append(node('strong',point.name));});
+    graphResult.append(chain);
+    const list=node('ul');
+    for(const edge of p.segments) list.append(node('li',`${p.nodes.find(n=>n.id===edge.from).name} → ${p.nodes.find(n=>n.id===edge.to).name}: ${edge.length_km} км. ${edge.source}`));
+    graphResult.append(list,node('p','Все расстояния условные. Путь не подтверждает возможность прохода конкретного судна.','field-help'));
+    graphPanel.hidden=false;
+  }catch(e){if(token===graphRequest)graphResult.textContent=e.message;}
+});
+$('apply-river-path').addEventListener('click',()=>{
+  if(!graphPath||!$('graph-confirm').checked)return;
+  try {
+    const p=gather({requireBilling:false}), path=structuredClone(graphPath);
+    p.route={id:`graph-${path.origin_id}-${path.destination_id}`,origin:path.origin,destination:path.destination,length_km:path.length_km,independent_fleet:true,graph_path:path};
+    p.sources=[{id:'graph-demo',title:'Тестовая сеть Yana Planner: вымышленные пункты и расстояния',url:'https://github.com/EvalenkoEkaterina/yana-planner',accessed_at:'2026-11-13'}];
+    p.facts=[{field:'route.graph_path',value:path.nodes.map(n=>n.name).join(' → '),status:'scenario_assumption'},{field:'route.length_km',value:path.length_km,status:'scenario_assumption'},{field:'operating_parameters',value:'Текущие параметры формы перенесены пользователем как учебные; время не получено из расстояния',status:'scenario_assumption'}];
+    p.cost_terms=null; p.strategy='trips'; p.event=null;
+    p.scenario.closures=[];
+    p.scenario.id='GRAPH-DEMO';p.scenario.label=`Учебный граф: ${path.origin} → ${path.destination}`;
+    p.scenario.provenance={kind:'synthetic_scenario',origin:'river graph prototype',operating_parameters:'User explicitly reused form inputs; travel times are manual, not derived from graph distance'};
+    const checked=validatePackage(p); routeRequest++; loading=false; fill(checked,'graph');
+    $('resources-settings').open=true;
+    $('route-caption').textContent='Тестовый граф · условия перенесены вручную, проходимость не подтверждена';
+    $('route-import-status').textContent='Тестовый маршрут выбран. Проверьте время движения и возврата каждого судна. Экономика, события и запреты движения сброшены; задайте их заново при наличии данных.';
+    status('Расстояние не изменило время рейса. Проверьте все условия перед расчётом.');
+  }catch(e){status(e.message);}
+});
+async function initializeGraph() {
+  try {
+    const r=await fetch('/api/river-network');if(!r.ok)throw new Error('Сеть временно недоступна');const graph=await r.json();
+    for(const id of ['graph-origin','graph-destination']) {const select=$(id);select.replaceChildren();for(const point of graph.nodes){const option=node('option',point.name);option.value=point.id;select.append(option);}select.disabled=false;}
+    $('graph-destination').value='c';$('find-river-path').disabled=false;
+  }catch(e){graphResult.textContent=e.message;}
+}
+initializeGraph();

@@ -10,6 +10,7 @@ from . import storage
 from .domain import InputError
 from .experiments import comparisons
 from .presentation import STATUS, effects_html, event_card, schedule_sections
+from .river_graph import load_network, shortest_path
 from .service import NAMES, ROOT, VESSEL_FIELDS, form_defaults
 from .visual_report import summary_page, visual_summary
 from .web_worker import (
@@ -136,6 +137,24 @@ def create_app(config=None):
         if run is None:
             abort(404)
         return run
+
+    @app.get("/api/river-network")
+    def river_network():
+        return jsonify(load_network())
+
+    @app.post("/api/river-path")
+    def river_path():
+        try:
+            payload = request.get_json(silent=True)
+            if not isinstance(payload, dict):
+                raise InputError("Нужны origin_id и destination_id")
+            return jsonify(
+                shortest_path(
+                    load_network(), payload.get("origin_id"), payload.get("destination_id")
+                )
+            )
+        except InputError as exc:
+            return jsonify(error=str(exc), code="invalid_route"), 400
 
     @app.post("/api/plan")
     def api_plan():

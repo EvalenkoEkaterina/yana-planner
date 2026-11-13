@@ -6,6 +6,7 @@ from decimal import Decimal
 from math import isfinite
 
 from .domain import InputError, Scenario, integer
+from .river_graph import validate_route_graph
 
 RATE_FIELDS = (
     "separate_trip_operations_rub",
@@ -51,6 +52,7 @@ def import_route_package(raw):
     for key in ("id", "origin", "destination"):
         if not isinstance(route.get(key), str) or not route[key].strip():
             raise InputError(f"route.{key}: нужен непустой текст")
+    validate_route_graph(route)
     sources = data.get("sources")
     if not isinstance(sources, list) or not sources:
         raise InputError("sources: нужен непустой реестр источников")

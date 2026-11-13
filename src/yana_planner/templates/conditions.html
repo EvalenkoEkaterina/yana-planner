@@ -1,5 +1,10 @@
 <section><h2>Исходные условия этого расчёта</h2>
 {% if inputs.route_package is defined %}
+{% if inputs.route_package.route.graph_path is defined %}
+<p><strong>Путь по графу:</strong> {% for point in inputs.route_package.route.graph_path.nodes %}{{ point.name }}{% if not loop.last %} → {% endif %}{% endfor %}. {{ inputs.route_package.route.length_km }} км.</p>
+<p>Статус расстояний: {{ 'сценарное допущение' if inputs.route_package.route.graph_path.distance_status == 'scenario_assumption' else 'по источникам участков; требует проверки' }}. Время движения задано отдельно. Проходимость судном не подтверждена.</p>
+{% endif %}
+
 <p><strong>{{ inputs.route_package.route.origin }} → {{ inputs.route_package.route.destination }}</strong>. Независимый набор условий маршрута.</p>
 <details><summary>Источники и происхождение данных</summary>
 {% for source in inputs.route_package.sources %}<p><a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title }}</a> · проверено {{ source.accessed_at }}</p>{% endfor %}

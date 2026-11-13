@@ -1,0 +1,18 @@
+{
+  "network_version": "yana-river/1",
+  "id": "synthetic-river-demo-v1",
+  "label": "Тестовая речная сеть — вымышленные пункты и расстояния",
+  "nodes": [
+    {"id": "a", "name": "Тестовый причал А"},
+    {"id": "b", "name": "Тестовый причал Б"},
+    {"id": "c", "name": "Тестовый причал В"},
+    {"id": "d", "name": "Тестовый причал Г"},
+    {"id": "isolated", "name": "Тестовый пункт вне сети"}
+  ],
+  "edges": [
+    {"id": "ab", "from": "a", "to": "b", "length_km": 40, "bidirectional": true, "status": "scenario_assumption", "source": "Синтетическая сеть для проверки поиска пути; не география реальной реки"},
+    {"id": "bc", "from": "b", "to": "c", "length_km": 60, "bidirectional": true, "status": "scenario_assumption", "source": "Синтетическая сеть для проверки поиска пути; не география реальной реки"},
+    {"id": "ad", "from": "a", "to": "d", "length_km": 80, "bidirectional": true, "status": "scenario_assumption", "source": "Синтетическая сеть для проверки поиска пути; не география реальной реки"},
+    {"id": "dc", "from": "d", "to": "c", "length_km": 50, "bidirectional": true, "status": "scenario_assumption", "source": "Синтетическая сеть для проверки поиска пути; не география реальной реки"}
+  ]
+}

@@ -4,6 +4,9 @@
 {% set focus = comparison['После события'] if 'После события' in comparison else comparison['Расчёт'] %}
 {% set plan = focus.rows['MILP'] %}
 <div class="page-heading result-heading"><div><p class="eyebrow">СОХРАНЁННЫЙ РАСЧЁТ #{{ run.id }}</p><h1>Результат планирования<span class="accent">.</span></h1><p class="lead">{{ run.scenario_name }}</p><p class="muted">{{ run.created_at[:10] }} · {{ run.created_at[11:16] }} UTC · {{ 'Один из планов не прошёл проверку' if run.status == 'invalid_schedule' else (run.status | run_status) }}</p></div><div class="heading-actions"><a class="button" href="{{ url_for('index') }}">Новый расчёт ↗</a><a class="button secondary" href="{{ url_for('visual_report', ident=run.id) }}" target="_blank" rel="noopener">Наглядный отчёт ↗</a><a class="text-link" href="{{ url_for('visual_report', ident=run.id, download=1) }}">Скачать HTML ↓</a></div></div>
+{% if run.inputs.route_package is defined and run.inputs.route_package.route.graph_path is defined %}
+<p class="preset-notice"><strong>Прототип маршрутизации.</strong> {% for point in run.inputs.route_package.route.graph_path.nodes %}{{ point.name }}{% if not loop.last %} → {% endif %}{% endfor %} · {{ run.inputs.route_package.route.length_km }} км. {{ 'Расстояния условные.' if run.inputs.route_package.route.graph_path.distance_status == 'scenario_assumption' else 'Расстояния указаны по источникам сети.' }} Время движения задано вручную; расчёт не подтверждает реальную выполнимость маршрута.</p>
+{% endif %}
 <div class="result-label"><span class="eyebrow">MILP{% if 'После события' in comparison %} / ПОСЛЕ СОБЫТИЯ{% endif %}</span><span>Цель {{ run.inputs.scenario.target_t }} т · Приёмка до {{ run.deadline_h }} ч</span></div>
 {{ visuals | safe }}
 <div class="verification-strip" aria-label="Статусы плана MILP">
