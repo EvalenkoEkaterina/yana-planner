@@ -165,7 +165,7 @@ form.addEventListener('submit',e=>{
     if(Object.keys(caps).length) $('route-package-json').value=JSON.stringify(gather());
   }catch(error){e.preventDefault();e.stopImmediatePropagation();status(error.message);update();
     if($('economics-enabled').value==='yes'&&!$('billing-confirmed').checked) {
-      $('cost-settings').open=true; $('billing-confirmed').focus();
+      document.dispatchEvent(new CustomEvent('fleet-step-request',{detail:'cost-settings'})); $('cost-settings').open=true; $('billing-confirmed').focus();
     }
   }
 },true);

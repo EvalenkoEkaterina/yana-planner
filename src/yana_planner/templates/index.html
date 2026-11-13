@@ -3,6 +3,7 @@
 <label>{{ label }}<input name="{{ name }}" type="number" value="{{ values.get(name, [fallback])[0] }}" min="{{ minimum }}" max="{{ maximum }}" required></label>
 {%- endmacro %}
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='fleet-steps.css') }}">
 <nav class="planner-modes" aria-label="Режим планирования"><a href="/" aria-current="page"><strong>Выбор флота и рейсов</strong><span>Несколько судов · один получатель · сравнение READY и MILP</span></a><a href="/static/multi-stop-ui.html"><strong>Многопунктовый рейс — прототип</strong><span>Выбор одного судна из кандидатов · до 8 получателей</span></a></nav>
 <div class="hero hero-compact"><div><p class="eyebrow">YANA PLANNER / ПЛАНИРОВАНИЕ ДОСТАВКИ</p><h1>План доставки<span class="accent">.</span></h1><p class="lead">Выберите пример, уточните объём и срок — сравните два варианта расписания.</p><p class="start-note">Учебные условия можно менять. Источники и допущения доступны у каждого направления.</p></div><aside class="route-panel"><div class="route-top"><span>ВЫБРАННОЕ НАПРАВЛЕНИЕ</span><span class="route-symbol" aria-hidden="true">↗</span></div><div class="route-points"><div><small>ОТКУДА</small><strong id="route-origin">Нижнеянск</strong></div><div><small>КУДА</small><strong id="route-destination">Усть-Куйга</strong></div></div><p id="route-caption">Параметры примера · можно изменить</p></aside></div>
 {% include 'route_setup.html' %}
@@ -51,4 +52,5 @@
 <script src="{{ url_for('static', filename='conditions.js') }}" defer></script>
 <script type="application/json" id="restored-route-package">{{ restored_package | default(none) | tojson }}</script>
 <script type="module" src="{{ url_for('static', filename='dispatcher.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='fleet-steps.js') }}"></script>
 {% endblock %}
