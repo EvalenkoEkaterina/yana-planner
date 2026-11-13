@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "segments": {
+    "yana-1400": {
+      "point_ids": [
+        "nizhneyansk",
+        "ust_kuyga"
+      ],
+      "status": "confirmed",
+      "method": "scenario_endpoint_proxy",
+      "limitations": "Согласована только учебная привязка ID: две погодные точки применяются ко всему направлению, пространственное покрытие и проход судна не подтверждены."
+    },
+    "yana-1399": {
+      "point_ids": [
+        "nizhneyansk",
+        "ust_kuyga"
+      ],
+      "status": "confirmed",
+      "method": "scenario_endpoint_proxy",
+      "limitations": "Согласована только учебная привязка ID: две погодные точки применяются ко всему направлению, пространственное покрытие и проход судна не подтверждены."
+    }
+  },
+  "pending": [],
+  "scope": "historical_demo_only"
+}
