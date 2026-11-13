@@ -140,7 +140,10 @@ def create_app(config=None):
 
     @app.get("/api/river-network")
     def river_network():
-        return jsonify(load_network())
+        try:
+            return jsonify(load_network(request.args.get("network", "yana")))
+        except InputError as exc:
+            return jsonify(error=str(exc), code="invalid_network"), 400
 
     @app.post("/api/river-path")
     def river_path():
@@ -150,7 +153,9 @@ def create_app(config=None):
                 raise InputError("Нужны origin_id и destination_id")
             return jsonify(
                 shortest_path(
-                    load_network(), payload.get("origin_id"), payload.get("destination_id")
+                    load_network(payload.get("network", "yana")),
+                    payload.get("origin_id"),
+                    payload.get("destination_id"),
                 )
             )
         except InputError as exc:
@@ -228,7 +233,12 @@ def create_app(config=None):
     def visual_report(ident):
         run = get_run(ident)
         response = app.response_class(
-            summary_page(run["result"], run["scenario_name"]), mimetype="text/html"
+            summary_page(
+                run["result"],
+                run["scenario_name"],
+                route=run["inputs"].get("route_package", {}).get("route"),
+            ),
+            mimetype="text/html",
         )
         if request.args.get("download") == "1":
             response.headers["Content-Disposition"] = (

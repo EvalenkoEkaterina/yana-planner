@@ -208,19 +208,23 @@ $('find-river-path').addEventListener('click',async()=>{
   resetGraphResult(); const token=graphRequest;
   graphResult.textContent='Ищем путь по соединениям сети…';
   try {
-    const r=await fetch('/api/river-path',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({origin_id:$('graph-origin').value,destination_id:$('graph-destination').value})});
+    const r=await fetch('/api/river-path',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({network:$('graph-network').value,origin_id:$('graph-origin').value,destination_id:$('graph-destination').value})});
     const p=await r.json(); if(token!==graphRequest)return;
     if(!r.ok)throw new Error(p.error||'Не удалось найти путь');
     graphResult.replaceChildren();
     if(p.status==='no_path') {graphResult.textContent='В подготовленной сети нет пути между выбранными пунктами.';return;}
     graphPath=p;
-    graphResult.append(node('h3',`${new Intl.NumberFormat('ru-RU').format(p.length_km)} км · кратчайший путь по длине`));
+    graphResult.append(node('h3',`${new Intl.NumberFormat('ru-RU').format(p.length_km)} км · ${p.network_snapshot.topology_note?'путь по сети Яны':'кратчайший путь по длине'}`));
     const chain=node('div',null,'graph-path-chain');
     p.nodes.forEach((point,i)=>{if(i)chain.append(node('span','→','graph-path-arrow'));chain.append(node('strong',point.name));});
     graphResult.append(chain);
     const list=node('ul');
-    for(const edge of p.segments) list.append(node('li',`${p.nodes.find(n=>n.id===edge.from).name} → ${p.nodes.find(n=>n.id===edge.to).name}: ${edge.length_km} км. ${edge.source}`));
-    graphResult.append(list,node('p','Все расстояния условные. Путь не подтверждает возможность прохода конкретного судна.','field-help'));
+    for(const edge of p.segments) {
+      const item=node('li',`${p.nodes.find(n=>n.id===edge.from).name} → ${p.nodes.find(n=>n.id===edge.to).name}: ${edge.length_km} км. `);
+      if(edge.status==='documented'&&edge.source.startsWith('https://')) {const link=node('a',`Источник · строка ${edge.source_row??'—'}`);link.href=edge.source;link.target='_blank';link.rel='noopener';item.append(link);} else item.append(node('span',edge.source));
+      list.append(item);
+    }
+    graphResult.append(list,node('p',p.distance_status==='documented'?'Расстояния из исходного плана 2026; путь — сумма смежных участков. Альтернативных ветвей в этой сети нет. Проход судна на дату не подтверждён.':'Все расстояния условные. Путь не подтверждает возможность прохода конкретного судна.','field-help'));
     graphPanel.hidden=false;
   }catch(e){if(token===graphRequest)graphResult.textContent=e.message;}
 });
@@ -229,24 +233,46 @@ $('apply-river-path').addEventListener('click',()=>{
   try {
     const p=gather({requireBilling:false}), path=structuredClone(graphPath);
     p.route={id:`graph-${path.origin_id}-${path.destination_id}`,origin:path.origin,destination:path.destination,length_km:path.length_km,independent_fleet:true,graph_path:path};
-    p.sources=[{id:'graph-demo',title:'Тестовая сеть Yana Planner: вымышленные пункты и расстояния',url:'https://github.com/EvalenkoEkaterina/yana-planner',accessed_at:'2026-11-13'}];
-    p.facts=[{field:'route.graph_path',value:path.nodes.map(n=>n.name).join(' → '),status:'scenario_assumption'},{field:'route.length_km',value:path.length_km,status:'scenario_assumption'},{field:'operating_parameters',value:'Текущие параметры формы перенесены пользователем как учебные; время не получено из расстояния',status:'scenario_assumption'}];
+    const documented=path.distance_status==='documented';
+    p.sources=path.network_snapshot.sources??[{id:'graph-demo',title:'Тестовая сеть Yana Planner: вымышленные пункты и расстояния',url:'https://github.com/EvalenkoEkaterina/yana-planner',accessed_at:'2026-11-13'}];
+    const distanceFact={field:'route.length_km',value:path.length_km,status:documented?'documented':'scenario_assumption'};
+    if(documented)distanceFact.source_id=path.segments[0].source_id;
+    p.facts=[{field:'route.graph_path',value:path.nodes.map(n=>n.name).join(' → '),status:'scenario_assumption'},distanceFact,{field:'operating_parameters',value:'Текущие параметры формы перенесены пользователем как учебные; время не получено из расстояния',status:'scenario_assumption'},{field:'weather_linkage',value:'Автопривязка не выполнена: координаты и покрытие требуют проверки',status:'scenario_assumption'}];
     p.cost_terms=null; p.strategy='trips'; p.event=null;
     p.scenario.closures=[];
-    p.scenario.id='GRAPH-DEMO';p.scenario.label=`Учебный граф: ${path.origin} → ${path.destination}`;
+    p.scenario.id=path.distance_status==='documented'?'GRAPH-YANA-SIM':'GRAPH-DEMO';p.scenario.label=`Учебный граф: ${path.origin} → ${path.destination}`;
     p.scenario.provenance={kind:'synthetic_scenario',origin:'river graph prototype',operating_parameters:'User explicitly reused form inputs; travel times are manual, not derived from graph distance'};
     const checked=validatePackage(p); routeRequest++; loading=false; fill(checked,'graph');
     $('resources-settings').open=true;
-    $('route-caption').textContent='Тестовый граф · условия перенесены вручную, проходимость не подтверждена';
-    $('route-import-status').textContent='Тестовый маршрут выбран. Проверьте время движения и возврата каждого судна. Экономика, события и запреты движения сброшены; задайте их заново при наличии данных.';
+    $('route-caption').textContent='Граф маршрута · перевозка учебная, проходимость не подтверждена';
+    $('route-import-status').textContent='Маршрут выбран. Проверьте время движения и возврата каждого судна. Экономика, события и запреты движения сброшены; задайте их заново при наличии данных.';
     status('Расстояние не изменило время рейса. Проверьте все условия перед расчётом.');
   }catch(e){status(e.message);}
 });
 async function initializeGraph() {
+  resetGraphResult();const token=graphRequest;
+  $('find-river-path').disabled=true;
+  for(const id of ['graph-origin','graph-destination'])$(id).disabled=true;
   try {
-    const r=await fetch('/api/river-network');if(!r.ok)throw new Error('Сеть временно недоступна');const graph=await r.json();
-    for(const id of ['graph-origin','graph-destination']) {const select=$(id);select.replaceChildren();for(const point of graph.nodes){const option=node('option',point.name);option.value=point.id;select.append(option);}select.disabled=false;}
-    $('graph-destination').value='c';$('find-river-path').disabled=false;
-  }catch(e){graphResult.textContent=e.message;}
+    const r=await fetch(`/api/river-network?network=${encodeURIComponent($('graph-network').value)}`);
+    if(!r.ok)throw new Error('Сеть временно недоступна');const graph=await r.json();
+    if(token!==graphRequest)return;
+    for(const id of ['graph-origin','graph-destination']) {
+      const select=$(id);select.replaceChildren();
+      for(const point of graph.nodes){
+        const option=node('option',point.name+(point.routing_role==='waypoint_only'?' · промежуточный узел':''));
+        option.value=point.id;option.disabled=point.routing_role==='waypoint_only';select.append(option);
+      }
+      select.disabled=false;
+    }
+    const terminals=graph.nodes.filter(n=>n.routing_role!=='waypoint_only');
+    $('graph-origin').value=terminals[0]?.id??'';
+    $('graph-destination').value=terminals.find(n=>n.id==='ust-kuyga')?.id??terminals[Math.min(2,terminals.length-1)]?.id??'';
+    $('graph-network-info').textContent=graph.topology_note
+      ? `${graph.nodes.length} пунктов · ${graph.edges.length} участка. ${graph.topology_note} ${graph.coordinate_note}`
+      : 'Прототип: все пункты, соединения и расстояния вымышленные. Это не навигационная карта.';
+    $('find-river-path').disabled=terminals.length<2;
+  }catch(e){if(token===graphRequest)graphResult.textContent=e.message;}
 }
+$('graph-network').addEventListener('change',initializeGraph);
 initializeGraph();

@@ -8,11 +8,16 @@ from pathlib import Path
 
 from .domain import InputError
 
-NETWORK_FILE = Path(__file__).parent / "static/data/river-network.demo.json"
+NETWORK_DIRECTORY = Path(__file__).parent / "static/data"
+NETWORK_FILES = {"yana": "river-network.yana.json", "demo": "river-network.demo.json"}
 
 
-def load_network():
-    return json.loads(NETWORK_FILE.read_text(encoding="utf-8"))
+def load_network(key="yana"):
+    if not isinstance(key, str) or key not in NETWORK_FILES:
+        raise InputError("Выберите сеть Яны или тестовую сеть")
+    return validate_network(
+        json.loads((NETWORK_DIRECTORY / NETWORK_FILES[key]).read_text(encoding="utf-8"))
+    )
 
 
 def validate_network(raw):
@@ -133,5 +138,11 @@ def validate_route_graph(route):
     )
     if expected["status"] != "found" or graph != expected:
         raise InputError("Маршрут графа не соответствует сохранённой сети")
+    nodes = {node["id"]: node for node in expected["network_snapshot"]["nodes"]}
+    if any(
+        nodes[graph[k]].get("routing_role") == "waypoint_only"
+        for k in ("origin_id", "destination_id")
+    ):
+        raise InputError("Промежуточный узел не подтверждён как пункт доставки")
     if any(route.get(key) != expected[key] for key in ("origin", "destination", "length_km")):
         raise InputError("Пункты или расстояние маршрута не совпадают с графом")

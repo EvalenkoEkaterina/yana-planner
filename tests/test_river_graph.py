@@ -14,7 +14,7 @@ from yana_planner.web import create_app
 
 def graph_package():
     package = json.loads((ROOT / "examples/routes/r03.package.json").read_text())
-    path = shortest_path(load_network(), "a", "c")
+    path = shortest_path(load_network("demo"), "a", "c")
     package["route"] = dict(
         id="graph-a-c",
         origin=path["origin"],
@@ -27,7 +27,7 @@ def graph_package():
 
 class RiverGraphTests(unittest.TestCase):
     def test_shortest_path_selects_shorter_of_two_routes_without_mutation(self):
-        network = load_network()
+        network = load_network("demo")
         before = copy.deepcopy(network)
         path = shortest_path(network, "a", "c")
         self.assertEqual(path["length_km"], 100)
@@ -36,7 +36,7 @@ class RiverGraphTests(unittest.TestCase):
         self.assertEqual(network, before)
 
     def test_reverse_path_respects_directionality(self):
-        network = load_network()
+        network = load_network("demo")
         reverse = shortest_path(network, "c", "a")
         self.assertEqual(reverse["segments"][0]["from"], "c")
         self.assertEqual(reverse["length_km"], 100)
@@ -45,7 +45,7 @@ class RiverGraphTests(unittest.TestCase):
         self.assertEqual(shortest_path(network, "c", "a")["status"], "no_path")
 
     def test_disconnected_same_and_unknown_nodes(self):
-        network = load_network()
+        network = load_network("demo")
         self.assertEqual(shortest_path(network, "a", "isolated")["status"], "no_path")
         for destination in ("a", "missing", None, []):
             with self.subTest(destination=destination), self.assertRaises(InputError):
@@ -53,12 +53,12 @@ class RiverGraphTests(unittest.TestCase):
 
     def test_network_rejects_invalid_weights_references_and_missing_provenance(self):
         for value in (0, -1, True, float("nan"), float("inf"), None):
-            network = load_network()
+            network = load_network("demo")
             network["edges"][0]["length_km"] = value
             with self.subTest(value=value), self.assertRaises(InputError):
                 validate_network(network)
         for field, value in [("from", "missing"), ("bidirectional", None), ("source", "")]:
-            network = load_network()
+            network = load_network("demo")
             network["edges"][0][field] = value
             with self.subTest(field=field), self.assertRaises(InputError):
                 validate_network(network)
@@ -83,13 +83,17 @@ class RiverGraphTests(unittest.TestCase):
         client = create_app({"TESTING": True}).test_client()
         with patch("yana_planner.web.calculate_package_with_timeout") as solver:
             self.assertEqual(
-                client.get("/api/river-network").json["network_version"], "yana-river/1"
+                client.get("/api/river-network?network=demo").json["network_version"],
+                "yana-river/1",
             )
-            result = client.post("/api/river-path", json={"origin_id": "a", "destination_id": "c"})
+            result = client.post(
+                "/api/river-path", json={"network": "demo", "origin_id": "a", "destination_id": "c"}
+            )
             self.assertEqual(result.status_code, 200)
             self.assertEqual(result.json["length_km"], 100)
             disconnected = client.post(
-                "/api/river-path", json={"origin_id": "a", "destination_id": "isolated"}
+                "/api/river-path",
+                json={"network": "demo", "origin_id": "a", "destination_id": "isolated"},
             )
             self.assertEqual(disconnected.json["status"], "no_path")
             for body in (None, [], {"origin_id": "a", "destination_id": "a"}):

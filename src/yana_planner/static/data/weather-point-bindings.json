@@ -1,0 +1,37 @@
+{
+  "schema_version": "yana-weather-point-bindings/1",
+  "status": "pending_spatial_and_temporal_validation",
+  "bindings": [
+    {
+      "node_id": "nizhneyansk",
+      "forecast_point_id": "nizhneyansk",
+      "status": "identifier_match_only",
+      "automatic_use": false
+    },
+    {
+      "node_id": "ust-kuyga",
+      "forecast_point_id": "ust_kuyga",
+      "status": "identifier_match_only",
+      "automatic_use": false
+    },
+    {
+      "node_id": "batagay",
+      "forecast_point_id": null,
+      "status": "no_weather_point_supplied",
+      "automatic_use": false
+    },
+    {
+      "node_id": "severny",
+      "forecast_point_id": null,
+      "status": "coordinates_unknown",
+      "automatic_use": false
+    },
+    {
+      "node_id": "adycha-mouth",
+      "forecast_point_id": null,
+      "status": "coordinates_unknown",
+      "automatic_use": false
+    }
+  ],
+  "note": "Совпадение названия и ID не подтверждает координаты, покрытие участка, период или доступность прогноза в момент решения. Автоприменение не подключено."
+}

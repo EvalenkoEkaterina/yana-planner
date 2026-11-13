@@ -4,8 +4,10 @@
 <div class="route-cards"><button type="button" class="route-choice selected" data-route="r03" aria-pressed="true"><small>01 / КОНТРОЛЬНЫЙ ПРИМЕР</small><strong>Нижнеянск → Усть-Куйга</strong><span>R03 · 1650 т · учебный флот SIM-A/B</span></button><button type="button" class="route-choice" data-route="ust-kuyga-batagay" aria-pressed="false"><small>02 / НОВОЕ НАПРАВЛЕНИЕ</small><strong>Усть-Куйга → Батагай</strong><span>383 км по опубликованным участкам · учебные 600 т</span></button></div>
 <p class="field-help" id="route-import-status" role="status">Числа перевозки — сценарные. Выбор направления загружает отдельный набор условий; флот между маршрутами не распределяется.</p>
 <details class="inline-details graph-workspace" id="graph-workspace">
-<summary>Выбрать пункты в тестовой речной сети</summary>
-<p class="field-help">Прототип · Все пункты, соединения и расстояния вымышленные. Проверяем поиск пути; это не навигационная карта.</p>
+<summary>Выбрать пункты речной сети</summary>
+<label>Сеть<select id="graph-network" name="graph_network"><option value="yana">Яна · справочные расстояния</option><option value="demo">Тестовая сеть · вымышленные данные</option></select></label>
+<p class="field-help" id="graph-network-info">Загрузка справочника…</p>
+<p class="field-help">В отправлении и назначении доступны населённые пункты для учебного расчёта. Северный и устье Адычи — промежуточные узлы. Причалы и приёмка не подтверждены.</p>
 <div class="fields-grid"><label>Откуда<select id="graph-origin" name="graph_origin" disabled><option value="">Загрузка сети…</option></select></label><label>Куда<select id="graph-destination" name="graph_destination" disabled><option value="">Загрузка сети…</option></select></label></div>
 <button type="button" class="button secondary" id="find-river-path" disabled>Найти водный путь</button>
 <div id="graph-result" role="status" aria-live="polite"></div>

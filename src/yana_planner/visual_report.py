@@ -205,14 +205,29 @@ def visual_summary(result, *, include_style=True):
     return "".join(parts) + "</section>"
 
 
-def summary_page(result, title):
+def summary_page(result, title, route=None):
     from .presentation import event_card, schedule_sections
 
+    route_note = ""
+    if route and route.get("graph_path"):
+        path = route["graph_path"]
+        points = " → ".join(str(n["name"]) for n in path["nodes"])
+        basis = (
+            "Расстояния по источникам сети."
+            if path["distance_status"] == "documented"
+            else "Расстояния условные."
+        )
+        route_note = (
+            f'<p class="vr-note"><strong>Прототип маршрутизации.</strong> {escape(points)} · '
+            f"{escape(str(path['length_km']))} км. {basis} Время движения задано вручную; "
+            "расчёт не подтверждает реальную выполнимость маршрута.</p>"
+        )
     return (
         '<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
         f"<title>{escape(title)} — наглядный отчёт</title><style>{VISUAL_STYLE}"
         'body{font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f7f5f6;color:#202024;max-width:1100px;margin:30px auto;padding:0 20px}h1{font-size:30px;line-height:1.2}.timeline>svg{width:100%}.schedule-panel{background:#fff;border-radius:14px;padding:20px;margin-bottom:20px}.timeline p{font-size:12px}.timeline span svg{width:12px;height:12px}.schedule-grid{display:grid;grid-template-columns:1fr;gap:16px}@media print{body{background:white;margin:0;padding:0}}</style>'
         f'<h1>{escape(title)}</h1><button class="vr-print" onclick="window.print()">Печать / сохранить PDF</button>'
+        + route_note
         + visual_summary(result, include_style=False)
         + event_card(result)
         + "<h2>Предложенное расписание</h2>"
