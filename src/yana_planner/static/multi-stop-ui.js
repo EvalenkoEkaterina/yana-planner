@@ -71,3 +71,23 @@ function renderReport(r,{saved,fixtureId,restored=false}={}){
 }
 $('show-fixture').addEventListener('click',async()=>{const id=$('fixture').value;$('show-fixture').disabled=true;try{const res=await fetch(new URL(id+'.json',dataBase));if(!res.ok)throw Error('Файл примера недоступен');const p=await res.json();if(p.error)renderError(p.error,{saved:true});else renderReport(readResult(p),{saved:true,fixtureId:id});}catch(e){renderError({message:e.message},{saved:true});}finally{$('show-fixture').disabled=false;}});
 try{const response=await fetch(new URL('form-input.json',dataBase));if(!response.ok)throw Error('Не загружен учебный пример формы');state=fromInput(await response.json());draw();if(config.endpoint){$('calculate').disabled=false;$('calculate').textContent='Рассчитать рейс';$('connection-status').textContent='Подключён API текущего сайта. Расчёт запускается только кнопкой «Рассчитать рейс».';}status('Параметры загружены из учебного примера; расчёт не выполнялся.');const run=new URL(location.href).searchParams.get('run');if(run){if(!/^\d+$/.test(run))throw Error('Неверный номер расчёта');const saved=await fetch(`/api/multi-stop/runs/${run}`);const payload=await saved.json();if(!saved.ok)throw Error(payload.error||'Расчёт не найден');renderReport(readResult(payload),{saved:false,restored:true});status(`Открыт сохранённый расчёт №${run}; повторный расчёт не запускался.`);}}catch(e){status(e.message,true);$('form-lock').disabled=true;}
+
+// Anchor navigation keeps every field mounted and native form validation available.
+const stepNav=document.querySelector('.stage-nav');
+const stepLinks=[...stepNav.querySelectorAll('a')];
+const stepPanels=stepLinks.map(a=>document.querySelector(a.getAttribute('href')));
+for(let i=0;i<stepPanels.length-1;i++){
+ const footer=el('div',undefined,'stage-actions');
+ if(i>0){const back=el('a','← Назад');back.href=stepLinks[i-1].getAttribute('href');footer.append(back);}
+ const next=el('a',i===stepPanels.length-2?'К результату →':'Далее: '+stepLinks[i+1].textContent.trim().replace(/^\d+\s*/, '')+' →');next.href=stepLinks[i+1].getAttribute('href');footer.append(next);stepPanels[i].append(footer);
+}
+let navQueued=false;
+function updateStepNavigation(){
+ const edge=stepNav.getBoundingClientRect().bottom+90;
+ let active=0;stepPanels.forEach((panel,i)=>{if(panel.getBoundingClientRect().top<=edge)active=i;});
+ stepLinks.forEach((a,i)=>{if(i===active)a.setAttribute('aria-current','step');else a.removeAttribute('aria-current');});
+ navQueued=false;
+}
+const navSize=new ResizeObserver(()=>{document.documentElement.style.setProperty('--stage-offset',`${stepNav.offsetHeight+24}px`);updateStepNavigation();});navSize.observe(stepNav);
+window.addEventListener('scroll',()=>{if(!navQueued){navQueued=true;requestAnimationFrame(updateStepNavigation);}},{passive:true});
+updateStepNavigation();
