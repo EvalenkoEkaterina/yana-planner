@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "model_id": "yana-small-experimental-v1",
+  "model_status": "experimental_not_operational",
+  "data_kind": "forecast",
+  "processing": "median_bias_correction",
+  "location": {
+    "point_id": "nizhneyansk",
+    "latitude": 71.4403,
+    "longitude": 136.13585,
+    "coordinate_role": "requested_point; not exact model grid coordinates"
+  },
+  "valid_from": "2025-07-01T00:00:00+00:00",
+  "valid_to": "2025-07-01T01:00:00+00:00",
+  "interval_convention": "[start,end); hourly interval is an integration assumption, not a provider-guaranteed validity window",
+  "metric": "wind_speed_10m",
+  "value": 1.735,
+  "unit": "m/s",
+  "raw_forecast_value": 2.09,
+  "source": {
+    "provider": "Open-Meteo",
+    "dataset": "ECMWF IFS 0.25 Previous Runs",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.4403&longitude=136.13585&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "retrieved_at": "2026-11-12T21:27:37.630147+00:00",
+    "forecast_issued_at": null,
+    "forecast_issued_at_status": "not_available_in_saved_metadata",
+    "lead_hours_label": 24,
+    "attribution": "Open-Meteo; ECMWF IFS / ERA5; CC BY 4.0"
+  },
+  "uncertainty": null,
+  "uncertainty_status": "not_estimated",
+  "missing_value": false,
+  "available_at_decision_time": "unverified",
+  "training_reference": "ERA5 reanalysis; output itself is corrected forecast",
+  "limitations": [
+    "Historical example, not current forecast",
+    "Wind MAE worsened in small evaluation; not approved for navigation decisions",
+    "Do not infer exact forecast issuance by subtracting 24 hours",
+    "No movement thresholds or restrictions included"
+  ]
+}
