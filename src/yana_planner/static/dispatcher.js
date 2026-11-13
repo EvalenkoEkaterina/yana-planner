@@ -196,7 +196,7 @@ form.addEventListener('submit',e=>{
     if(field){let parent=field.parentElement;while(parent){if(parent.tagName==='DETAILS')parent.open=true;parent=parent.parentElement;}field.focus();field.scrollIntoView({block:'center',behavior:'smooth'});}
     else{box.focus();box.scrollIntoView({block:'center',behavior:'smooth'});}
     if($('economics-enabled').value==='yes'&&!$('billing-confirmed').checked) {
-      $('cost-settings').open=true; $('billing-confirmed').focus();
+      document.dispatchEvent(new CustomEvent('fleet-step-request',{detail:'cost-settings'})); $('cost-settings').open=true; $('billing-confirmed').focus();
     }
   }
 },true);

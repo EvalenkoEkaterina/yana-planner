@@ -1,0 +1,1126 @@
+{
+  "id": 11,
+  "inputs": {
+    "cost_terms": {
+      "billing_mode": "all_available_time",
+      "currency": "RUB",
+      "horizon_h": 160,
+      "rate_basis": "scenario",
+      "rates": {
+        "active_vessel_hour_rub": 1000,
+        "separate_trip_operations_rub": 25000,
+        "waiting_vessel_hour_rub": 500
+      },
+      "source": "Учебные коэффициенты, не реальные тарифы",
+      "stop_fees_excluded_from_other_rates": true,
+      "stop_fees_rub": {
+        "batagay": 0,
+        "ust-kuyga": 0
+      },
+      "vessel_id": "ECONOMY"
+    },
+    "scenario": {
+      "arrivals": [
+        {
+          "h": 12,
+          "t": 500
+        }
+      ],
+      "fleet_assumed": true,
+      "horizon_h": 160,
+      "initial_source_t": 100,
+      "mode": "SIM_ONLY",
+      "movement_closures": {
+        "leg1": [],
+        "leg2": [],
+        "return": []
+      },
+      "navigation_assumed": true,
+      "origin_id": "nizhneyansk",
+      "provenance": "All freight, fleet, durations, windows and deadlines are synthetic. Named points illustrate a fixed Yana corridor; actual berths and voyage feasibility are not confirmed. No weather forecast or real rates applied.",
+      "receipt_priority": [
+        "batagay",
+        "ust-kuyga"
+      ],
+      "reception_assumed": true,
+      "stops": [
+        {
+          "deadline_h": 60,
+          "id": "ust-kuyga",
+          "required_t": 200,
+          "unload_h": 4,
+          "windows": [
+            [
+              48,
+              72
+            ]
+          ]
+        },
+        {
+          "deadline_h": 120,
+          "id": "batagay",
+          "required_t": 400,
+          "unload_h": 6,
+          "windows": [
+            [
+              80,
+              130
+            ]
+          ]
+        }
+      ],
+      "supply_assumed": true,
+      "vessel": {
+        "available_h": 20,
+        "capacity_t": 600,
+        "id": "ECONOMY",
+        "load_h": 10,
+        "prep_h": 4,
+        "return_h": 40,
+        "travel_h": [
+          24,
+          30
+        ]
+      }
+    },
+    "schema_version": "yana-multi-stop-request/1",
+    "settings": {
+      "selection_rule": "lowest_cost",
+      "selection_stage_limit_s": 1.3333333333333333,
+      "stage_limit_s": 2,
+      "total_web_timeout_s": 30
+    },
+    "vessel_candidates": [
+      {
+        "cost_terms": {
+          "billing_mode": "all_available_time",
+          "currency": "RUB",
+          "horizon_h": 160,
+          "rate_basis": "scenario",
+          "rates": {
+            "active_vessel_hour_rub": 2000,
+            "separate_trip_operations_rub": 25000,
+            "waiting_vessel_hour_rub": 500
+          },
+          "source": "Учебные коэффициенты, не реальные тарифы",
+          "stop_fees_excluded_from_other_rates": true,
+          "stop_fees_rub": {
+            "batagay": 0,
+            "ust-kuyga": 0
+          },
+          "vessel_id": "FAST"
+        },
+        "vessel": {
+          "available_h": 0,
+          "capacity_t": 600,
+          "id": "FAST",
+          "load_h": 10,
+          "prep_h": 4,
+          "return_h": 40,
+          "travel_h": [
+            24,
+            30
+          ]
+        }
+      },
+      {
+        "cost_terms": {
+          "billing_mode": "all_available_time",
+          "currency": "RUB",
+          "horizon_h": 160,
+          "rate_basis": "scenario",
+          "rates": {
+            "active_vessel_hour_rub": 1000,
+            "separate_trip_operations_rub": 25000,
+            "waiting_vessel_hour_rub": 500
+          },
+          "source": "Учебные коэффициенты, не реальные тарифы",
+          "stop_fees_excluded_from_other_rates": true,
+          "stop_fees_rub": {
+            "batagay": 0,
+            "ust-kuyga": 0
+          },
+          "vessel_id": "ECONOMY"
+        },
+        "vessel": {
+          "available_h": 20,
+          "capacity_t": 600,
+          "id": "ECONOMY",
+          "load_h": 10,
+          "prep_h": 4,
+          "return_h": 40,
+          "travel_h": [
+            24,
+            30
+          ]
+        }
+      },
+      {
+        "cost_terms": {
+          "billing_mode": "all_available_time",
+          "currency": "RUB",
+          "horizon_h": 160,
+          "rate_basis": "scenario",
+          "rates": {
+            "active_vessel_hour_rub": 500,
+            "separate_trip_operations_rub": 25000,
+            "waiting_vessel_hour_rub": 500
+          },
+          "source": "Учебные коэффициенты, не реальные тарифы",
+          "stop_fees_excluded_from_other_rates": true,
+          "stop_fees_rub": {
+            "batagay": 0,
+            "ust-kuyga": 0
+          },
+          "vessel_id": "SMALL"
+        },
+        "vessel": {
+          "available_h": 0,
+          "capacity_t": 500,
+          "id": "SMALL",
+          "load_h": 10,
+          "prep_h": 4,
+          "return_h": 40,
+          "travel_h": [
+            24,
+            30
+          ]
+        }
+      }
+    ]
+  },
+  "links": {
+    "api": "/api/multi-stop/runs/11",
+    "history": "/multi-stop/history",
+    "json": "/multi-stop/runs/11/results.json",
+    "page": "/multi-stop/runs/11"
+  },
+  "result": {
+    "code_version": "6afc8bb3d8e77afdd4d6ae97b4b3a1ce266c6ac129bba95eb9f823e97016bf01",
+    "cost_terms": {
+      "billing_mode": "all_available_time",
+      "currency": "RUB",
+      "horizon_h": 160,
+      "rate_basis": "scenario",
+      "rates": {
+        "active_vessel_hour_rub": 1000,
+        "separate_trip_operations_rub": 25000,
+        "waiting_vessel_hour_rub": 500
+      },
+      "source": "Учебные коэффициенты, не реальные тарифы",
+      "stop_fees_excluded_from_other_rates": true,
+      "stop_fees_rub": {
+        "batagay": 0,
+        "ust-kuyga": 0
+      },
+      "vessel_id": "ECONOMY"
+    },
+    "costs": {
+      "active_breakdown": {
+        "loaded_movement_h": 54,
+        "loading_h": 10,
+        "preparation_h": 4,
+        "return_h": 40,
+        "unloading_h": 10
+      },
+      "active_vessel_h": 118,
+      "actual_savings_rub": null,
+      "available_vessel_h": 140.0,
+      "billing_mode": "all_available_time",
+      "components": [
+        {
+          "amount_rub": 25000.0,
+          "kind": "separate_trip_operations_rub",
+          "quantity": 1.0,
+          "rate_rub": 25000.0
+        },
+        {
+          "amount_rub": 118000.0,
+          "kind": "active_vessel_hour_rub",
+          "quantity": 118.0,
+          "rate_rub": 1000.0
+        },
+        {
+          "amount_rub": 11000.0,
+          "kind": "waiting_vessel_hour_rub",
+          "quantity": 22.0,
+          "rate_rub": 500.0
+        },
+        {
+          "amount_rub": 0.0,
+          "kind": "stop_fee",
+          "quantity": 1,
+          "rate_rub": 0.0,
+          "stop_id": "ust-kuyga"
+        },
+        {
+          "amount_rub": 0.0,
+          "kind": "stop_fee",
+          "quantity": 1,
+          "rate_rub": 0.0,
+          "stop_id": "batagay"
+        }
+      ],
+      "currency": "RUB",
+      "horizon_h": 160,
+      "known_subtotal_rub": 154000.0,
+      "missing": [],
+      "note": "Fixed-schedule scenario cost. Trip charge once, each selected stop fee once; hourly activity and waiting do not overlap. Unknown rates are not zero.",
+      "optimization_includes_cost": false,
+      "paid_waiting_h": 22.0,
+      "rate_basis": "scenario",
+      "source": "Учебные коэффициенты, не реальные тарифы",
+      "status": "scenario_cost",
+      "total_rub": 154000.0,
+      "trip_count": 1,
+      "vessel_id": "ECONOMY",
+      "visit_count": 2,
+      "waiting_breakdown": [
+        {
+          "hours": 0,
+          "location": "origin_before_loading"
+        },
+        {
+          "hours": 0,
+          "location": "origin_after_loading"
+        },
+        {
+          "hours": 0,
+          "location": "ust-kuyga:before_unload"
+        },
+        {
+          "hours": 0,
+          "location": "ust-kuyga:after_unload"
+        },
+        {
+          "hours": 0,
+          "location": "batagay:before_unload"
+        },
+        {
+          "hours": 0,
+          "location": "batagay:after_unload"
+        },
+        {
+          "hours": 22.0,
+          "location": "after_ready"
+        }
+      ]
+    },
+    "departure_checks": [],
+    "earliest_last_proven": true,
+    "earliest_second_proven": true,
+    "goal": "required_deliveries_then_receipt_priorities",
+    "goal_met": true,
+    "input": {
+      "arrivals": [
+        {
+          "h": 12,
+          "t": 500
+        }
+      ],
+      "fleet_assumed": true,
+      "horizon_h": 160,
+      "initial_source_t": 100,
+      "mode": "SIM_ONLY",
+      "movement_closures": {
+        "leg1": [],
+        "leg2": [],
+        "return": []
+      },
+      "navigation_assumed": true,
+      "origin_id": "nizhneyansk",
+      "provenance": "All freight, fleet, durations, windows and deadlines are synthetic. Named points illustrate a fixed Yana corridor; actual berths and voyage feasibility are not confirmed. No weather forecast or real rates applied.",
+      "receipt_priority": [
+        "batagay",
+        "ust-kuyga"
+      ],
+      "reception_assumed": true,
+      "stops": [
+        {
+          "deadline_h": 60,
+          "id": "ust-kuyga",
+          "required_t": 200,
+          "unload_h": 4,
+          "windows": [
+            [
+              48,
+              72
+            ]
+          ]
+        },
+        {
+          "deadline_h": 120,
+          "id": "batagay",
+          "required_t": 400,
+          "unload_h": 6,
+          "windows": [
+            [
+              80,
+              130
+            ]
+          ]
+        }
+      ],
+      "supply_assumed": true,
+      "vessel": {
+        "available_h": 20,
+        "capacity_t": 600,
+        "id": "ECONOMY",
+        "load_h": 10,
+        "prep_h": 4,
+        "return_h": 40,
+        "travel_h": [
+          24,
+          30
+        ]
+      }
+    },
+    "input_sha256": "0a59acc580561bbceac11b5cb1d39b8303203746c1ad7cb548d0ce258b807dec",
+    "lexicographic_optimal": true,
+    "mode": "SIM_ONLY",
+    "objective_stop_id": "batagay",
+    "plan": {
+      "deliveries": [
+        {
+          "accepted_t": 200,
+          "cargo_after_t": 400,
+          "receipt_h": 58,
+          "stop_id": "ust-kuyga"
+        },
+        {
+          "accepted_t": 400,
+          "cargo_after_t": 0,
+          "receipt_h": 94,
+          "stop_id": "batagay"
+        }
+      ],
+      "errors": [],
+      "loaded_t": 600,
+      "ready_h": 138,
+      "starts": {
+        "depart1_h": 30,
+        "depart2_h": 58,
+        "depart_return_h": 94,
+        "load_start_h": 20,
+        "unload1_start_h": 54,
+        "unload2_start_h": 88
+      },
+      "status": "valid_simulation"
+    },
+    "primary_receipt_proven": true,
+    "priority": [
+      "all_required_volumes",
+      "all_receipt_deadlines",
+      "receipt_priority"
+    ],
+    "real_admissibility": "requires_confirmation",
+    "receipt_optima": [
+      {
+        "optimal_given_higher_priorities": true,
+        "priority": 1,
+        "stop_id": "batagay"
+      },
+      {
+        "optimal_given_higher_priorities": true,
+        "priority": 2,
+        "stop_id": "ust-kuyga"
+      }
+    ],
+    "receipt_priority": [
+      "batagay",
+      "ust-kuyga"
+    ],
+    "schema_version": "yana-multi-stop-result/1",
+    "solver": [
+      {
+        "elapsed_s": 0.0002992080007970799,
+        "optimal": true,
+        "receipt_h": 94,
+        "stage": "earliest_receipt:batagay",
+        "status": 0,
+        "stop_id": "batagay"
+      },
+      {
+        "elapsed_s": 0.0002823750000970904,
+        "optimal": true,
+        "receipt_h": 58,
+        "stage": "earliest_receipt:ust-kuyga",
+        "status": 0,
+        "stop_id": "ust-kuyga"
+      },
+      {
+        "elapsed_s": 0.00027245899946137797,
+        "optimal": true,
+        "stage": "earliest_ready_at_fixed_receipts",
+        "status": 0
+      }
+    ],
+    "status": "goal_met",
+    "vessel_selection": {
+      "candidate_results": [
+        {
+          "code_version": "00f44b14dc77fde2c07dba48f0fcc1ad3637594de1050b2d8c09f7d1856e6253",
+          "cost_terms": {
+            "billing_mode": "all_available_time",
+            "currency": "RUB",
+            "horizon_h": 160,
+            "rate_basis": "scenario",
+            "rates": {
+              "active_vessel_hour_rub": 2000,
+              "separate_trip_operations_rub": 25000,
+              "waiting_vessel_hour_rub": 500
+            },
+            "source": "Учебные коэффициенты, не реальные тарифы",
+            "stop_fees_excluded_from_other_rates": true,
+            "stop_fees_rub": {
+              "batagay": 0,
+              "ust-kuyga": 0
+            },
+            "vessel_id": "FAST"
+          },
+          "costs": {
+            "active_breakdown": {
+              "loaded_movement_h": 54,
+              "loading_h": 10,
+              "preparation_h": 4,
+              "return_h": 40,
+              "unloading_h": 10
+            },
+            "active_vessel_h": 118,
+            "actual_savings_rub": null,
+            "available_vessel_h": 160.0,
+            "billing_mode": "all_available_time",
+            "components": [
+              {
+                "amount_rub": 25000.0,
+                "kind": "separate_trip_operations_rub",
+                "quantity": 1.0,
+                "rate_rub": 25000.0
+              },
+              {
+                "amount_rub": 236000.0,
+                "kind": "active_vessel_hour_rub",
+                "quantity": 118.0,
+                "rate_rub": 2000.0
+              },
+              {
+                "amount_rub": 21000.0,
+                "kind": "waiting_vessel_hour_rub",
+                "quantity": 42.0,
+                "rate_rub": 500.0
+              },
+              {
+                "amount_rub": 0.0,
+                "kind": "stop_fee",
+                "quantity": 1,
+                "rate_rub": 0.0,
+                "stop_id": "ust-kuyga"
+              },
+              {
+                "amount_rub": 0.0,
+                "kind": "stop_fee",
+                "quantity": 1,
+                "rate_rub": 0.0,
+                "stop_id": "batagay"
+              }
+            ],
+            "currency": "RUB",
+            "horizon_h": 160,
+            "known_subtotal_rub": 282000.0,
+            "missing": [],
+            "note": "Fixed-schedule scenario cost. Trip charge once, each selected stop fee once; hourly activity and waiting do not overlap. Unknown rates are not zero.",
+            "optimization_includes_cost": false,
+            "paid_waiting_h": 42.0,
+            "rate_basis": "scenario",
+            "source": "Учебные коэффициенты, не реальные тарифы",
+            "status": "scenario_cost",
+            "total_rub": 282000.0,
+            "trip_count": 1,
+            "vessel_id": "FAST",
+            "visit_count": 2,
+            "waiting_breakdown": [
+              {
+                "hours": 12,
+                "location": "origin_before_loading"
+              },
+              {
+                "hours": 0,
+                "location": "origin_after_loading"
+              },
+              {
+                "hours": 2,
+                "location": "ust-kuyga:before_unload"
+              },
+              {
+                "hours": 0,
+                "location": "ust-kuyga:after_unload"
+              },
+              {
+                "hours": 0,
+                "location": "batagay:before_unload"
+              },
+              {
+                "hours": 0,
+                "location": "batagay:after_unload"
+              },
+              {
+                "hours": 28.0,
+                "location": "after_ready"
+              }
+            ]
+          },
+          "departure_checks": [],
+          "earliest_last_proven": true,
+          "earliest_second_proven": true,
+          "goal": "required_deliveries_then_receipt_priorities",
+          "goal_met": true,
+          "input": {
+            "arrivals": [
+              {
+                "h": 12,
+                "t": 500
+              }
+            ],
+            "fleet_assumed": true,
+            "horizon_h": 160,
+            "initial_source_t": 100,
+            "mode": "SIM_ONLY",
+            "movement_closures": {
+              "leg1": [],
+              "leg2": [],
+              "return": []
+            },
+            "navigation_assumed": true,
+            "origin_id": "nizhneyansk",
+            "provenance": "All freight, fleet, durations, windows and deadlines are synthetic. Named points illustrate a fixed Yana corridor; actual berths and voyage feasibility are not confirmed. No weather forecast or real rates applied.",
+            "receipt_priority": [
+              "batagay",
+              "ust-kuyga"
+            ],
+            "reception_assumed": true,
+            "stops": [
+              {
+                "deadline_h": 60,
+                "id": "ust-kuyga",
+                "required_t": 200,
+                "unload_h": 4,
+                "windows": [
+                  [
+                    48,
+                    72
+                  ]
+                ]
+              },
+              {
+                "deadline_h": 120,
+                "id": "batagay",
+                "required_t": 400,
+                "unload_h": 6,
+                "windows": [
+                  [
+                    80,
+                    130
+                  ]
+                ]
+              }
+            ],
+            "supply_assumed": true,
+            "vessel": {
+              "available_h": 0,
+              "capacity_t": 600,
+              "id": "FAST",
+              "load_h": 10,
+              "prep_h": 4,
+              "return_h": 40,
+              "travel_h": [
+                24,
+                30
+              ]
+            }
+          },
+          "input_sha256": "1273d4728eb3931486107a654b623cb0a8fc6530ca02cbd2353d517ae46049d8",
+          "lexicographic_optimal": true,
+          "mode": "SIM_ONLY",
+          "objective_stop_id": "batagay",
+          "plan": {
+            "deliveries": [
+              {
+                "accepted_t": 200,
+                "cargo_after_t": 400,
+                "receipt_h": 52,
+                "stop_id": "ust-kuyga"
+              },
+              {
+                "accepted_t": 400,
+                "cargo_after_t": 0,
+                "receipt_h": 88,
+                "stop_id": "batagay"
+              }
+            ],
+            "errors": [],
+            "loaded_t": 600,
+            "ready_h": 132,
+            "starts": {
+              "depart1_h": 22,
+              "depart2_h": 52,
+              "depart_return_h": 88,
+              "load_start_h": 12,
+              "unload1_start_h": 48,
+              "unload2_start_h": 82
+            },
+            "status": "valid_simulation"
+          },
+          "primary_receipt_proven": true,
+          "priority": [
+            "all_required_volumes",
+            "all_receipt_deadlines",
+            "receipt_priority"
+          ],
+          "real_admissibility": "requires_confirmation",
+          "receipt_optima": [
+            {
+              "optimal_given_higher_priorities": true,
+              "priority": 1,
+              "stop_id": "batagay"
+            },
+            {
+              "optimal_given_higher_priorities": true,
+              "priority": 2,
+              "stop_id": "ust-kuyga"
+            }
+          ],
+          "receipt_priority": [
+            "batagay",
+            "ust-kuyga"
+          ],
+          "schema_version": "yana-multi-stop-result/1",
+          "solver": [
+            {
+              "elapsed_s": 0.0007815000008122297,
+              "optimal": true,
+              "receipt_h": 88,
+              "stage": "earliest_receipt:batagay",
+              "status": 0,
+              "stop_id": "batagay"
+            },
+            {
+              "elapsed_s": 0.00035733300137508195,
+              "optimal": true,
+              "receipt_h": 52,
+              "stage": "earliest_receipt:ust-kuyga",
+              "status": 0,
+              "stop_id": "ust-kuyga"
+            },
+            {
+              "elapsed_s": 0.0003063750009459909,
+              "optimal": true,
+              "stage": "earliest_ready_at_fixed_receipts",
+              "status": 0
+            }
+          ],
+          "status": "goal_met",
+          "visit_order": [
+            "ust-kuyga",
+            "batagay"
+          ]
+        },
+        {
+          "code_version": "00f44b14dc77fde2c07dba48f0fcc1ad3637594de1050b2d8c09f7d1856e6253",
+          "cost_terms": {
+            "billing_mode": "all_available_time",
+            "currency": "RUB",
+            "horizon_h": 160,
+            "rate_basis": "scenario",
+            "rates": {
+              "active_vessel_hour_rub": 1000,
+              "separate_trip_operations_rub": 25000,
+              "waiting_vessel_hour_rub": 500
+            },
+            "source": "Учебные коэффициенты, не реальные тарифы",
+            "stop_fees_excluded_from_other_rates": true,
+            "stop_fees_rub": {
+              "batagay": 0,
+              "ust-kuyga": 0
+            },
+            "vessel_id": "ECONOMY"
+          },
+          "costs": {
+            "active_breakdown": {
+              "loaded_movement_h": 54,
+              "loading_h": 10,
+              "preparation_h": 4,
+              "return_h": 40,
+              "unloading_h": 10
+            },
+            "active_vessel_h": 118,
+            "actual_savings_rub": null,
+            "available_vessel_h": 140.0,
+            "billing_mode": "all_available_time",
+            "components": [
+              {
+                "amount_rub": 25000.0,
+                "kind": "separate_trip_operations_rub",
+                "quantity": 1.0,
+                "rate_rub": 25000.0
+              },
+              {
+                "amount_rub": 118000.0,
+                "kind": "active_vessel_hour_rub",
+                "quantity": 118.0,
+                "rate_rub": 1000.0
+              },
+              {
+                "amount_rub": 11000.0,
+                "kind": "waiting_vessel_hour_rub",
+                "quantity": 22.0,
+                "rate_rub": 500.0
+              },
+              {
+                "amount_rub": 0.0,
+                "kind": "stop_fee",
+                "quantity": 1,
+                "rate_rub": 0.0,
+                "stop_id": "ust-kuyga"
+              },
+              {
+                "amount_rub": 0.0,
+                "kind": "stop_fee",
+                "quantity": 1,
+                "rate_rub": 0.0,
+                "stop_id": "batagay"
+              }
+            ],
+            "currency": "RUB",
+            "horizon_h": 160,
+            "known_subtotal_rub": 154000.0,
+            "missing": [],
+            "note": "Fixed-schedule scenario cost. Trip charge once, each selected stop fee once; hourly activity and waiting do not overlap. Unknown rates are not zero.",
+            "optimization_includes_cost": false,
+            "paid_waiting_h": 22.0,
+            "rate_basis": "scenario",
+            "source": "Учебные коэффициенты, не реальные тарифы",
+            "status": "scenario_cost",
+            "total_rub": 154000.0,
+            "trip_count": 1,
+            "vessel_id": "ECONOMY",
+            "visit_count": 2,
+            "waiting_breakdown": [
+              {
+                "hours": 0,
+                "location": "origin_before_loading"
+              },
+              {
+                "hours": 0,
+                "location": "origin_after_loading"
+              },
+              {
+                "hours": 0,
+                "location": "ust-kuyga:before_unload"
+              },
+              {
+                "hours": 0,
+                "location": "ust-kuyga:after_unload"
+              },
+              {
+                "hours": 0,
+                "location": "batagay:before_unload"
+              },
+              {
+                "hours": 0,
+                "location": "batagay:after_unload"
+              },
+              {
+                "hours": 22.0,
+                "location": "after_ready"
+              }
+            ]
+          },
+          "departure_checks": [],
+          "earliest_last_proven": true,
+          "earliest_second_proven": true,
+          "goal": "required_deliveries_then_receipt_priorities",
+          "goal_met": true,
+          "input": {
+            "arrivals": [
+              {
+                "h": 12,
+                "t": 500
+              }
+            ],
+            "fleet_assumed": true,
+            "horizon_h": 160,
+            "initial_source_t": 100,
+            "mode": "SIM_ONLY",
+            "movement_closures": {
+              "leg1": [],
+              "leg2": [],
+              "return": []
+            },
+            "navigation_assumed": true,
+            "origin_id": "nizhneyansk",
+            "provenance": "All freight, fleet, durations, windows and deadlines are synthetic. Named points illustrate a fixed Yana corridor; actual berths and voyage feasibility are not confirmed. No weather forecast or real rates applied.",
+            "receipt_priority": [
+              "batagay",
+              "ust-kuyga"
+            ],
+            "reception_assumed": true,
+            "stops": [
+              {
+                "deadline_h": 60,
+                "id": "ust-kuyga",
+                "required_t": 200,
+                "unload_h": 4,
+                "windows": [
+                  [
+                    48,
+                    72
+                  ]
+                ]
+              },
+              {
+                "deadline_h": 120,
+                "id": "batagay",
+                "required_t": 400,
+                "unload_h": 6,
+                "windows": [
+                  [
+                    80,
+                    130
+                  ]
+                ]
+              }
+            ],
+            "supply_assumed": true,
+            "vessel": {
+              "available_h": 20,
+              "capacity_t": 600,
+              "id": "ECONOMY",
+              "load_h": 10,
+              "prep_h": 4,
+              "return_h": 40,
+              "travel_h": [
+                24,
+                30
+              ]
+            }
+          },
+          "input_sha256": "a9c74b6a79fe30a7a112480fd07dc636260b9ae879fbdde94b647ab5cab7f31e",
+          "lexicographic_optimal": true,
+          "mode": "SIM_ONLY",
+          "objective_stop_id": "batagay",
+          "plan": {
+            "deliveries": [
+              {
+                "accepted_t": 200,
+                "cargo_after_t": 400,
+                "receipt_h": 58,
+                "stop_id": "ust-kuyga"
+              },
+              {
+                "accepted_t": 400,
+                "cargo_after_t": 0,
+                "receipt_h": 94,
+                "stop_id": "batagay"
+              }
+            ],
+            "errors": [],
+            "loaded_t": 600,
+            "ready_h": 138,
+            "starts": {
+              "depart1_h": 30,
+              "depart2_h": 58,
+              "depart_return_h": 94,
+              "load_start_h": 20,
+              "unload1_start_h": 54,
+              "unload2_start_h": 88
+            },
+            "status": "valid_simulation"
+          },
+          "primary_receipt_proven": true,
+          "priority": [
+            "all_required_volumes",
+            "all_receipt_deadlines",
+            "receipt_priority"
+          ],
+          "real_admissibility": "requires_confirmation",
+          "receipt_optima": [
+            {
+              "optimal_given_higher_priorities": true,
+              "priority": 1,
+              "stop_id": "batagay"
+            },
+            {
+              "optimal_given_higher_priorities": true,
+              "priority": 2,
+              "stop_id": "ust-kuyga"
+            }
+          ],
+          "receipt_priority": [
+            "batagay",
+            "ust-kuyga"
+          ],
+          "schema_version": "yana-multi-stop-result/1",
+          "solver": [
+            {
+              "elapsed_s": 0.0002992080007970799,
+              "optimal": true,
+              "receipt_h": 94,
+              "stage": "earliest_receipt:batagay",
+              "status": 0,
+              "stop_id": "batagay"
+            },
+            {
+              "elapsed_s": 0.0002823750000970904,
+              "optimal": true,
+              "receipt_h": 58,
+              "stage": "earliest_receipt:ust-kuyga",
+              "status": 0,
+              "stop_id": "ust-kuyga"
+            },
+            {
+              "elapsed_s": 0.00027245899946137797,
+              "optimal": true,
+              "stage": "earliest_ready_at_fixed_receipts",
+              "status": 0
+            }
+          ],
+          "status": "goal_met",
+          "visit_order": [
+            "ust-kuyga",
+            "batagay"
+          ]
+        },
+        {
+          "code_version": "00f44b14dc77fde2c07dba48f0fcc1ad3637594de1050b2d8c09f7d1856e6253",
+          "cost_terms": {
+            "billing_mode": "all_available_time",
+            "currency": "RUB",
+            "horizon_h": 160,
+            "rate_basis": "scenario",
+            "rates": {
+              "active_vessel_hour_rub": 500,
+              "separate_trip_operations_rub": 25000,
+              "waiting_vessel_hour_rub": 500
+            },
+            "source": "Учебные коэффициенты, не реальные тарифы",
+            "stop_fees_excluded_from_other_rates": true,
+            "stop_fees_rub": {
+              "batagay": 0,
+              "ust-kuyga": 0
+            },
+            "vessel_id": "SMALL"
+          },
+          "costs": {
+            "actual_savings_rub": null,
+            "status": "no_valid_plan",
+            "total_rub": null
+          },
+          "departure_checks": [],
+          "earliest_last_proven": false,
+          "earliest_second_proven": false,
+          "goal": "required_deliveries_then_receipt_priorities",
+          "goal_met": false,
+          "input": {
+            "arrivals": [
+              {
+                "h": 12,
+                "t": 500
+              }
+            ],
+            "fleet_assumed": true,
+            "horizon_h": 160,
+            "initial_source_t": 100,
+            "mode": "SIM_ONLY",
+            "movement_closures": {
+              "leg1": [],
+              "leg2": [],
+              "return": []
+            },
+            "navigation_assumed": true,
+            "origin_id": "nizhneyansk",
+            "provenance": "All freight, fleet, durations, windows and deadlines are synthetic. Named points illustrate a fixed Yana corridor; actual berths and voyage feasibility are not confirmed. No weather forecast or real rates applied.",
+            "receipt_priority": [
+              "batagay",
+              "ust-kuyga"
+            ],
+            "reception_assumed": true,
+            "stops": [
+              {
+                "deadline_h": 60,
+                "id": "ust-kuyga",
+                "required_t": 200,
+                "unload_h": 4,
+                "windows": [
+                  [
+                    48,
+                    72
+                  ]
+                ]
+              },
+              {
+                "deadline_h": 120,
+                "id": "batagay",
+                "required_t": 400,
+                "unload_h": 6,
+                "windows": [
+                  [
+                    80,
+                    130
+                  ]
+                ]
+              }
+            ],
+            "supply_assumed": true,
+            "vessel": {
+              "available_h": 0,
+              "capacity_t": 500,
+              "id": "SMALL",
+              "load_h": 10,
+              "prep_h": 4,
+              "return_h": 40,
+              "travel_h": [
+                24,
+                30
+              ]
+            }
+          },
+          "input_sha256": "9c580df084ad2309e97227450a84c13a122dadd86acd2f3b0c53e77c3196405c",
+          "lexicographic_optimal": false,
+          "mode": "SIM_ONLY",
+          "objective_stop_id": "batagay",
+          "plan": null,
+          "primary_receipt_proven": false,
+          "priority": [
+            "all_required_volumes",
+            "all_receipt_deadlines",
+            "receipt_priority"
+          ],
+          "real_admissibility": "requires_confirmation",
+          "reason": "Недостаточно вместимости или поступлений в пределах горизонта",
+          "receipt_optima": [],
+          "receipt_priority": [
+            "batagay",
+            "ust-kuyga"
+          ],
+          "schema_version": "yana-multi-stop-result/1",
+          "solver": [],
+          "status": "infeasible",
+          "visit_order": [
+            "ust-kuyga",
+            "batagay"
+          ]
+        }
+      ],
+      "displayed_vessel_id": "ECONOMY",
+      "recommended_vessel_id": "ECONOMY",
+      "rule": "lowest_cost",
+      "scope": "one_alternative_vessel_one_voyage",
+      "selection_proven": true,
+      "status": "selected"
+    },
+    "visit_order": [
+      "ust-kuyga",
+      "batagay"
+    ]
+  }
+}
