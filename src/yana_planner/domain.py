@@ -29,7 +29,11 @@ def integer(value: Any, name: str, *, minimum: int = 0) -> int:
         raise ConfirmationRequired(f"{name}: значение не задано")
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise InputError(f"{name}: требуется число")
-    if not math.isfinite(value) or value != int(value) or value < minimum:
+    try:
+        valid = math.isfinite(value) and value == int(value) and value >= minimum
+    except (ValueError, OverflowError):
+        valid = False
+    if not valid:
         raise InputError(f"{name}: требуется целое число >= {minimum}")
     return int(value)
 

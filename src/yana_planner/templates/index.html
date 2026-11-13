@@ -12,6 +12,7 @@
 <form method="post" id="conditions-form" class="conditions-form" data-total-timeout="{{ total_timeout }}" data-capabilities="{{ dispatcher_capabilities | default({}) | tojson | forceescape }}">
 <noscript><p class="warning">Для новых настроек и проверки пакета включите JavaScript. Кнопка расчёта отключена, чтобы сервер не проигнорировал выбранные условия.</p></noscript><input type="hidden" name="customize" value="1"><input type="hidden" name="route_package_json" id="route-package-json">
 <div class="form-main">
+<div id="form-validation-error" class="warning" role="alert" tabindex="-1" hidden></div>
 <section id="task"><div class="section-heading"><div><p class="eyebrow">2 / ЗАДАНИЕ</p><h2>Сколько и к какому сроку?</h2></div><a class="text-link" href="{{ url_for('index', preset='r03') }}">Восстановить R03 ↺</a></div><p class="section-intro">Проверьте объём и срок. Суда и поступления уже заданы в выбранном примере.</p>
 <div class="fields-grid">
 

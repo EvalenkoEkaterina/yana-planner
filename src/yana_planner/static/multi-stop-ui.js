@@ -6,7 +6,17 @@ let vesselCandidates=[];
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const num=n=>typeof n==='number'&&Number.isFinite(n)?n.toLocaleString('ru-RU'):'Не задано';
 const rub=n=>typeof n==='number'&&Number.isFinite(n)?num(n)+' ₽':'Не определено';
-function status(message,error=false){$('form-status').textContent=message;$('form-status').classList.toggle('error',error);}
+function status(message,error=false){$('form-status').textContent=message;$('form-status').classList.toggle('error',error);$('validation-banner').textContent=error?message:'';$('validation-banner').hidden=!error;}
+function validationFailure(error){
+ status(error.message,true);
+ // A required confirmation may be on another wizard page; take the user to it.
+ let target;
+ if(!state.assumptions_confirmed || ([state.origin_id,...state.stops.map(s=>s.id)].some(id=>points.find(p=>p.id===id)?.candidate)&&!state.candidates_confirmed)) {showStage(5,{focus:true});target=!state.assumptions_confirmed?$('assumed'):$('candidate-assumed');}
+ else if(state.economics_enabled&&!state.costs.stop_fees_excluded_from_other_rates) {showStage(4,{focus:true});target=$('fees-separated');}
+ else if(state.economics_enabled&&state.costs.rate_basis==='documented'&&!state.costs.source?.trim()) {showStage(4,{focus:true});target=$('cost-fields').querySelector('[data-field="rate-source"]');}
+ else showStage(5,{focus:true});
+ target?.focus();
+}
 function changed(message='Условия изменены. Подготовьте JSON заново.') {prepared=null;$('download-request').disabled=true;$('request-section').hidden=true;status(message);summary();}
 function button(text,fn,{disabled=false,label}={}){const b=el('button',text);b.type='button';b.disabled=disabled;if(label)b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b;}
 function field(host,label,value,update,{type='number',key,min='0',options,step='1',required=false}={}){
@@ -41,10 +51,10 @@ $('economics-enabled').addEventListener('change',e=>{state.economics_enabled=e.t
 $('fees-separated').addEventListener('change',e=>{state.costs.stop_fees_excluded_from_other_rates=e.target.checked;changed();});
 $('assumed').addEventListener('change',e=>{state.assumptions_confirmed=e.target.checked;changed();});$('candidate-assumed').addEventListener('change',e=>{state.candidates_confirmed=e.target.checked;changed();});
 $('reset-rates').addEventListener('click',()=>{state.costs.rates=Object.fromEntries(rateFields.map(k=>[k,null]));state.costs.source='';state.costs.rate_basis='unspecified';state.costs.stop_fees_excluded_from_other_rates=false;state.stops.forEach(p=>p.stop_fee_rub=null);drawCosts();changed();});
-$('export-request').addEventListener('click',()=>{try{prepared=currentRequest();$('request-json').textContent=JSON.stringify(prepared,null,2);$('request-section').hidden=false;$('download-request').disabled=false;status('Запрос подготовлен. Расчёт не запускался.');}catch(e){status(e.message,true);}});
+$('export-request').addEventListener('click',()=>{try{prepared=currentRequest();$('request-json').textContent=JSON.stringify(prepared,null,2);$('request-section').hidden=false;$('download-request').disabled=false;status('Запрос подготовлен. Расчёт не запускался.');}catch(e){validationFailure(e);}});
 $('download-request').addEventListener('click',()=>{if(prepared)download(prepared,'multi-stop-request.proposal.json');});
 function setBusy(value){busy=value;$('form-lock').disabled=value;$('show-fixture').disabled=value;$('progress').hidden=!value;$('calculate').disabled=value||!config.endpoint;if(value){const start=Date.now();$('elapsed').textContent='0';ticker=setInterval(()=>$('elapsed').textContent=String(Math.floor((Date.now()-start)/1000)),1000);}else clearInterval(ticker);}
-$('voyage-form').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;let request;try{request=currentRequest();}catch(err){status(err.message,true);return;}setBusy(true);$('report').replaceChildren();try{const result=await sendRequest({endpoint:config.endpoint,request,timeoutMs:config.timeout_ms});renderReport(result,{saved:false});status(`Расчёт сохранён${result.saved_run?' №'+result.saved_run.id:''}. ${result.goal_met?'Обязательные поставки выполнены.':'Выполнение поставок не подтверждено — смотрите результат модели.'}`);}catch(err){status(err.message,true);renderError(err,{saved:false});}finally{setBusy(false);}});
+$('voyage-form').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;let request;try{request=currentRequest();}catch(err){validationFailure(err);return;}setBusy(true);$('report').replaceChildren();try{const result=await sendRequest({endpoint:config.endpoint,request,timeoutMs:config.timeout_ms});renderReport(result,{saved:false});status(`Расчёт сохранён${result.saved_run?' №'+result.saved_run.id:''}. ${result.goal_met?'Обязательные поставки выполнены.':'Выполнение поставок не подтверждено — смотрите результат модели.'}`);}catch(err){status(err.message,true);renderError(err,{saved:false});}finally{setBusy(false);}});
 function table(heads,rows){const wrap=el('div',undefined,'table-scroll'),t=el('table'),head=el('tr');heads.forEach(x=>head.append(el('th',x)));const thead=el('thead');thead.append(head);t.append(thead);const body=el('tbody');rows.forEach(row=>{const tr=el('tr');row.forEach(x=>tr.append(el('td',String(x))));body.append(tr);});t.append(body);wrap.append(t);return wrap;}
 function locationName(x){if(x==='origin_before_loading')return 'У отправителя до погрузки';if(x==='origin_after_loading')return 'У отправителя после погрузки';if(x==='after_ready')return 'После полной готовности';const [id,phase]=x.split(':');return name(id)+(phase==='before_unload'?' до выгрузки':phase==='after_unload'?' после выгрузки':'');}
 function renderError(error,{saved}){const h=$('report');h.replaceChildren();const s=el('section');if(saved)s.append(el('div','Сохранённый пример обработки ошибки API. Не ответ на текущую форму.','saved-banner'));s.append(el('h2',error.code==='timeout'?'Время ожидания истекло':'Не удалось выполнить запрос'),el('p',error.message),el('p','Все введённые поля сохранены. Проверьте условия и повторите запрос.'));s.append(button('Вернуться к проверке условий',()=>showStage(5,{focus:true})));h.append(s);showStage(6,{focus:true});}

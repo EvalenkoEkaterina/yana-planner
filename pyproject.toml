@@ -27,4 +27,4 @@ target-version = "py312"
 select = ["E4", "E7", "E9", "F", "I"]
 
 [tool.setuptools.package-data]
-yana_planner = ["templates/*.html", "static/*.css", "static/*.js", "static/data/*.json"]
+yana_planner = ["templates/*.html", "static/*.css", "static/*.js", "static/*.mjs", "static/data/*.json", "static/data/multi-stop-ui/*.json"]

@@ -6,6 +6,7 @@ import re
 from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from time import monotonic
 
 from .domain import InputError, Scenario, integer
 from .economics import resolve_cost_terms
@@ -167,7 +168,16 @@ def custom_conditions(values, *, with_delay, maximum=492):
     return cfg, event
 
 
-def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None, adaptive=False):
+def calculate(
+    scenario,
+    deadline,
+    *,
+    max_deadline=492,
+    time_limit=2,
+    custom=None,
+    adaptive=False,
+    total_budget_s=None,
+):
     """Validate bounded hours, run existing core and retain complete inputs."""
     if scenario not in NAMES:
         raise InputError("Выберите расчёт без задержки или с задержкой топлива")
@@ -196,6 +206,8 @@ def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None
         else None
     )
     kwargs = dict(time_limit=time_limit, incumbent=reference, adaptive=adaptive)
+    if total_budget_s is not None:
+        kwargs["search_deadline"] = monotonic() + max(0, total_budget_s)
     result = (
         run_replanning(cfg, event, deadline, **kwargs)
         if event
@@ -204,7 +216,7 @@ def calculate(scenario, deadline, *, max_deadline=492, time_limit=2, custom=None
     return _report(cfg, event, deadline, result, time_limit, reference, adaptive)
 
 
-def calculate_request(payload, *, max_deadline=492):
+def calculate_request(payload, *, max_deadline=492, total_budget_s=None):
     """JSON boundary for the frontend; never complete missing operational data."""
     if not isinstance(payload, dict):
         raise InputError("Запрос должен быть JSON-объектом")
@@ -253,6 +265,8 @@ def calculate_request(payload, *, max_deadline=492):
         if event["announced_at_h"] >= deadline:
             raise InputError("Событие должно быть объявлено раньше срока приёмки")
     kwargs = dict(time_limit=time_limit, adaptive=adaptive, strategy=strategy, cost_terms=terms)
+    if total_budget_s is not None:
+        kwargs["search_deadline"] = monotonic() + max(0, total_budget_s)
     result = (
         run_replanning(cfg, event, deadline, **kwargs)
         if event is not None
@@ -264,7 +278,7 @@ def calculate_request(payload, *, max_deadline=492):
     return inputs, result
 
 
-def calculate_package(package, *, search_seconds="auto", max_deadline=492):
+def calculate_package(package, *, search_seconds="auto", max_deadline=492, total_budget_s=None):
     """Import a route envelope and retain its provenance with the calculation."""
     from .route_import import import_route_package
 
@@ -276,6 +290,7 @@ def calculate_package(package, *, search_seconds="auto", max_deadline=492):
         }
         | dict(search_seconds=search_seconds),
         max_deadline=max_deadline,
+        total_budget_s=total_budget_s,
     )
     inputs["route_package"] = package
     return inputs, result
@@ -292,7 +307,7 @@ def _report(cfg, event, deadline, result, time_limit, reference, adaptive):
             (Path(directory) / "report.html").read_text(),
         )
     result["code_version"] = hashlib.sha256(
-        b"".join(f.read_bytes() for f in sorted(Path(__file__).parent.glob("*.py")))
+        b"".join(f.read_bytes() for f in sorted(Path(__file__).parent.rglob("*.py")))
     ).hexdigest()
     inputs = dict(
         scenario=cfg,

@@ -255,6 +255,20 @@ def create_app(config=None):
 
     @app.errorhandler(404)
     def missing(error):
+        if request.path.startswith("/api/"):
+            return jsonify(
+                code="not_found", error="Запрос или сохранённый расчёт не найден", result=None
+            ), 404
         return render_template("base.html", message="Расчёт не найден"), 404
+
+    @app.errorhandler(405)
+    def method_not_allowed(error):
+        if request.path.startswith("/api/"):
+            return jsonify(
+                code="method_not_allowed",
+                error="Для этой операции выбран неверный метод запроса",
+                result=None,
+            ), 405
+        return error
 
     return app

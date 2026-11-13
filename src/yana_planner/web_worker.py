@@ -47,6 +47,8 @@ def calculate_multi_stop_with_timeout(payload, *, total_timeout=30):
 
 
 def _run_worker(request, total_timeout):
+    # Reserve time for worker startup, independent validation, reporting and persistence.
+    request = dict(request, solver_budget_s=max(0, total_timeout - 4))
     try:
         payload = json.dumps(request, ensure_ascii=False, allow_nan=False)
     except (TypeError, ValueError) as exc:
@@ -92,14 +94,20 @@ def main():
                 payload["payload"],
                 search_seconds=payload["search_seconds"],
                 max_deadline=payload["max_deadline"],
+                total_budget_s=payload.get("solver_budget_s"),
             )
         elif payload.get("operation") == "request":
             inputs, result = calculate_request(
-                payload["payload"], max_deadline=payload["max_deadline"]
+                payload["payload"],
+                max_deadline=payload["max_deadline"],
+                total_budget_s=payload.get("solver_budget_s"),
             )
         else:
             inputs, result = calculate(
-                payload["scenario"], payload["deadline"], **payload["kwargs"]
+                payload["scenario"],
+                payload["deadline"],
+                **payload["kwargs"],
+                total_budget_s=payload.get("solver_budget_s"),
             )
         json.dump(
             dict(inputs=inputs, result=result), sys.stdout, ensure_ascii=False, allow_nan=False

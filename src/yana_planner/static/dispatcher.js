@@ -1,11 +1,12 @@
 import {validatePackage, rateFields, normalizeLoading} from './route-package.js';
+import {reconcileOptions, costInputIssue} from './planning-form-state.mjs';
 const form = document.getElementById('conditions-form');
 const $ = id => document.getElementById(id);
 const values = name => [...form.querySelectorAll(`[name="${name}"]`)];
 const first = name => values(name)[0];
 const base = $('route-workspace').dataset.staticBase;
 const caps = JSON.parse(form.dataset.capabilities || '{}');
-let current, routeKey='r03', loading=false, routeRequest=0, snapshot;
+let current, routeKey='r03', loading=true, routeRequest=0, snapshot;
 const status = message => { $('package-status').textContent = message; };
 const getNumber = input => input.value.trim()==='' ? null : Number(input.value.replace(',','.'));
 const set = (name, value) => { const e=first(name); if(e) e.value=value ?? ''; };
@@ -36,7 +37,7 @@ function update() {
   const missing=requiredCapabilities();
   $('integration-status').textContent=missing.length ? 'Эти настройки пока доступны в пакете условий. Расчёт с ними на сайте подключает интегратор; скачайте JSON. Текущий сервер не будет запущен с неподдерживаемыми параметрами.' : 'Расчёт доступен на текущем сервере. Сначала проверьте объём, затем затраты, рейсы и сроки. Решение утверждает диспетчер.';
   const button=form.querySelector('[type="submit"]');
-  button.disabled=loading || missing.length>0;
+  button.disabled=loading || !current || missing.length>0;
   button.textContent=missing.length ? 'Ожидает подключения расчёта' : 'Рассчитать план ↗';
 }
 function gather({requireBilling=true}={}) {
@@ -152,7 +153,30 @@ $('import-package').addEventListener('change',async e=>{
   catch(error){$('route-import-status').textContent=`Импорт отклонён: ${error.message}. Текущие условия сохранены.`;}
   finally{e.target.value='';loading=false;update();}
 });
-$('strategy').addEventListener('change',()=>{if($('strategy').value==='cost')$('economics-enabled').value='yes';update();});
+function synchronizeOptions(changed) {
+  const state=reconcileOptions({strategy:$('strategy').value,economics:$('economics-enabled').value==='yes',weather:$('weather-enabled').checked,delayed:first('scenario').value==='delay'},changed);
+  $('strategy').value=state.strategy; $('economics-enabled').value=state.economics?'yes':'no';
+  $('weather-enabled').checked=state.weather; first('scenario').value=state.delayed?'delay':'r03';
+  // conditions.js also owns summaries and the enabled state of delay fields.
+  form.dispatchEvent(new Event('input',{bubbles:true})); update();
+}
+$('strategy').addEventListener('change',()=>synchronizeOptions('strategy'));
+$('economics-enabled').addEventListener('change',()=>synchronizeOptions('economics'));
+$('weather-enabled').addEventListener('change',()=>synchronizeOptions('weather'));
+first('scenario').addEventListener('change',()=>synchronizeOptions('delayed'));
+$('load-example-rates').addEventListener('click',()=>{
+  const terms=current?.cost_terms; let count=0;
+  for(const row of form.querySelectorAll('.vessel-row')) {
+    const id=row.querySelector('[name="vessel_id"]').value.trim(), rates=terms?.vessel_rates?.[id];
+    if(!rates)continue;
+    for(const field of rateFields)row.querySelector(`[name="vessel_${field}"]`).value=rates[field]??'';
+    row.querySelector('[name="vessel_rate_basis"]').value=rates.rate_basis;
+    row.querySelector('[name="vessel_rate_source"]').value=rates.source??''; count++;
+  }
+  if(count){$('economics-enabled').value='yes';$('horizon-h').value=terms.horizon_h;$('resources-settings').open=true;}
+  status(count?`Загружены ставки для ${count} судов. Проверьте их и отдельно подтвердите схему оплаты. Для остальных судов ставки не перенесены.`:'В выбранном примере нет ставок для этих ID. Заполните их вручную; ставки другого судна не переносятся.');
+  form.dispatchEvent(new Event('input',{bubbles:true}));update();
+});
 form.addEventListener('input',update); form.addEventListener('change',update);
 form.addEventListener('click',e=>{if(e.target.matches('.remove-vessel, .remove-arrival'))update();});
 $('add-vessel').addEventListener('click',update); $('add-arrival').addEventListener('click',update);
@@ -160,10 +184,17 @@ function download(p){ const blob=new Blob([JSON.stringify(p,null,2)+'\n'],{type:
 $('export-package').addEventListener('click',()=>{try{const p=gather();download(p);status('Пакет проверен и скачан. Это входные условия, не результат расчёта.');}catch(e){status(e.message);}});
 form.addEventListener('submit',e=>{
   try {
+    $('form-validation-error').hidden=true;
+    const issue=costInputIssue({strategy:$('strategy').value,economics:$('economics-enabled').value==='yes',confirmed:$('billing-confirmed').checked,vessels:[...form.querySelectorAll('.vessel-row')].map(row=>({id:row.querySelector('[name="vessel_id"]').value,...Object.fromEntries(rateFields.map(f=>[f,row.querySelector(`[name="vessel_${f}"]`).value])),rate_basis:row.querySelector('[name="vessel_rate_basis"]').value,source:row.querySelector('[name="vessel_rate_source"]').value}))});
+    if(issue){const error=new Error(issue.message);error.selector=issue.selector;throw error;}
     if(requiredCapabilities().length) throw new Error('Сервер ещё не поддерживает эти настройки. Скачайте пакет условий для интеграции.');
     // Preserve historical R03 behaviour when only the old transport fields are used.
     if(Object.keys(caps).length) $('route-package-json').value=JSON.stringify(gather());
   }catch(error){e.preventDefault();e.stopImmediatePropagation();status(error.message);update();
+    const box=$('form-validation-error');box.textContent=error.message;box.hidden=false;
+    const field=error.selector?form.querySelector(error.selector):null;
+    if(field){let parent=field.parentElement;while(parent){if(parent.tagName==='DETAILS')parent.open=true;parent=parent.parentElement;}field.focus();field.scrollIntoView({block:'center',behavior:'smooth'});}
+    else{box.focus();box.scrollIntoView({block:'center',behavior:'smooth'});}
     if($('economics-enabled').value==='yes'&&!$('billing-confirmed').checked) {
       $('cost-settings').open=true; $('billing-confirmed').focus();
     }
@@ -186,8 +217,11 @@ const restored=JSON.parse($('restored-route-package').textContent);
 if(restored) {
   try{fill(restored,restored.route.id==='ust-kuyga-batagay'?'ust-kuyga-batagay':restored.route.id==='nizhneyansk-ust-kuyga'?'r03':'restored',true);$('route-import-status').textContent='Условия выбранного маршрута восстановлены после ответа сервера.';}
   catch(e){status(`Не удалось восстановить пакет: ${e.message}`);}
+  finally {loading=false;}
 } else {
-  try{const r=await fetch(`${base}r03.package.json`);if(!r.ok)throw new Error('Не удалось загрузить метаданные R03');current=validatePackage(await r.json());$('scenario-t0').value=current.scenario.t0??'';renderFacts(current);}catch(e){status(e.message);}
+  const initialRequest=routeRequest;
+  try{const r=await fetch(`${base}r03.package.json`);if(!r.ok)throw new Error('Не удалось загрузить метаданные R03');const loaded=validatePackage(await r.json());if(initialRequest===routeRequest){current=loaded;$('scenario-t0').value=current.scenario.t0??'';renderFacts(current);}}catch(e){if(initialRequest===routeRequest)status(e.message);}
+  finally{if(initialRequest===routeRequest)loading=false;}
 }
 update();
 

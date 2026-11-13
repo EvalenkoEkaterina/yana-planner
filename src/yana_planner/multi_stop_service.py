@@ -132,8 +132,7 @@ def calculate_multi_stop_request(payload, *, stage_limit_override=None):
     result["input_sha256"] = hashlib.sha256(
         json.dumps(inputs, sort_keys=True, ensure_ascii=False, allow_nan=False).encode()
     ).hexdigest()
-    files = ["multi_stop.py", "multi_stop_economics.py", "multi_stop_service.py", "domain.py"]
     result["code_version"] = hashlib.sha256(
-        b"".join(Path(__file__).with_name(f).read_bytes() for f in files)
+        b"".join(f.read_bytes() for f in sorted(Path(__file__).parent.rglob("*.py")))
     ).hexdigest()
     return inputs, result

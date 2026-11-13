@@ -14,6 +14,34 @@ from yana_planner.validation import check_schedule
 
 
 class AdaptiveTests(unittest.TestCase):
+    def test_request_budget_is_shared_by_all_solver_stages(self):
+        now = [0.0]
+        budgets = []
+
+        def timeout(*args, **kwargs):
+            budget = kwargs["options"]["time_limit"]
+            budgets.append(budget)
+            now[0] += budget
+            return SimpleNamespace(status=1, message="time limit", x=None)
+
+        with (
+            patch("yana_planner.planning.monotonic", side_effect=lambda: now[0]),
+            patch("yana_planner.planning.milp", side_effect=timeout),
+        ):
+            plan, logs = optimize(tiny(), 20, adaptive=True, time_limit=30, search_deadline=5)
+        self.assertEqual(budgets, [2, 3])
+        self.assertEqual(len(logs), 3)
+        self.assertTrue(all(not stage["optimal"] for stage in logs))
+        self.assertEqual(check_schedule(tiny(), plan, 20)["status"], "valid_simulation")
+        self.assertEqual(check_schedule(tiny(), plan, 20)["accepted_t"], 20)
+
+    def test_exhausted_request_budget_returns_checked_baseline_without_solver(self):
+        with patch("yana_planner.planning.milp") as solver:
+            result = compare(tiny(), 20, search_deadline=0)
+        solver.assert_not_called()
+        self.assertEqual(result["planner"]["status"], "valid_simulation")
+        self.assertFalse(result["solver"][0]["optimal"])
+
     def test_optimal_stage_does_not_retry(self):
         from yana_planner.planning import milp
 
