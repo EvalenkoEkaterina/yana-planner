@@ -25,6 +25,7 @@ SCENARIO_FIELDS = {
     "provenance",
     "receipt_priority",
     "route_reference",
+    "leg_payload_limits",
 }
 VESSEL_FIELDS = {
     "id",

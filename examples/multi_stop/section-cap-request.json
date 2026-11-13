@@ -1,0 +1,71 @@
+{
+  "schema_version": "yana-multi-stop-request/1",
+  "scenario": {
+    "mode": "SIM_ONLY",
+    "navigation_assumed": true,
+    "fleet_assumed": true,
+    "supply_assumed": true,
+    "reception_assumed": true,
+    "origin_id": "nizhneyansk",
+    "horizon_h": 160,
+    "initial_source_t": 100,
+    "arrivals": [
+      {
+        "h": 12,
+        "t": 500
+      }
+    ],
+    "vessel": {
+      "id": "MULTI-SIM",
+      "capacity_t": 600,
+      "available_h": 0,
+      "load_h": 10,
+      "leg1_h": 24,
+      "leg2_h": 30,
+      "return_h": 40,
+      "prep_h": 4
+    },
+    "stops": [
+      {
+        "id": "ust-kuyga",
+        "required_t": 200,
+        "deadline_h": 60,
+        "unload_h": 4,
+        "windows": [
+          [
+            48,
+            72
+          ]
+        ]
+      },
+      {
+        "id": "batagay",
+        "required_t": 400,
+        "deadline_h": 120,
+        "unload_h": 6,
+        "windows": [
+          [
+            80,
+            130
+          ]
+        ]
+      }
+    ],
+    "movement_closures": {
+      "leg1": [],
+      "leg2": [],
+      "return": []
+    },
+    "provenance": "All freight, fleet, durations, windows and deadlines are synthetic. Named points illustrate a fixed Yana corridor; actual berths and voyage feasibility are not confirmed. No weather forecast or real rates applied.",
+    "leg_payload_limits": [
+      {
+        "leg_id": "leg1",
+        "max_onboard_t": 500,
+        "status": "scenario_assumption",
+        "source": "Учебный статический лимит груза; не рассчитан по уровню воды или осадке"
+      }
+    ]
+  },
+  "cost_terms": null,
+  "search_seconds": 2
+}

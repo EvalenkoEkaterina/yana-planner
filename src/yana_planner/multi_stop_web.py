@@ -155,6 +155,29 @@ def page(ident):
         + ("подтверждена" if r.get("lexicographic_optimal") else "не подтверждена")
         + ".</p>"
     )
+    if r.get("departure_checks"):
+        body += "<h2>Проверка груза перед отправлением</h2><ul>"
+        for check in r["departure_checks"]:
+            body += (
+                "<li>"
+                + escape(
+                    f"{_name(check['from_id'])} → {_name(check['to_id'])}: на борту {check['onboard_t']} т, лимит {check['max_onboard_t']} т — "
+                    + (
+                        "условие выполнено"
+                        if check["passed"]
+                        else "превышение, отправление запрещено в модели"
+                    )
+                )
+                + "<br>Источник: "
+                + escape(check["source"])
+                + (
+                    " (учебное допущение)"
+                    if check["status"] == "scenario_assumption"
+                    else " (заявлен документальный источник)"
+                )
+                + "</li>"
+            )
+        body += "</ul><p>Это заданный лимит груза, не расчёт осадки или подтверждение безопасности прохода.</p>"
     if plan:
         deadlines = {s["id"]: s["deadline_h"] for s in cfg["stops"]}
         body += '<div class="scroll"><table><tr><th>Получатель</th><th>Принято, т</th><th>Срок, ч</th><th>Приёмка, ч</th><th>Остаток на борту, т</th></tr>'

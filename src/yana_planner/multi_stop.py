@@ -88,7 +88,59 @@ def normalize(raw):
         raise InputError("Задайте запреты для каждого leg1…legN и return")
     for key in closures:
         closures[key] = _intervals(closures[key], c["horizon_h"])
+    if "leg_payload_limits" in c:
+        limits = c["leg_payload_limits"]
+        if not isinstance(limits, list) or len(limits) > len(stops):
+            raise InputError("leg_payload_limits: не больше одного лимита на плечо")
+        seen = set()
+        for limit in limits:
+            if not isinstance(limit, dict) or set(limit) != {
+                "leg_id",
+                "max_onboard_t",
+                "status",
+                "source",
+            }:
+                raise InputError("Лимит участка: нужны leg_id, max_onboard_t, status и source")
+            leg = limit["leg_id"]
+            if (
+                not isinstance(leg, str)
+                or leg not in {f"leg{i + 1}" for i in range(len(stops))}
+                or leg in seen
+            ):
+                raise InputError("Лимит участка: неизвестное или повторяющееся плечо")
+            seen.add(leg)
+            limit["max_onboard_t"] = integer(limit["max_onboard_t"], "max_onboard_t")
+            if limit["status"] not in ("scenario_assumption", "documented"):
+                raise InputError("Лимит участка: нужен статус scenario_assumption или documented")
+            if not isinstance(limit["source"], str) or not limit["source"].strip():
+                raise InputError("Лимит участка: укажите источник или описание учебного допущения")
     return c
+
+
+def _departure_checks(c):
+    limits = {row["leg_id"]: row for row in c.get("leg_payload_limits", [])}
+    cargo = sum(stop["required_t"] for stop in c["stops"])
+    checks = []
+    origin = c["origin_id"]
+    for i, stop in enumerate(c["stops"]):
+        leg = f"leg{i + 1}"
+        if leg in limits:
+            limit = limits[leg]
+            checks.append(
+                dict(
+                    leg_id=leg,
+                    from_id=origin,
+                    to_id=stop["id"],
+                    onboard_t=cargo,
+                    max_onboard_t=limit["max_onboard_t"],
+                    passed=cargo <= limit["max_onboard_t"],
+                    status=limit["status"],
+                    source=limit["source"],
+                )
+            )
+        cargo -= stop["required_t"]
+        origin = stop["id"]
+    return checks
 
 
 def _intervals(raw, horizon, nonempty=False):
@@ -144,6 +196,12 @@ def check_voyage(raw, plan):
             errors.append(f"Получатель {i + 1}: нарушен срок")
         if not any(a <= start and finish <= b for a, b in stop["windows"]):
             errors.append(f"Получатель {i + 1}: выгрузка вне окна приёмки")
+        # Recheck the cargo before this departure, independently of preflight.
+        for limit in c.get("leg_payload_limits", []):
+            if limit["leg_id"] == f"leg{i + 1}" and cargo > limit["max_onboard_t"]:
+                errors.append(
+                    f"leg{i + 1}: груз {cargo} т превышает лимит {limit['max_onboard_t']} т перед отправлением"
+                )
         cargo -= stop["required_t"]
         deliveries.append(
             dict(
@@ -203,6 +261,7 @@ def plan_multi_stop(raw, *, stage_limit_s=2, cost_terms=None):
         visit_order=[stop["id"] for stop in stops],
         objective_stop_id=priorities[0],
         real_admissibility="requires_confirmation",
+        departure_checks=_departure_checks(c),
     )
     stock, release = c["initial_source_t"], 0
     for arrival in sorted(c["arrivals"], key=lambda a: a["h"]):
@@ -224,6 +283,25 @@ def plan_multi_stop(raw, *, stage_limit_s=2, cost_terms=None):
                 earliest_last_proven=False,
                 **({"earliest_second_proven": False} if count == 2 else {}),
                 reason="Недостаточно вместимости или поступлений в пределах горизонта",
+            ),
+            cost_terms,
+        )
+    failed = [check for check in common["departure_checks"] if not check["passed"]]
+    if failed:
+        return _with_costs(
+            dict(
+                **common,
+                status="infeasible",
+                goal_met=False,
+                plan=None,
+                solver=[],
+                primary_receipt_proven=False,
+                lexicographic_optimal=False,
+                receipt_optima=[],
+                earliest_last_proven=False,
+                **({"earliest_second_proven": False} if count == 2 else {}),
+                reason_code="leg_payload_limit_exceeded",
+                reason="Груз на борту превышает заданный лимит участка; обязательные партии не уменьшены",
             ),
             cost_terms,
         )
