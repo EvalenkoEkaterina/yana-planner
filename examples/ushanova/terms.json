@@ -1,0 +1,10 @@
+{
+  "billing_mode": "all_available_time",
+  "horizon_h": 492,
+  "separate_trip_operations_rub": 25000,
+  "active_vessel_hour_rub": 1000,
+  "waiting_vessel_hour_rub": 500,
+  "status": "scenario_assumption_not_market_quote",
+  "source": "Team working hypothesis, 2026-11-13; not approved by a carrier",
+  "note": "Uniform rates for SIM-A and SIM-B; preparation is active time; no NMC prices."
+}

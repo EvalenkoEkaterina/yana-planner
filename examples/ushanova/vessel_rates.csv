@@ -1,0 +1,3 @@
+vessel_id,separate_trip_operations_rub,active_vessel_hour_rub,waiting_vessel_hour_rub,source,status
+SIM-A,25000,1000,500,team_working_hypothesis_2026-11-13,scenario_assumption
+SIM-B,25000,1000,500,team_working_hypothesis_2026-11-13,scenario_assumption
