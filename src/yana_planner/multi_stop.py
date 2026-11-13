@@ -67,6 +67,19 @@ def normalize(raw):
         if stop["deadline_h"] > c["horizon_h"]:
             raise InputError("Срок приёмки должен быть в пределах горизонта")
         stop["windows"] = _intervals(stop.get("windows"), c["horizon_h"], nonempty=True)
+    stop_ids = [stop["id"] for stop in stops]
+    priorities = c.get("receipt_priority", [stop_ids[-1], *stop_ids[:-1]])
+    if (
+        not isinstance(priorities, list)
+        or len(priorities) != len(stop_ids)
+        or any(not isinstance(ident, str) for ident in priorities)
+        or len(set(priorities)) != len(priorities)
+        or set(priorities) != set(stop_ids)
+    ):
+        raise InputError(
+            "receipt_priority: укажите каждого получателя ровно один раз в порядке важности"
+        )
+    c["receipt_priority"] = priorities
     closures = c.get("movement_closures")
     if not isinstance(closures, dict) or set(closures) != {
         *(f"leg{i + 1}" for i in range(len(stops))),
@@ -175,14 +188,16 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
     keys = _start_keys(count)
     back_index = 2 * count + 1
     quantity = sum(s["required_t"] for s in stops)
+    priorities = c["receipt_priority"]
+    primary_is_last = priorities[0] == stops[-1]["id"]
     common = dict(
         mode="SIM_ONLY",
-        goal="required_first_then_earliest_second"
-        if count == 2
-        else "required_deliveries_then_earliest_last",
+        goal="required_deliveries_then_receipt_priorities",
         input=c,
-        priority=["all_required_volumes", "all_receipt_deadlines", "earliest_last_receipt"],
-        objective_stop_id=stops[-1]["id"],
+        priority=["all_required_volumes", "all_receipt_deadlines", "receipt_priority"],
+        receipt_priority=priorities,
+        visit_order=[stop["id"] for stop in stops],
+        objective_stop_id=priorities[0],
         real_admissibility="requires_confirmation",
     )
     stock, release = c["initial_source_t"], 0
@@ -198,6 +213,9 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
             goal_met=False,
             plan=None,
             solver=[],
+            primary_receipt_proven=False,
+            lexicographic_optimal=False,
+            receipt_optima=[],
             earliest_last_proven=False,
             **({"earliest_second_proven": False} if count == 2 else {}),
             reason="Недостаточно вместимости или поступлений в пределах горизонта",
@@ -249,10 +267,8 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
     bounds_upper = np.full(variable_count, H, dtype=float)
     bounds_upper[binaries] = 1
     best, logs = None, []
-    objectives = [(2 * count, "earliest_second_receipt" if count == 2 else "earliest_last_receipt")]
-    objectives += [
-        (2 + 2 * i, f"earliest_stop_{i + 1}_at_fixed_higher_priorities") for i in range(count - 1)
-    ]
+    stop_index = {stop["id"]: i for i, stop in enumerate(stops)}
+    objectives = [(2 + 2 * stop_index[ident], f"earliest_receipt:{ident}") for ident in priorities]
     objectives.append((back_index, "earliest_ready_at_fixed_receipts"))
     for objective_index, stage in objectives:
         matrix = np.zeros((len(rows), variable_count))
@@ -275,6 +291,8 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
             optimal=result.status == 0,
             elapsed_s=monotonic() - started,
         )
+        if objective_index != back_index:
+            log["stop_id"] = stops[(objective_index - 2) // 2]["id"]
         logs.append(log)
         if result.x is not None:
             verdict = check_voyage(
@@ -282,6 +300,10 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
             )
             if verdict["status"] == "valid_simulation":
                 best = verdict
+                if objective_index != back_index:
+                    log["receipt_h"] = verdict["deliveries"][(objective_index - 2) // 2][
+                        "receipt_h"
+                    ]
             else:
                 log.update(optimal=False, checker_errors=verdict["errors"])
         if not log["optimal"] or best is None:
@@ -296,9 +318,23 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
         if logs[0]["status"] == 2
         else "no_feasible_solution_found",
         goal_met=best is not None,
-        earliest_last_proven=best is not None and logs[0]["optimal"],
+        primary_receipt_proven=best is not None and logs[0]["optimal"],
+        lexicographic_optimal=best is not None
+        and len(logs) == len(objectives)
+        and all(log["optimal"] for log in logs),
+        receipt_optima=[
+            dict(
+                stop_id=ident,
+                priority=i + 1,
+                optimal_given_higher_priorities=best is not None
+                and len(logs) > i
+                and all(log["optimal"] for log in logs[: i + 1]),
+            )
+            for i, ident in enumerate(priorities)
+        ],
+        earliest_last_proven=primary_is_last and best is not None and logs[0]["optimal"],
         **(
-            {"earliest_second_proven": best is not None and logs[0]["optimal"]}
+            {"earliest_second_proven": primary_is_last and best is not None and logs[0]["optimal"]}
             if count == 2
             else {}
         ),
