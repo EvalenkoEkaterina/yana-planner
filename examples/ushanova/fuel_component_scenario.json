@@ -1,0 +1,28 @@
+{
+  "scenario_id": "yana_fuel_component_2026",
+  "status": "illustrative_partial_cost_not_carrier_tariff",
+  "vessel_id": "SIM-A",
+  "vessel_note": "Conditional vessel; not a measured consumption of SPN-703 or any other real vessel",
+  "fuel_price_rub_l_including_vat": 144.2,
+  "fuel_price_location": "Ust-Kuyga",
+  "fuel_product": "Winter diesel",
+  "fuel_price_valid_from": "2026-01-01",
+  "fuel_price_source": "https://aosngs.ru/upload/iblock/1b0/7ch0jsire1e92850nm0a7l5mso6wib20.pdf",
+  "fuel_price_scope": "Published price for legal entities collecting through filling stations; not a vessel bunkering quote or confirmed price on the voyage date",
+  "assumed_active_consumption_l_h": 50,
+  "assumed_waiting_consumption_l_h": 5,
+  "consumption_status": "team_scenario_assumption_not_measured_not_manufacturer_specification",
+  "active_fuel_cost_rub_h": 7210,
+  "waiting_fuel_cost_rub_h": 721,
+  "complete_active_rate_rub_h": null,
+  "complete_waiting_rate_rub_h": null,
+  "separate_trip_cost_rub": null,
+  "excluded_costs": ["crew", "repairs", "depreciation", "insurance", "leasing", "port services", "lubricants", "supplier margin"],
+  "limitations": [
+    "50 and 5 litres per hour are illustrative assumptions, not verified averages",
+    "Loading, sailing, unloading and preparation have different consumption; one active rate is a simplification",
+    "Cannot add these fuel costs to a tariff that already includes fuel",
+    "Cannot use for confirmed savings of real voyages or as a lower bound on actual costs",
+    "Not connected to the planner; agreed R03 rates remain unchanged"
+  ]
+}
