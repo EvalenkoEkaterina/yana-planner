@@ -193,7 +193,7 @@ form.addEventListener('submit',e=>{
   }catch(error){e.preventDefault();e.stopImmediatePropagation();status(error.message);update();
     const box=$('form-validation-error');box.textContent=error.message;box.hidden=false;
     const field=error.selector?form.querySelector(error.selector):null;
-    if(field){let parent=field.parentElement;while(parent){if(parent.tagName==='DETAILS')parent.open=true;parent=parent.parentElement;}field.focus();field.scrollIntoView({block:'center',behavior:'smooth'});}
+    if(field){const step=field.closest('[data-fleet-panel]');if(step?.id)document.dispatchEvent(new CustomEvent('fleet-step-request',{detail:step.id}));let parent=field.parentElement;while(parent){if(parent.tagName==='DETAILS')parent.open=true;parent=parent.parentElement;}field.focus();field.scrollIntoView({block:'center',behavior:'smooth'});}
     else{box.focus();box.scrollIntoView({block:'center',behavior:'smooth'});}
     if($('economics-enabled').value==='yes'&&!$('billing-confirmed').checked) {
       document.dispatchEvent(new CustomEvent('fleet-step-request',{detail:'cost-settings'})); $('cost-settings').open=true; $('billing-confirmed').focus();
