@@ -13,7 +13,9 @@ from yana_planner.visual_report import summary_page
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def run(output=None):
+def run(output=None, *, example="control"):
+    if example not in ("control", "consolidation"):
+        raise ValueError("Выберите control или consolidation")
     output = Path(output or ROOT / "output/graph-weather-check")
     output.mkdir(parents=True, exist_ok=True)
     path = shortest_path(load_network(), "nizhneyansk", "ust-kuyga")
@@ -59,6 +61,22 @@ def run(output=None):
         origin="Historical weather integration check",
         operating_parameters="All freight, fleet and times are scenario assumptions",
     )
+    if example == "consolidation":
+        cfg.update(
+            id="GRAPH-WEATHER-CONSOLIDATION",
+            target_t=800,
+            destination_capacity_t=800,
+            arrivals=[dict(h=0, t=100), dict(h=12, t=700)],
+        )
+        cfg["vessels"][1]["available_h"] = 0
+        package["facts"] = [f for f in package["facts"] if f["field"] != "transport"]
+        package["facts"].append(
+            dict(
+                field="transport",
+                value="Учебные 800 т: 100 т в час 0 и 700 т в час 12; оба условных судна доступны с часа 0. Ручные времена из R03, не реальные данные перевозки.",
+                status="scenario_assumption",
+            )
+        )
     base_terms = json.loads((ROOT / "examples/ushanova/terms.json").read_text())
     base_terms["horizon_h"] = 120
     terms = load_vessel_rates(cfg, base_terms, ROOT / "examples/ushanova/vessel_rates.csv")
@@ -81,7 +99,7 @@ def run(output=None):
     ]:
         (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
     html = summary_page(result, "Проверка графа и исторической погоды", route=package["route"])
-    note = "<p><strong>Историческая проверка подключения.</strong> 1–5 июля 2025, 120 часов, две точки. Порог 8 м/с не превышен; погодное событие не добавлено. Время выпуска неизвестно. Перевозка 400 т и все времена учебные. Это не доказательство качества прогноза, экономии или переноса на другие маршруты.</p>"
+    note = "<p><strong>Историческая проверка подключения.</strong> 1–5 июля 2025, 120 часов, две точки. Порог 8 м/с не превышен; погодное событие не добавлено. Время выпуска неизвестно. Перевозка и все времена учебные. Это не доказательство качества прогноза, экономии или переноса на другие маршруты.</p>"
     html = html.replace("<h1>", note + "<h1>", 1)
     rows = []
     for key, label in [("baseline", "READY"), ("planner", "MILP")]:
@@ -121,13 +139,22 @@ def run(output=None):
         + "</tbody></table></div>"
         "<p>Приоритет расчёта: объём → число рейсов → срок. Стоимость оценена для найденных планов, минимум стоимости не заявляется. Совпадение затрат не является доказательством экономии.</p></section>"
     )
+    if example == "consolidation":
+        explanation = "<section><h2>Почему MILP доставляет больше</h2><p>Учебный заказ 800 т: 100 т поступают в час 0, ещё 700 т — в час 12. Оба судна доступны с часа 0. READY отправляет первое судно с небольшой партией сразу; MILP ждёт пополнения и планирует более полные рейсы. В этом фиксированном примере: 800 против 500 т при двух рейсах и 255 000 ₽ у каждого метода. Последняя приёмка MILP — час 76, READY — час 64. Это выигрыш по выполнению объёма к сроку 100 ч, не ускорение и не снижение общих расходов.</p><p>Пример выбран после проверки четырёх учебных комбинаций: при поступлении в час 12 был выигрыш по объёму, при поступлении в час 24 результаты совпадали. Универсальное преимущество не заявляется. Погода в этом периоде не создаёт ограничений и не является причиной выигрыша.</p></section>"
+        html = html.replace("<h1>", explanation + "<h1>", 1)
     html = html.replace("</html>", economy + "</html>")
     (output / "report.html").write_text(html)
     return inputs, result, weather
 
 
 if __name__ == "__main__":
-    _, result, weather = run()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--example", choices=["control", "consolidation"], default="control")
+    args = parser.parse_args()
+    destination = ROOT / "output/graph-weather-final" if args.example == "consolidation" else None
+    _, result, weather = run(destination, example=args.example)
     print(
         json.dumps(
             dict(

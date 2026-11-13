@@ -98,3 +98,24 @@ class RouteWeatherTests(unittest.TestCase):
             self.assertIn("Из чего складываются расходы", (Path(tmp) / "report.html").read_text())
             self.assertIn("не оперативный опыт", json.dumps(inputs, ensure_ascii=False))
             self.assertIn("Время выпуска неизвестно", (Path(tmp) / "report.html").read_text())
+
+    def test_consolidation_example_improves_volume_with_equal_scenario_spending(self):
+        spec = importlib.util.spec_from_file_location(
+            "final_check", ROOT / "scripts/check_graph_weather.py"
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as tmp:
+            inputs, result, weather = module.run(tmp, example="consolidation")
+            self.assertEqual(inputs["scenario"]["target_t"], 800)
+            self.assertEqual(result["baseline"]["accepted_t"], 500)
+            self.assertEqual(result["planner"]["accepted_t"], 800)
+            for key in ("baseline", "planner"):
+                self.assertEqual(result[key]["status"], "valid_simulation")
+                self.assertEqual(result[key]["trip_count"], 2)
+                self.assertEqual(result["costs"][key]["total_rub"], 255000)
+            self.assertFalse(result["costs"]["equal_volume"])
+            self.assertEqual(weather["closures"], [])
+            html = (Path(tmp) / "report.html").read_text()
+            self.assertIn("SIM-B с 0 до 120 ч", html)
+            self.assertIn("не ускорение", html)
