@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "purpose": "24h external forecast calibration against ERA5; not operational safety",
+  "forecast_model": "ecmwf_ifs025",
+  "reference_model": "era5",
+  "lead_hours": 24,
+  "months": [6, 7, 8, 9],
+  "train_year": 2024,
+  "validation_year": 2025,
+  "test_year": 2026,
+  "held_out_basin": "indigirka",
+  "coordinate_source": "https://geocoding-api.open-meteo.com/v1/search",
+  "variables": ["wind_speed_10m", "temperature_2m", "precipitation", "relative_humidity_2m", "pressure_msl", "cloud_cover", "wind_direction_10m"],
+  "targets": ["wind_speed_10m", "temperature_2m", "precipitation"],
+  "points": [
+    {"id":"nizhneyansk", "name":"Нижнеянск", "basin":"yana", "latitude":71.4403,"longitude":136.13585},
+    {"id":"ust_kuyga", "name":"Усть-Куйга", "basin":"yana", "latitude":70.00208,"longitude":135.54877},
+    {"id":"tiksi", "name":"Тикси", "basin":"lena", "latitude":71.69075,"longitude":128.86523},
+    {"id":"zhigansk", "name":"Жиганск", "basin":"lena", "latitude":66.76804,"longitude":123.37658},
+    {"id":"chersky", "name":"Черский", "basin":"kolyma", "latitude":68.75322,"longitude":161.331},
+    {"id":"srednekolymsk", "name":"Среднеколымск", "basin":"kolyma", "latitude":67.45588,"longitude":153.704},
+    {"id":"chokurdakh", "name":"Чокурдах", "basin":"indigirka", "latitude":70.61828,"longitude":147.89693},
+    {"id":"belaya_gora", "name":"Белая Гора", "basin":"indigirka", "latitude":68.53823,"longitude":146.1852}
+  ],
+  "selection_metric": "validation MAE; raw baseline retained unless >=1% improvement",
+  "ridge_alphas": [1, 100, 10000],
+  "reanalysis_not_observations": true,
+  "test_policy": "No tuning after test inspection. Indigirka excluded from training and validation."
+}

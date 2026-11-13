@@ -1,0 +1,770 @@
+[
+  {
+    "file": "nizhneyansk_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.4403&longitude=136.13585&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "nizhneyansk",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "ca32f74f7874310ec339697bf6c4f32ecfaaecec7e9f4a32440f628e852ea87a"
+  },
+  {
+    "file": "nizhneyansk_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=71.4403&longitude=136.13585&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "nizhneyansk",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "b656803da5830fa4c6769a871bb552fe3c12c7b344351870a8482a39e5a0fe8a"
+  },
+  {
+    "file": "ust_kuyga_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=70.00208&longitude=135.54877&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "ust_kuyga",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "5b8822767e8ee651b0bca5af3de74abdf6516b7f57690919f2f58a5cedfd61aa"
+  },
+  {
+    "file": "ust_kuyga_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=70.00208&longitude=135.54877&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "ust_kuyga",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "5a9144fb72e1c86fa644b03f7c5c82f2ed46a4997efb284cb61494c8e7cf1840"
+  },
+  {
+    "file": "tiksi_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.69075&longitude=128.86523&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "tiksi",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "c8dc0a802e94b89083d7d7f215e6b753c0501a2d3c9590fc82cb30867ca5b8bc"
+  },
+  {
+    "file": "tiksi_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=71.69075&longitude=128.86523&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "tiksi",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "a314fad3a29df989e114f501eec9b350caf435b9ee177957f17eb219798004db"
+  },
+  {
+    "file": "zhigansk_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=66.76804&longitude=123.37658&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "zhigansk",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "085b64c9eba734f153d8d0f723075b15684c7240bafad753f066dcb1170eff83"
+  },
+  {
+    "file": "zhigansk_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=66.76804&longitude=123.37658&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "zhigansk",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "47bbc9d22f4f1bb35b5edad37d6dfaa2c49cabc761341c2bf943a70a7a3dba21"
+  },
+  {
+    "file": "chersky_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=68.75322&longitude=161.331&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "chersky",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "0c07eb3fb586d8eb6b5abb1d6ceb62dec83d960aec835645f8822d14f575487c"
+  },
+  {
+    "file": "chersky_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=68.75322&longitude=161.331&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "chersky",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "8774478b34851b6f6c153f4d3fe238c64d7687fb3ba72430ef0e193d12502a35"
+  },
+  {
+    "file": "srednekolymsk_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=67.45588&longitude=153.704&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "srednekolymsk",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "badebf11306338351ba2f329a394f3101ccbe0c8077a77a9983d2016e1161d92"
+  },
+  {
+    "file": "srednekolymsk_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=67.45588&longitude=153.704&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "srednekolymsk",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "a7a5847575907810861bf0924f0fad2eb76292353642f466c618d71677dda6cc"
+  },
+  {
+    "file": "chokurdakh_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=70.61828&longitude=147.89693&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "chokurdakh",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "ee55eff20503a3d982c7b04bee38b92e84631126ad82ba6a897fae5735e3f89c"
+  },
+  {
+    "file": "chokurdakh_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=70.61828&longitude=147.89693&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "chokurdakh",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "4c4d894183a43881ed35492e37817302c8e19db117eef4efd26343a0b5f69aac"
+  },
+  {
+    "file": "belaya_gora_2024_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=68.53823&longitude=146.1852&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "belaya_gora",
+    "year": 2024,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "73d9b2883c295986fea1df589faa982d20da9f7c3f3629f1dad80f0ab8796a3e"
+  },
+  {
+    "file": "belaya_gora_2024_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=68.53823&longitude=146.1852&start_date=2024-06-01&end_date=2024-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "belaya_gora",
+    "year": 2024,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "d4cd6012ab1ecda07ec0107d4a448c06e7ae3e27dc4cb926afbd160a06093f32"
+  },
+  {
+    "file": "nizhneyansk_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.4403&longitude=136.13585&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "nizhneyansk",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "4dc67c9275fae9e8994b8fa3cea391f455699c6ef4bb48969a20e2a234c7e9a5"
+  },
+  {
+    "file": "nizhneyansk_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=71.4403&longitude=136.13585&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "nizhneyansk",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "5c6ac8926a858e7430cf349c5c07b7dd148f7dafab2dcd907a8d05402ec9a879"
+  },
+  {
+    "file": "ust_kuyga_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=70.00208&longitude=135.54877&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "ust_kuyga",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "5fd542a75133f1af754260c91076212ed8770330acdb51b79ed4869e045afccd"
+  },
+  {
+    "file": "ust_kuyga_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=70.00208&longitude=135.54877&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "ust_kuyga",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "5c3e73b188a341cdfe44c75e879bf226256bcea9184b05e174b907337de1985f"
+  },
+  {
+    "file": "tiksi_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.69075&longitude=128.86523&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "tiksi",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "6100381cc0ad3f2d32dba39baac649dd30c83b6e2aed6ed54f11f9c6fbf71499"
+  },
+  {
+    "file": "tiksi_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=71.69075&longitude=128.86523&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "tiksi",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "724e0040a92de11e00def9ecea3cbc20a1ec7cd72e84ba195925abf94f9a78cf"
+  },
+  {
+    "file": "zhigansk_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=66.76804&longitude=123.37658&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "zhigansk",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "56670f4db9621b6787f79845591c0ced49ae0ef997eeab0496351b739ae792eb"
+  },
+  {
+    "file": "zhigansk_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=66.76804&longitude=123.37658&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "zhigansk",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "05045e7a1e221cb479a099931f6e4f97c6a783180fb156212b0546d816fc069d"
+  },
+  {
+    "file": "chersky_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=68.75322&longitude=161.331&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "chersky",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "5c5af91360e3f2c14fb22aade4deaed7580028007c04a49cff7a16f4b0eb83c9"
+  },
+  {
+    "file": "chersky_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=68.75322&longitude=161.331&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "chersky",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "125c9c2cc774c93538f98e7b2dd85d0315d77162c172d9fe0d2baf0092fb5087"
+  },
+  {
+    "file": "srednekolymsk_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=67.45588&longitude=153.704&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "srednekolymsk",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "067de40b996a0e43a2acc96b3a38f060b18e8b3d8a1324ae563488c728a3076f"
+  },
+  {
+    "file": "srednekolymsk_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=67.45588&longitude=153.704&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "srednekolymsk",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "c23f19086a0228fc30b2b3ce49e58efba8ea64ce7322efe99a00e50e7a988a39"
+  },
+  {
+    "file": "chokurdakh_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=70.61828&longitude=147.89693&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "chokurdakh",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "8023368b9fb1915fd362e29ea04b5815e10e21064072423abedf8b285eb7c108"
+  },
+  {
+    "file": "chokurdakh_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=70.61828&longitude=147.89693&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "chokurdakh",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "c698ef815defacc9bec67fd48f3410f847f5046f252eb055bddeeef1167425f3"
+  },
+  {
+    "file": "belaya_gora_2025_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=68.53823&longitude=146.1852&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "belaya_gora",
+    "year": 2025,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "eba741404ba3739ca95b201012fc6f6dc528c83a3a2073a63a04f7bbf734ead4"
+  },
+  {
+    "file": "belaya_gora_2025_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=68.53823&longitude=146.1852&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "belaya_gora",
+    "year": 2025,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "3494cf232f3500559951f704bcf1b5a43eef2d12245ff552f896c2c474034603"
+  },
+  {
+    "file": "nizhneyansk_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.4403&longitude=136.13585&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "nizhneyansk",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "8fc637b0ffffec4e9716b971283788bcb83167116be6a1319233fe22f7d25d30"
+  },
+  {
+    "file": "nizhneyansk_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=71.4403&longitude=136.13585&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "nizhneyansk",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "9894c141c6a47987aeb3a8b2019de263cf2ff60781f91fb05fe375d3118ebd3f"
+  },
+  {
+    "file": "ust_kuyga_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=70.00208&longitude=135.54877&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "ust_kuyga",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "3c1b30e750f954e88745f361a1185ab02bdf779c368a24c00cb3e54d8139ff62"
+  },
+  {
+    "file": "ust_kuyga_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=70.00208&longitude=135.54877&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "ust_kuyga",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "4f736d572eef3198b57b56942a92229d84dd116ce86a170e3bbee4c923bdabb5"
+  },
+  {
+    "file": "tiksi_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.69075&longitude=128.86523&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "tiksi",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "2d81a2b33ac300e2add4ea32faca2537a2ca4a6743b521f9eb563566dd2dcda0"
+  },
+  {
+    "file": "tiksi_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=71.69075&longitude=128.86523&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "tiksi",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "550094e89082a55168ab6b1f11a71f1faf7654e46d9befa61773db9ecced3de6"
+  },
+  {
+    "file": "zhigansk_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=66.76804&longitude=123.37658&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "zhigansk",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "1f8fd658b64b9296e4ae42a8a8aa399c4557d5c2eba4eb0be7e7264830a4c075"
+  },
+  {
+    "file": "zhigansk_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=66.76804&longitude=123.37658&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "zhigansk",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "29fe4bb3041399ffbbe68583cfb5c588495b3d54978f437f03a0936065bbe6f1"
+  },
+  {
+    "file": "chersky_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=68.75322&longitude=161.331&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "chersky",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "8eaeb42315a3575ee82b4021df180cc164521d3fc04ec25e123ae6c2b3b81309"
+  },
+  {
+    "file": "chersky_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=68.75322&longitude=161.331&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "chersky",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "f66deb88797b8efc125033760fbee5858e966523d380037b65844d90f5ab57c5"
+  },
+  {
+    "file": "srednekolymsk_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=67.45588&longitude=153.704&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "srednekolymsk",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "dd350424df495f3942a94fd8f22375d20136af87d95d27444912dca7da2fd608"
+  },
+  {
+    "file": "srednekolymsk_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=67.45588&longitude=153.704&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "srednekolymsk",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "e2b6a4a20ee49fce6041d284a7a3e438670901ced7ccd11b11614dbbcf530426"
+  },
+  {
+    "file": "chokurdakh_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=70.61828&longitude=147.89693&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "chokurdakh",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "ef2c9624d7fadc3f41d865d9c1760bd088a03569cfd46e204b848976af9e70e7"
+  },
+  {
+    "file": "chokurdakh_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=70.61828&longitude=147.89693&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "chokurdakh",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "aa57d9690ec149bcb5137189a9c9c4e515ec70fe9101b1bbcc86f4f64a5aeb18"
+  },
+  {
+    "file": "belaya_gora_2026_forecast.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=68.53823&longitude=146.1852&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "point": "belaya_gora",
+    "year": 2026,
+    "kind": "forecast",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m_previous_day1": 0,
+      "temperature_2m_previous_day1": 0,
+      "precipitation_previous_day1": 0,
+      "relative_humidity_2m_previous_day1": 0,
+      "pressure_msl_previous_day1": 0,
+      "cloud_cover_previous_day1": 0,
+      "wind_direction_10m_previous_day1": 0
+    },
+    "sha256": "af5d442038062728a9567dd688ef76f9e87c6925220b004c96410264472c78dd"
+  },
+  {
+    "file": "belaya_gora_2026_reference.json",
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=68.53823&longitude=146.1852&start_date=2026-06-01&end_date=2026-09-30&hourly=wind_speed_10m%2Ctemperature_2m%2Cprecipitation&wind_speed_unit=ms&timezone=UTC&models=era5",
+    "point": "belaya_gora",
+    "year": 2026,
+    "kind": "reference",
+    "rows": 2928,
+    "missing": {
+      "wind_speed_10m": 0,
+      "temperature_2m": 0,
+      "precipitation": 0
+    },
+    "sha256": "35258cfd5f4b6e7cbb0c1c8b9877f2d248b3d9566b8867b40dddd5c3bcbc564c"
+  }
+]

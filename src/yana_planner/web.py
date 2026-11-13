@@ -22,7 +22,11 @@ def create_app(config=None):
         SOLVER_TIME_LIMIT=2,
         CALCULATION_TIMEOUT_S=30,
     )
+    app.config["WEATHER_RESULTS"] = str(ROOT / "outputs/weather/results.json")
     app.config.update(config or {})
+    from .weather_web import bp as weather_blueprint
+
+    app.register_blueprint(weather_blueprint)
     app.jinja_env.filters["run_status"] = lambda value: STATUS.get(value, "Статус не определён")
 
     @app.route("/", methods=["GET", "POST"])

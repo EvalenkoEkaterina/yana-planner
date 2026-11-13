@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Погодные ограничения — Yana Planner{% endblock %}
+{% block content %}
+<section>
+<p class="eyebrow">ПОГОДНЫЙ СЦЕНАРИЙ / НИЖНЕЯНСК — УСТЬ-КУЙГА</p>
+<h1>Как ветер влияет на расписание</h1>
+<p class="lead">Сохранённый учебный опыт R03. Погода — исторический реанализ ERA5, не оперативный прогноз.</p>
+{% if error %}<p class="warning" role="alert">{{ error }}</p>{% endif %}
+<form method="post" action="{{ url_for('weather.calculate') }}">
+<label for="run-threshold">Порог нового расчёта, м/с</label>
+<select name="threshold" id="run-threshold">{% for value in thresholds %}<option value="{{ value }}" {% if (experiment and value == experiment.threshold_ms) or (not experiment and value == 10) %}selected{% endif %}>{{ value }}</option>{% endfor %}</select>
+<button class="button" type="submit">Рассчитать влияние погоды</button>
+<p>READY и MILP · R03 · срок 328 ч · объявление на 60-м часу. Результат сохранится; обновление страницы не запускает расчёт повторно.</p>
+</form>
+{% if run_id %}<p><a class="button secondary" href="{{ url_for('weather.download', ident=run_id) }}">Скачать результат</a></p>{% endif %}
+{% if history %}<details><summary>История погодных расчётов</summary><ul>{% for item in history %}<li><a href="{{ url_for('weather.saved', ident=item.id) }}">Расчёт №{{ item.id }} · {{ item.created_at }}</a></li>{% endfor %}</ul></details>{% endif %}
+{% if not experiment %}
+<p class="warning">Погодный опыт ещё не рассчитан. Сохранённые результаты отсутствуют.</p>
+{% else %}
+<form method="get" action="{{ url_for('weather.page') }}"><label for="threshold">Сценарный порог ветра, м/с</label>
+<select name="threshold" id="threshold">{% for value in thresholds %}<option value="{{ value }}" {% if value == experiment.threshold_ms %}selected{% endif %}>{{ value }}</option>{% endfor %}</select>
+<button class="button" type="submit">Показать результат</button></form>
+<p>Порог не подтверждён перевозчиком. Максимум ветра в двух ячейках применяется ко всему маршруту и обоим направлениям движения. Погрузка и выгрузка не закрываются.</p>
+<p>Начало сценария: 10 августа 2026, 08:00 +10:00. Условное объявление ограничений: час {{ experiment.event.announced_at_h }}. Срок доставки: 328 часов.</p>
+<div class="warning"><strong>Что было известно заранее</strong><p>Будущие значения реанализа используются только для условного испытания. Время выпуска прогноза отсутствует; эти сведения нельзя считать доступными диспетчеру в момент объявления.</p></div>
+{% for method, run in experiment.runs.items() %}
+<section><h2>{{ method|upper }}: {{ labels.get(run.action, 'Неизвестный статус') }}</h2>
+<p>Допустимость расписания и доказанная оптимальность — разные результаты. Статусы решателя сохраняются в скачиваемом файле.</p>
+<p>Начатых рейсов зафиксировано: {{ run.committed|length }}.</p>
+{% if run.action == 'requires_intervention' %}
+<div class="warning" role="status">Погодный запрет затрагивает начатые рейсы. Автоматически менять их нельзя. Диспетчеру необходимо проверить конфликт и принять решение.</div>
+{% else %}
+<p>Принято: {{ run.result.accepted_t }} т. Недопоставка: {{ run.result.shortfall_t }} т.</p>
+{% endif %}
+</section>
+{% endfor %}
+<h2>Интервалы ограничений</h2>
+<p>Начало включено, конец не включён. Календарные даты ниже указаны в UTC (+00:00).</p>
+<div style="overflow-x:auto"><table><thead><tr><th scope="col">Часы сценария</th><th scope="col">Начало UTC</th><th scope="col">Конец UTC</th><th scope="col">Пиковый ветер, м/с</th></tr></thead>
+<tbody>{% for item in experiment.event.evidence %}<tr><td>[{{ item.from_h }}, {{ item.to_h }})</td><td>{{ item.start_utc }}</td><td>{{ item.end_utc }}</td><td>{{ item.peak_wind_ms }}</td></tr>{% else %}<tr><td colspan="4">Превышений порога после объявления нет.</td></tr>{% endfor %}</tbody></table></div>
+<h2>Происхождение данных</h2>
+<p>Open-Meteo / ECMWF ERA5 · ветер на высоте 10 м · CC BY 4.0. Две ячейки не описывают все локальные условия маршрута.</p>
+{% for source in experiment.event.sources %}<p>{{ source.point.name }}: {{ source.point.latitude }}, {{ source.point.longitude }}. Скачано: {{ source.retrieved_at }}. <a href="{{ source.url }}">Исходный запрос</a></p>{% endfor %}
+{% endif %}
+</section>
+{% endblock %}
