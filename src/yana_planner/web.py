@@ -31,6 +31,9 @@ def create_app(config=None):
         MAX_CONTENT_LENGTH=1_048_576,
     )
     app.config.update(config or {})
+    from .multi_stop_web import bp as multi_stop_blueprint
+
+    app.register_blueprint(multi_stop_blueprint)
     app.jinja_env.filters["run_status"] = lambda value: STATUS.get(value, "Статус не определён")
 
     @app.route("/", methods=["GET", "POST"])

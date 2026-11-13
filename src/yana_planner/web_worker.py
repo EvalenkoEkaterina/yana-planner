@@ -35,6 +35,17 @@ def calculate_package_with_timeout(
     )
 
 
+def calculate_multi_stop_with_timeout(payload, *, total_timeout=30):
+    try:
+        return _run_worker(dict(operation="multi_stop", payload=payload), total_timeout)
+    except CalculationTimeout as exc:
+        raise CalculationTimeout(
+            f"Расчёт остановлен по общему лимиту {total_timeout:g} с. "
+            "Достижение лимита не означает невыполнимость условий. "
+            "Можно повторить расчёт с 2 секундами на этап."
+        ) from exc
+
+
 def _run_worker(request, total_timeout):
     try:
         payload = json.dumps(request, ensure_ascii=False, allow_nan=False)
@@ -72,7 +83,11 @@ def main():
 
     try:
         payload = json.load(sys.stdin)
-        if payload.get("operation") == "package":
+        if payload.get("operation") == "multi_stop":
+            from .multi_stop_service import calculate_multi_stop_request
+
+            inputs, result = calculate_multi_stop_request(payload["payload"])
+        elif payload.get("operation") == "package":
             inputs, result = calculate_package(
                 payload["payload"],
                 search_seconds=payload["search_seconds"],
