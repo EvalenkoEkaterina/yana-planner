@@ -1,4 +1,4 @@
-"""Experimental single-vessel, two-recipient voyage with explicit priority."""
+"""Experimental single-vessel, fixed-order multi-recipient voyage with explicit priority."""
 
 from copy import deepcopy
 from math import isfinite
@@ -26,7 +26,7 @@ def normalize(raw):
     v = c.get("vessel")
     if not isinstance(v, dict) or not isinstance(v.get("id"), str) or not v["id"].strip():
         raise InputError("Нужно одно судно с id")
-    for k in ("capacity_t", "load_h", "leg1_h", "leg2_h", "return_h", "available_h", "prep_h"):
+    for k in ("capacity_t", "load_h", "return_h", "available_h", "prep_h"):
         v[k] = integer(v.get(k), k, minimum=0 if k in ("available_h", "prep_h") else 1)
         if k != "capacity_t" and v[k] > 492:
             raise InputError("Время операции должно быть не больше 492 часов")
@@ -39,8 +39,19 @@ def normalize(raw):
         a["h"] = integer(a.get("h"), "arrival.h")
         a["t"] = integer(a.get("t"), "arrival.t", minimum=1)
     stops = c.get("stops")
-    if not isinstance(stops, list) or len(stops) != 2:
-        raise InputError("Нужны ровно два получателя в порядке посещения")
+    if not isinstance(stops, list) or not 1 <= len(stops) <= 8:
+        raise InputError("Нужны от 1 до 8 получателей в порядке посещения")
+    travel = v.get("travel_h")
+    legacy = "leg1_h" in v or "leg2_h" in v
+    if travel is None and len(stops) == 2:
+        travel = [v.get("leg1_h"), v.get("leg2_h")]
+    if not isinstance(travel, list) or len(travel) != len(stops):
+        raise InputError("travel_h: нужна длительность движения до каждого получателя")
+    v["travel_h"] = [integer(h, "travel_h", minimum=1) for h in travel]
+    if any(h > 492 for h in v["travel_h"]):
+        raise InputError("Время движения должно быть не больше 492 часов")
+    if legacy and (len(stops) != 2 or [v.get("leg1_h"), v.get("leg2_h")] != v["travel_h"]):
+        raise InputError("Не смешивайте противоречивые travel_h и leg1_h/leg2_h")
     ids = {c["origin_id"]}
     for stop in stops:
         if (
@@ -57,8 +68,11 @@ def normalize(raw):
             raise InputError("Срок приёмки должен быть в пределах горизонта")
         stop["windows"] = _intervals(stop.get("windows"), c["horizon_h"], nonempty=True)
     closures = c.get("movement_closures")
-    if not isinstance(closures, dict) or set(closures) != {"leg1", "leg2", "return"}:
-        raise InputError("Задайте запреты движения отдельно для leg1, leg2 и return")
+    if not isinstance(closures, dict) or set(closures) != {
+        *(f"leg{i + 1}" for i in range(len(stops))),
+        "return",
+    }:
+        raise InputError("Задайте запреты для каждого leg1…legN и return")
     for key in closures:
         closures[key] = _intervals(closures[key], c["horizon_h"])
     return c
@@ -78,52 +92,60 @@ def _intervals(raw, horizon, nonempty=False):
     return result
 
 
+def _start_keys(count):
+    return [
+        "load_start_h",
+        *[key for i in range(1, count + 1) for key in (f"depart{i}_h", f"unload{i}_start_h")],
+        "depart_return_h",
+    ]
+
+
 def check_voyage(raw, plan):
-    """Reconstruct times, inventories, windows and closures independently of the MILP."""
+    """Reconstruct every stop and remaining cargo independently of the MILP."""
     c = normalize(raw)
     if not isinstance(plan, dict):
-        raise InputError("Нужен план с шестью временами начала операций")
-    keys = (
-        "load_start_h",
-        "depart1_h",
-        "unload1_start_h",
-        "depart2_h",
-        "unload2_start_h",
-        "depart_return_h",
-    )
-    times = [integer(plan.get(k), k) for k in keys]
-    load, depart1, unload1, depart2, unload2, back = times
+        raise InputError("Нужен план с временами начала всех операций")
     v, stops = c["vessel"], c["stops"]
-    q1, q2 = (s["required_t"] for s in stops)
+    keys = _start_keys(len(stops))
+    times = [integer(plan.get(k), k) for k in keys]
+    load, back = times[0], times[-1]
+    quantity = sum(s["required_t"] for s in stops)
     errors = []
-    if q1 + q2 > v["capacity_t"]:
+    if quantity > v["capacity_t"]:
         errors.append("Превышена вместимость судна")
     stock = c["initial_source_t"] + sum(a["t"] for a in c["arrivals"] if a["h"] <= load)
-    if stock < q1 + q2:
+    if stock < quantity:
         errors.append("К началу погрузки недостаточно топлива")
     if load < v["available_h"]:
         errors.append("Судно ещё недоступно")
-    if (
-        depart1 < load + v["load_h"]
-        or unload1 < depart1 + v["leg1_h"]
-        or depart2 < unload1 + stops[0]["unload_h"]
-        or unload2 < depart2 + v["leg2_h"]
-        or back < unload2 + stops[1]["unload_h"]
-    ):
-        errors.append("Нарушена последовательность движения и операций")
-    receipts = [unload1 + stops[0]["unload_h"], unload2 + stops[1]["unload_h"]]
-    for i, (start, finish, stop) in enumerate(
-        zip((unload1, unload2), receipts, stops, strict=True)
-    ):
+    previous_end, cargo = load + v["load_h"], quantity
+    deliveries = []
+    movements = []
+    for i, stop in enumerate(stops):
+        departure, start = times[1 + 2 * i], times[2 + 2 * i]
+        duration = v["travel_h"][i]
+        finish = start + stop["unload_h"]
+        if departure < previous_end or start < departure + duration:
+            errors.append(f"Получатель {i + 1}: нарушена последовательность движения и операций")
         if finish > stop["deadline_h"]:
             errors.append(f"Получатель {i + 1}: нарушен срок")
         if not any(a <= start and finish <= b for a, b in stop["windows"]):
             errors.append(f"Получатель {i + 1}: выгрузка вне окна приёмки")
-    for leg, start, duration in [
-        ("leg1", depart1, v["leg1_h"]),
-        ("leg2", depart2, v["leg2_h"]),
-        ("return", back, v["return_h"]),
-    ]:
+        cargo -= stop["required_t"]
+        deliveries.append(
+            dict(
+                stop_id=stop["id"],
+                accepted_t=stop["required_t"],
+                receipt_h=finish,
+                cargo_after_t=cargo,
+            )
+        )
+        movements.append((f"leg{i + 1}", departure, duration))
+        previous_end = finish
+    if back < previous_end:
+        errors.append("Возврат начался до окончания последней выгрузки")
+    movements.append(("return", back, v["return_h"]))
+    for leg, start, duration in movements:
         if any(start < b and a < start + duration for a, b in c["movement_closures"][leg]):
             errors.append(f"{leg}: движение пересекает запрет")
     ready = back + v["return_h"] + v["prep_h"]
@@ -132,22 +154,14 @@ def check_voyage(raw, plan):
     return dict(
         status="valid_simulation" if not errors else "invalid_schedule",
         errors=errors,
-        loaded_t=q1 + q2,
-        deliveries=[
-            dict(
-                stop_id=s["id"],
-                accepted_t=s["required_t"],
-                receipt_h=receipts[i],
-                cargo_after_t=q2 if i == 0 else 0,
-            )
-            for i, s in enumerate(stops)
-        ],
+        loaded_t=quantity,
+        deliveries=deliveries,
         ready_h=ready,
         starts=dict(zip(keys, times, strict=True)),
     )
 
 
-def plan_two_stop(raw, *, stage_limit_s=2):
+def plan_multi_stop(raw, *, stage_limit_s=2):
     c = normalize(raw)
     if (
         isinstance(stage_limit_s, bool)
@@ -157,12 +171,18 @@ def plan_two_stop(raw, *, stage_limit_s=2):
     ):
         raise InputError("Нужен положительный лимит времени")
     v, stops, H = c["vessel"], c["stops"], c["horizon_h"]
+    count = len(stops)
+    keys = _start_keys(count)
+    back_index = 2 * count + 1
     quantity = sum(s["required_t"] for s in stops)
     common = dict(
         mode="SIM_ONLY",
-        goal="required_first_then_earliest_second",
+        goal="required_first_then_earliest_second"
+        if count == 2
+        else "required_deliveries_then_earliest_last",
         input=c,
-        priority=["both_required_volumes", "first_receipt_deadline", "earliest_second_receipt"],
+        priority=["all_required_volumes", "all_receipt_deadlines", "earliest_last_receipt"],
+        objective_stop_id=stops[-1]["id"],
         real_admissibility="requires_confirmation",
     )
     stock, release = c["initial_source_t"], 0
@@ -178,10 +198,12 @@ def plan_two_stop(raw, *, stage_limit_s=2):
             goal_met=False,
             plan=None,
             solver=[],
+            earliest_last_proven=False,
+            **({"earliest_second_proven": False} if count == 2 else {}),
             reason="Недостаточно вместимости или поступлений в пределах горизонта",
         )
     rows, lower, upper = [], [], []
-    variable_count = 6
+    variable_count = len(keys)
     binaries = []
 
     def binary():
@@ -197,14 +219,17 @@ def plan_two_stop(raw, *, stage_limit_s=2):
         upper.append(hi)
 
     add({0: 1}, lo=max(v["available_h"], release))
-    add({1: 1, 0: -1}, lo=v["load_h"])
-    add({2: 1, 1: -1}, lo=v["leg1_h"])
-    add({3: 1, 2: -1}, lo=stops[0]["unload_h"])
-    add({4: 1, 3: -1}, lo=v["leg2_h"])
-    add({5: 1, 4: -1}, lo=stops[1]["unload_h"])
-    add({5: 1}, hi=H - v["return_h"] - v["prep_h"])
-    M = 2 * H + max(v["leg1_h"], v["leg2_h"], v["return_h"], *(s["unload_h"] for s in stops))
-    for index, stop in zip((2, 4), stops, strict=True):
+    for i, stop in enumerate(stops):
+        departure, unload = 1 + 2 * i, 2 + 2 * i
+        previous = 0 if i == 0 else 2 * i
+        duration = v["load_h"] if i == 0 else stops[i - 1]["unload_h"]
+        add({departure: 1, previous: -1}, lo=duration)
+        add({unload: 1, departure: -1}, lo=v["travel_h"][i])
+    add({back_index: 1, 2 * count: -1}, lo=stops[-1]["unload_h"])
+    add({back_index: 1}, hi=H - v["return_h"] - v["prep_h"])
+    M = 2 * H + max(*v["travel_h"], v["return_h"], *(s["unload_h"] for s in stops))
+    for i, stop in enumerate(stops):
+        index = 2 + 2 * i
         add({index: 1}, hi=stop["deadline_h"] - stop["unload_h"])
         selected = []
         for a, b in stop["windows"]:
@@ -214,9 +239,8 @@ def plan_two_stop(raw, *, stage_limit_s=2):
             add({index: 1, z: M}, hi=b + M - stop["unload_h"])
         add({z: 1 for z in selected}, lo=1, hi=1)
     for leg, index, duration in [
-        ("leg1", 1, v["leg1_h"]),
-        ("leg2", 3, v["leg2_h"]),
-        ("return", 5, v["return_h"]),
+        *[(f"leg{i + 1}", 1 + 2 * i, h) for i, h in enumerate(v["travel_h"])],
+        ("return", back_index, v["return_h"]),
     ]:
         for a, b in c["movement_closures"][leg]:
             z = binary()
@@ -225,11 +249,12 @@ def plan_two_stop(raw, *, stage_limit_s=2):
     bounds_upper = np.full(variable_count, H, dtype=float)
     bounds_upper[binaries] = 1
     best, logs = None, []
-    for objective_index, stage in [
-        (4, "earliest_second_receipt"),
-        (2, "earliest_first_at_fixed_second"),
-        (5, "earliest_ready_at_fixed_receipts"),
-    ]:
+    objectives = [(2 * count, "earliest_second_receipt" if count == 2 else "earliest_last_receipt")]
+    objectives += [
+        (2 + 2 * i, f"earliest_stop_{i + 1}_at_fixed_higher_priorities") for i in range(count - 1)
+    ]
+    objectives.append((back_index, "earliest_ready_at_fixed_receipts"))
+    for objective_index, stage in objectives:
         matrix = np.zeros((len(rows), variable_count))
         for i, row in enumerate(rows):
             for j, value in row.items():
@@ -252,16 +277,8 @@ def plan_two_stop(raw, *, stage_limit_s=2):
         )
         logs.append(log)
         if result.x is not None:
-            keys = (
-                "load_start_h",
-                "depart1_h",
-                "unload1_start_h",
-                "depart2_h",
-                "unload2_start_h",
-                "depart_return_h",
-            )
             verdict = check_voyage(
-                c, dict(zip(keys, (int(round(t)) for t in result.x[:6]), strict=True))
+                c, dict(zip(keys, (int(round(t)) for t in result.x[: len(keys)]), strict=True))
             )
             if verdict["status"] == "valid_simulation":
                 best = verdict
@@ -279,7 +296,23 @@ def plan_two_stop(raw, *, stage_limit_s=2):
         if logs[0]["status"] == 2
         else "no_feasible_solution_found",
         goal_met=best is not None,
-        earliest_second_proven=best is not None and logs[0]["optimal"],
+        earliest_last_proven=best is not None and logs[0]["optimal"],
+        **(
+            {"earliest_second_proven": best is not None and logs[0]["optimal"]}
+            if count == 2
+            else {}
+        ),
         plan=best,
         solver=logs,
     )
+
+
+def plan_two_stop(raw, *, stage_limit_s=2):
+    """Compatibility entry point for the existing two-recipient prototype."""
+    if (
+        not isinstance(raw, dict)
+        or not isinstance(raw.get("stops"), list)
+        or len(raw["stops"]) != 2
+    ):
+        raise InputError("Для plan_two_stop нужны ровно два получателя")
+    return plan_multi_stop(raw, stage_limit_s=stage_limit_s)
