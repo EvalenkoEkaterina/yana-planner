@@ -119,3 +119,18 @@ class RouteWeatherTests(unittest.TestCase):
             html = (Path(tmp) / "report.html").read_text()
             self.assertIn("SIM-B с 0 до 120 ч", html)
             self.assertIn("не ускорение", html)
+
+    def test_payment_horizon_error_explains_required_time(self):
+        from yana_planner.service import calculate_package
+
+        spec = importlib.util.spec_from_file_location(
+            "horizon_check", ROOT / "scripts/check_graph_weather.py"
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as tmp:
+            inputs, _, _ = module.run(tmp, example="consolidation")
+            package = deepcopy(inputs["route_package"])
+            package["scenario"]["arrivals"][1]["h"] = 18
+            with self.assertRaisesRegex(InputError, r"минимум \d+ ч; задано 120 ч"):
+                calculate_package(package, search_seconds=2)

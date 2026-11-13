@@ -131,9 +131,11 @@ def cost(cfg: dict, plan: list[dict], deadline: int, terms: dict) -> dict:
     horizon = resolved["horizon_h"]
     fleet = {v["id"]: v for v in cfg["vessels"]}
     rates = resolved["vessel_rates"]
-    if horizon < max((t["ready_h"] for t in verdict["trips"]), default=0):
+    required_horizon = max((t["ready_h"] for t in verdict["trips"]), default=0)
+    if horizon < required_horizon:
         raise InputError(
-            "Оплачиваемый горизонт должен включать полный оборот всех выбранных рейсов"
+            "Оплачиваемый горизонт должен включать полный оборот всех выбранных рейсов "
+            f"с подготовкой: минимум {required_horizon} ч; задано {horizon:g} ч"
         )
     by_vessel = {vessel_id: [] for vessel_id in fleet}
     for trip in verdict["trips"]:
