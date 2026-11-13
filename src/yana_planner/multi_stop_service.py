@@ -61,7 +61,11 @@ def _object(value, allowed, path):
         )
 
 
-def calculate_multi_stop_request(payload):
+def calculate_multi_stop_request(payload, *, stage_limit_override=None):
+    if isinstance(payload, dict) and "vessel_candidates" in payload:
+        from .multi_stop_vessel_selection import calculate_vessel_selection
+
+        return calculate_vessel_selection(payload)
     _object(payload, {"schema_version", "scenario", "cost_terms", "search_seconds"}, "request")
     if payload.get("schema_version", "yana-multi-stop-request/1") != "yana-multi-stop-request/1":
         raise InputError("schema_version: ожидается yana-multi-stop-request/1")
@@ -111,7 +115,13 @@ def calculate_multi_stop_request(payload):
         )
         for name, value in {**terms["rates"], **terms["stop_fees_rub"]}.items():
             _money(value, name)
-    result = plan_multi_stop(cfg, stage_limit_s=seconds, cost_terms=terms)
+    result = plan_multi_stop(
+        cfg,
+        stage_limit_s=min(seconds, stage_limit_override)
+        if stage_limit_override is not None
+        else seconds,
+        cost_terms=terms,
+    )
     inputs = dict(
         schema_version="yana-multi-stop-request/1",
         scenario=cfg,

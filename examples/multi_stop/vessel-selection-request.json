@@ -1,0 +1,164 @@
+{
+  "schema_version": "yana-multi-stop-request/1",
+  "scenario": {
+    "mode": "SIM_ONLY",
+    "navigation_assumed": true,
+    "fleet_assumed": true,
+    "supply_assumed": true,
+    "reception_assumed": true,
+    "origin_id": "nizhneyansk",
+    "horizon_h": 160,
+    "initial_source_t": 100,
+    "arrivals": [
+      {
+        "h": 12,
+        "t": 500
+      }
+    ],
+    "vessel": {
+      "id": "MULTI-SIM",
+      "capacity_t": 600,
+      "available_h": 0,
+      "load_h": 10,
+      "return_h": 40,
+      "prep_h": 4,
+      "travel_h": [
+        24,
+        30
+      ]
+    },
+    "stops": [
+      {
+        "id": "ust-kuyga",
+        "required_t": 200,
+        "deadline_h": 60,
+        "unload_h": 4,
+        "windows": [
+          [
+            48,
+            72
+          ]
+        ]
+      },
+      {
+        "id": "batagay",
+        "required_t": 400,
+        "deadline_h": 120,
+        "unload_h": 6,
+        "windows": [
+          [
+            80,
+            130
+          ]
+        ]
+      }
+    ],
+    "movement_closures": {
+      "leg1": [],
+      "leg2": [],
+      "return": []
+    },
+    "provenance": "All freight, fleet, durations, windows and deadlines are synthetic. Named points illustrate a fixed Yana corridor; actual berths and voyage feasibility are not confirmed. No weather forecast or real rates applied."
+  },
+  "cost_terms": null,
+  "search_seconds": 2,
+  "vessel_candidates": [
+    {
+      "vessel": {
+        "id": "FAST",
+        "capacity_t": 600,
+        "available_h": 0,
+        "load_h": 10,
+        "return_h": 40,
+        "prep_h": 4,
+        "travel_h": [
+          24,
+          30
+        ]
+      },
+      "cost_terms": {
+        "billing_mode": "all_available_time",
+        "currency": "RUB",
+        "horizon_h": 160,
+        "vessel_id": "FAST",
+        "rate_basis": "scenario",
+        "source": "Учебные коэффициенты, не реальные тарифы",
+        "rates": {
+          "separate_trip_operations_rub": 25000,
+          "active_vessel_hour_rub": 2000,
+          "waiting_vessel_hour_rub": 500
+        },
+        "stop_fees_excluded_from_other_rates": true,
+        "stop_fees_rub": {
+          "ust-kuyga": 0,
+          "batagay": 0
+        }
+      }
+    },
+    {
+      "vessel": {
+        "id": "ECONOMY",
+        "capacity_t": 600,
+        "available_h": 20,
+        "load_h": 10,
+        "return_h": 40,
+        "prep_h": 4,
+        "travel_h": [
+          24,
+          30
+        ]
+      },
+      "cost_terms": {
+        "billing_mode": "all_available_time",
+        "currency": "RUB",
+        "horizon_h": 160,
+        "vessel_id": "ECONOMY",
+        "rate_basis": "scenario",
+        "source": "Учебные коэффициенты, не реальные тарифы",
+        "rates": {
+          "separate_trip_operations_rub": 25000,
+          "active_vessel_hour_rub": 1000,
+          "waiting_vessel_hour_rub": 500
+        },
+        "stop_fees_excluded_from_other_rates": true,
+        "stop_fees_rub": {
+          "ust-kuyga": 0,
+          "batagay": 0
+        }
+      }
+    },
+    {
+      "vessel": {
+        "id": "SMALL",
+        "capacity_t": 500,
+        "available_h": 0,
+        "load_h": 10,
+        "return_h": 40,
+        "prep_h": 4,
+        "travel_h": [
+          24,
+          30
+        ]
+      },
+      "cost_terms": {
+        "billing_mode": "all_available_time",
+        "currency": "RUB",
+        "horizon_h": 160,
+        "vessel_id": "SMALL",
+        "rate_basis": "scenario",
+        "source": "Учебные коэффициенты, не реальные тарифы",
+        "rates": {
+          "separate_trip_operations_rub": 25000,
+          "active_vessel_hour_rub": 500,
+          "waiting_vessel_hour_rub": 500
+        },
+        "stop_fees_excluded_from_other_rates": true,
+        "stop_fees_rub": {
+          "ust-kuyga": 0,
+          "batagay": 0
+        }
+      }
+    }
+  ],
+  "selection_rule": "earliest_receipts"
+}

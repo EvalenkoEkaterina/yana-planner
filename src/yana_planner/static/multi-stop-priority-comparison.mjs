@@ -7,7 +7,8 @@ export function comparisonRequest(base){
  return {schema_version:'yana-multi-stop-request/1',scenario,cost_terms:structuredClone(base.cost_terms??null),search_seconds:base.saved_run?.search_seconds??2};
 }
 export function comparePriorities(base,alternative){
- if(base.code_version&&alternative.code_version&&base.code_version!==alternative.code_version)throw Error('Нельзя сравнивать: расчёты выполнены разными версиями модели');
+ const modelVersion=r=>r.vessel_selection?.candidate_results.find(c=>c.input.vessel.id===r.input.vessel.id)?.code_version??r.code_version;
+ if(modelVersion(base)&&modelVersion(alternative)&&modelVersion(base)!==modelVersion(alternative))throw Error('Нельзя сравнивать: расчёты выполнены разными версиями модели');
  const a=structuredClone(base.input),b=structuredClone(alternative.input);delete a.receipt_priority;delete b.receipt_priority;
  if(stable(a)!==stable(b)||stable(base.cost_terms??null)!==stable(alternative.cost_terms??null))throw Error('Нельзя сравнивать: условия рейсов различаются');
  if(stable([...base.receipt_priority].reverse())!==stable(alternative.receipt_priority))throw Error('Ожидался обратный порядок важности');
