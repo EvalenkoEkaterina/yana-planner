@@ -1,0 +1,7 @@
+{
+  "metric": "wind_speed_10m",
+  "unit": "m/s",
+  "operator": ">=",
+  "threshold": 8,
+  "status": "scenario_assumption"
+}

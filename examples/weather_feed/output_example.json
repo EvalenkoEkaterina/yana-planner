@@ -1,0 +1,26 @@
+{
+  "point_id": "nizhneyansk",
+  "latitude": 71.4403,
+  "longitude": 136.13585,
+  "valid_from": "2025-07-01T00:00:00+00:00",
+  "valid_to": "2025-07-01T01:00:00+00:00",
+  "metric": "wind_speed_10m",
+  "value": 2.09,
+  "unit": "m/s",
+  "data_kind": "forecast",
+  "source": {
+    "provider": "Open-Meteo",
+    "dataset": "ECMWF IFS 0.25 Previous Runs",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=71.4403&longitude=136.13585&start_date=2025-06-01&end_date=2025-09-30&hourly=wind_speed_10m_previous_day1%2Ctemperature_2m_previous_day1%2Cprecipitation_previous_day1%2Crelative_humidity_2m_previous_day1%2Cpressure_msl_previous_day1%2Ccloud_cover_previous_day1%2Cwind_direction_10m_previous_day1&wind_speed_unit=ms&timezone=UTC&models=ecmwf_ifs025",
+    "attribution": "Open-Meteo; ECMWF IFS / ERA5; CC BY 4.0",
+    "original_response_sha256": "35ba686f8d0064323ad9069d67384a6f43d98f99730792bb49d755b9dce0d4e6"
+  },
+  "source_model": "ecmwf_ifs025",
+  "retrieved_at": "2026-11-12T21:27:37.630147+00:00",
+  "forecast_issued_at": null,
+  "correction_applied": false,
+  "missing": false,
+  "uncertainty": null,
+  "availability_at_decision_time": "unverified",
+  "interval_basis": "hourly integration assumption, [start,end)"
+}
