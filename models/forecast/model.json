@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "model_id": "northern-weather-calibration-v1",
+  "source_model": "ecmwf_ifs025",
+  "lead_hours": 24,
+  "feature_names": [
+    "wind",
+    "temperature",
+    "precipitation",
+    "humidity",
+    "pressure",
+    "cloud",
+    "direction_sin",
+    "direction_cos",
+    "wind_squared",
+    "temperature_squared",
+    "log_precipitation",
+    "wind_humidity",
+    "wind_cloud",
+    "temperature_humidity",
+    "wind_u",
+    "wind_v",
+    "latitude",
+    "longitude",
+    "season_sin",
+    "season_cos",
+    "local_hour_sin",
+    "local_hour_cos",
+    "wind_latitude",
+    "temperature_latitude"
+  ],
+  "months": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "reference": "ERA5 reanalysis, not independent station observations",
+  "components": {
+    "wind_speed_10m": {
+      "kind": "raw"
+    },
+    "temperature_2m": {
+      "kind": "raw"
+    },
+    "precipitation": {
+      "kind": "raw"
+    }
+  },
+  "automatic_calibration_enabled": false,
+  "training_year": 2024,
+  "validation_year": 2025,
+  "held_out_basin": "indigirka",
+  "raw_manifest_sha256": "15ffcd307ebd7c6ecef89db3415bf175c55a5319d750d7d8026ead8c8732c357",
+  "intended_use": "research only; no navigation permission",
+  "geographic_scope": [
+    {
+      "id": "nizhneyansk",
+      "name": "Нижнеянск",
+      "basin": "yana",
+      "latitude": 71.4403,
+      "longitude": 136.13585
+    },
+    {
+      "id": "ust_kuyga",
+      "name": "Усть-Куйга",
+      "basin": "yana",
+      "latitude": 70.00208,
+      "longitude": 135.54877
+    },
+    {
+      "id": "tiksi",
+      "name": "Тикси",
+      "basin": "lena",
+      "latitude": 71.69075,
+      "longitude": 128.86523
+    },
+    {
+      "id": "zhigansk",
+      "name": "Жиганск",
+      "basin": "lena",
+      "latitude": 66.76804,
+      "longitude": 123.37658
+    },
+    {
+      "id": "chersky",
+      "name": "Черский",
+      "basin": "kolyma",
+      "latitude": 68.75322,
+      "longitude": 161.331
+    },
+    {
+      "id": "srednekolymsk",
+      "name": "Среднеколымск",
+      "basin": "kolyma",
+      "latitude": 67.45588,
+      "longitude": 153.704
+    },
+    {
+      "id": "chokurdakh",
+      "name": "Чокурдах",
+      "basin": "indigirka",
+      "latitude": 70.61828,
+      "longitude": 147.89693
+    },
+    {
+      "id": "belaya_gora",
+      "name": "Белая Гора",
+      "basin": "indigirka",
+      "latitude": 68.53823,
+      "longitude": 146.1852
+    }
+  ]
+}

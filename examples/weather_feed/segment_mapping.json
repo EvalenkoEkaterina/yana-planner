@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "segments": {},
+  "pending": [
+    {
+      "segment_id": null,
+      "status": "awaiting_real_graph_id",
+      "point_ids": [
+        "nizhneyansk",
+        "ust_kuyga"
+      ],
+      "candidate_area": "Нижнеянск — Усть-Куйга",
+      "method": "Maximum of endpoint weather cells, subject to graph owner confirmation",
+      "limitations": "Two points do not cover the entire river; no passage-time accounting"
+    }
+  ]
+}

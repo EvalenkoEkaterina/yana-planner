@@ -1,0 +1,188 @@
+{
+  "wind_speed_10m": {
+    "candidates": [
+      {
+        "kind": "raw",
+        "alpha": null,
+        "n": 17568,
+        "mae": 0.8953642987249544,
+        "rmse": 1.172942201674893,
+        "mean_error": -0.46536543715847,
+        "adverse_n": 239,
+        "adverse_mae": 2.8851046025104603,
+        "eligible": false
+      },
+      {
+        "kind": "median_bias",
+        "alpha": null,
+        "n": 17568,
+        "mae": 1.0336908014571953,
+        "rmse": 1.3314370950819614,
+        "mean_error": -0.7841029143898,
+        "adverse_n": 239,
+        "adverse_mae": 3.2051046025104606,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 1,
+        "n": 17568,
+        "mae": 0.9010942721627785,
+        "rmse": 1.2033553161711479,
+        "mean_error": -0.6587006759749567,
+        "adverse_n": 239,
+        "adverse_mae": 3.4207504851259087,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 100,
+        "n": 17568,
+        "mae": 0.8948792521507353,
+        "rmse": 1.1960509413211402,
+        "mean_error": -0.6498292401225193,
+        "adverse_n": 239,
+        "adverse_mae": 3.430061012796167,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 10000,
+        "n": 17568,
+        "mae": 0.9031726903063401,
+        "rmse": 1.2063009924453587,
+        "mean_error": -0.6676154480781482,
+        "adverse_n": 239,
+        "adverse_mae": 3.414299562034697,
+        "eligible": false
+      }
+    ],
+    "chosen": "raw",
+    "alpha": null,
+    "raw_adverse_mae": 2.8851046025104603
+  },
+  "temperature_2m": {
+    "candidates": [
+      {
+        "kind": "raw",
+        "alpha": null,
+        "n": 17568,
+        "mae": 1.4560564663023678,
+        "rmse": 2.018826463923777,
+        "mean_error": -0.5389458105646631,
+        "adverse_n": 2215,
+        "adverse_mae": 0.8224379232505643,
+        "eligible": false
+      },
+      {
+        "kind": "median_bias",
+        "alpha": null,
+        "n": 17568,
+        "mae": 1.4097222222222223,
+        "rmse": 1.9601767280273943,
+        "mean_error": -0.238945810564663,
+        "adverse_n": 2215,
+        "adverse_mae": 0.9125959367945823,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 1,
+        "n": 17568,
+        "mae": 1.3731025136603459,
+        "rmse": 1.8867854443959318,
+        "mean_error": -0.22434731779330452,
+        "adverse_n": 2215,
+        "adverse_mae": 1.0462660364877783,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 100,
+        "n": 17568,
+        "mae": 1.3726401770595327,
+        "rmse": 1.8861214140725575,
+        "mean_error": -0.21502927506447583,
+        "adverse_n": 2215,
+        "adverse_mae": 1.0577136516485692,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 10000,
+        "n": 17568,
+        "mae": 1.3719693457633317,
+        "rmse": 1.896454374188624,
+        "mean_error": -0.23568266728911416,
+        "adverse_n": 2215,
+        "adverse_mae": 1.0016128454843336,
+        "eligible": false
+      }
+    ],
+    "chosen": "raw",
+    "alpha": null,
+    "raw_adverse_mae": 0.8224379232505643
+  },
+  "precipitation": {
+    "candidates": [
+      {
+        "kind": "raw",
+        "alpha": null,
+        "n": 17568,
+        "mae": 0.04791097449908926,
+        "rmse": 0.17148931100423356,
+        "mean_error": 0.0012352003642987245,
+        "adverse_n": 147,
+        "adverse_mae": 0.7700680272108844,
+        "eligible": false
+      },
+      {
+        "kind": "median_bias",
+        "alpha": null,
+        "n": 17568,
+        "mae": 0.04791097449908926,
+        "rmse": 0.17148931100423356,
+        "mean_error": 0.0012352003642987245,
+        "adverse_n": 147,
+        "adverse_mae": 0.7700680272108844,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 1,
+        "n": 17568,
+        "mae": 0.053013109309104876,
+        "rmse": 0.13861074316855201,
+        "mean_error": 0.0018487732003215857,
+        "adverse_n": 147,
+        "adverse_mae": 0.9339007025571526,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 100,
+        "n": 17568,
+        "mae": 0.053296019950744025,
+        "rmse": 0.138949161472501,
+        "mean_error": 0.0017813967259366842,
+        "adverse_n": 147,
+        "adverse_mae": 0.9276665165897081,
+        "eligible": false
+      },
+      {
+        "kind": "ridge_residual",
+        "alpha": 10000,
+        "n": 17568,
+        "mae": 0.05163430870229125,
+        "rmse": 0.14603559910752578,
+        "mean_error": -0.0008997203154135337,
+        "adverse_n": 147,
+        "adverse_mae": 0.8695743283776725,
+        "eligible": false
+      }
+    ],
+    "chosen": "raw",
+    "alpha": null,
+    "raw_adverse_mae": 0.7700680272108844
+  }
+}

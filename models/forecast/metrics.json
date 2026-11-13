@@ -1,0 +1,1284 @@
+{
+  "experiment": {
+    "schema_version": "1.0",
+    "purpose": "24h external forecast calibration against ERA5; not operational safety",
+    "forecast_model": "ecmwf_ifs025",
+    "reference_model": "era5",
+    "lead_hours": 24,
+    "months": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "train_year": 2024,
+    "validation_year": 2025,
+    "test_year": 2026,
+    "held_out_basin": "indigirka",
+    "coordinate_source": "https://geocoding-api.open-meteo.com/v1/search",
+    "variables": [
+      "wind_speed_10m",
+      "temperature_2m",
+      "precipitation",
+      "relative_humidity_2m",
+      "pressure_msl",
+      "cloud_cover",
+      "wind_direction_10m"
+    ],
+    "targets": [
+      "wind_speed_10m",
+      "temperature_2m",
+      "precipitation"
+    ],
+    "points": [
+      {
+        "id": "nizhneyansk",
+        "name": "Нижнеянск",
+        "basin": "yana",
+        "latitude": 71.4403,
+        "longitude": 136.13585
+      },
+      {
+        "id": "ust_kuyga",
+        "name": "Усть-Куйга",
+        "basin": "yana",
+        "latitude": 70.00208,
+        "longitude": 135.54877
+      },
+      {
+        "id": "tiksi",
+        "name": "Тикси",
+        "basin": "lena",
+        "latitude": 71.69075,
+        "longitude": 128.86523
+      },
+      {
+        "id": "zhigansk",
+        "name": "Жиганск",
+        "basin": "lena",
+        "latitude": 66.76804,
+        "longitude": 123.37658
+      },
+      {
+        "id": "chersky",
+        "name": "Черский",
+        "basin": "kolyma",
+        "latitude": 68.75322,
+        "longitude": 161.331
+      },
+      {
+        "id": "srednekolymsk",
+        "name": "Среднеколымск",
+        "basin": "kolyma",
+        "latitude": 67.45588,
+        "longitude": 153.704
+      },
+      {
+        "id": "chokurdakh",
+        "name": "Чокурдах",
+        "basin": "indigirka",
+        "latitude": 70.61828,
+        "longitude": 147.89693
+      },
+      {
+        "id": "belaya_gora",
+        "name": "Белая Гора",
+        "basin": "indigirka",
+        "latitude": 68.53823,
+        "longitude": 146.1852
+      }
+    ],
+    "selection_metric": "validation MAE; raw baseline retained unless >=1% improvement",
+    "ridge_alphas": [
+      1,
+      100,
+      10000
+    ],
+    "reanalysis_not_observations": true,
+    "test_policy": "No tuning after test inspection. Indigirka excluded from training and validation."
+  },
+  "audit": [
+    {
+      "point": "nizhneyansk",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        71.5,
+        136.25
+      ],
+      "reference_grid": [
+        71.5,
+        136.25
+      ]
+    },
+    {
+      "point": "ust_kuyga",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        70.0,
+        135.5
+      ],
+      "reference_grid": [
+        70.0,
+        135.5
+      ]
+    },
+    {
+      "point": "tiksi",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        71.75,
+        128.75
+      ],
+      "reference_grid": [
+        71.75,
+        128.75
+      ]
+    },
+    {
+      "point": "zhigansk",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        66.75,
+        123.5
+      ],
+      "reference_grid": [
+        66.75,
+        123.5
+      ]
+    },
+    {
+      "point": "chersky",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        68.75,
+        161.25
+      ],
+      "reference_grid": [
+        68.75,
+        161.25
+      ]
+    },
+    {
+      "point": "srednekolymsk",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        67.5,
+        153.75
+      ],
+      "reference_grid": [
+        67.5,
+        153.75
+      ]
+    },
+    {
+      "point": "chokurdakh",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        70.5,
+        148.0
+      ],
+      "reference_grid": [
+        70.5,
+        148.0
+      ]
+    },
+    {
+      "point": "belaya_gora",
+      "year": 2024,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        68.5,
+        146.25
+      ],
+      "reference_grid": [
+        68.5,
+        146.25
+      ]
+    },
+    {
+      "point": "nizhneyansk",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        71.5,
+        136.25
+      ],
+      "reference_grid": [
+        71.5,
+        136.25
+      ]
+    },
+    {
+      "point": "ust_kuyga",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        70.0,
+        135.5
+      ],
+      "reference_grid": [
+        70.0,
+        135.5
+      ]
+    },
+    {
+      "point": "tiksi",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        71.75,
+        128.75
+      ],
+      "reference_grid": [
+        71.75,
+        128.75
+      ]
+    },
+    {
+      "point": "zhigansk",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        66.75,
+        123.5
+      ],
+      "reference_grid": [
+        66.75,
+        123.5
+      ]
+    },
+    {
+      "point": "chersky",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        68.75,
+        161.25
+      ],
+      "reference_grid": [
+        68.75,
+        161.25
+      ]
+    },
+    {
+      "point": "srednekolymsk",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        67.5,
+        153.75
+      ],
+      "reference_grid": [
+        67.5,
+        153.75
+      ]
+    },
+    {
+      "point": "chokurdakh",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        70.5,
+        148.0
+      ],
+      "reference_grid": [
+        70.5,
+        148.0
+      ]
+    },
+    {
+      "point": "belaya_gora",
+      "year": 2025,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        68.5,
+        146.25
+      ],
+      "reference_grid": [
+        68.5,
+        146.25
+      ]
+    },
+    {
+      "point": "nizhneyansk",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        71.5,
+        136.25
+      ],
+      "reference_grid": [
+        71.5,
+        136.25
+      ]
+    },
+    {
+      "point": "ust_kuyga",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        70.0,
+        135.5
+      ],
+      "reference_grid": [
+        70.0,
+        135.5
+      ]
+    },
+    {
+      "point": "tiksi",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        71.75,
+        128.75
+      ],
+      "reference_grid": [
+        71.75,
+        128.75
+      ]
+    },
+    {
+      "point": "zhigansk",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        66.75,
+        123.5
+      ],
+      "reference_grid": [
+        66.75,
+        123.5
+      ]
+    },
+    {
+      "point": "chersky",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        68.75,
+        161.25
+      ],
+      "reference_grid": [
+        68.75,
+        161.25
+      ]
+    },
+    {
+      "point": "srednekolymsk",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        67.5,
+        153.75
+      ],
+      "reference_grid": [
+        67.5,
+        153.75
+      ]
+    },
+    {
+      "point": "chokurdakh",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        70.5,
+        148.0
+      ],
+      "reference_grid": [
+        70.5,
+        148.0
+      ]
+    },
+    {
+      "point": "belaya_gora",
+      "year": 2026,
+      "expected": 2928,
+      "kept": 2928,
+      "dropped": 0,
+      "forecast_grid": [
+        68.5,
+        146.25
+      ],
+      "reference_grid": [
+        68.5,
+        146.25
+      ]
+    }
+  ],
+  "rows": 70272,
+  "counts": {
+    "train": 17568,
+    "validation": 17568,
+    "test_seen": 17568,
+    "test_unseen": 5856,
+    "excluded_heldout_2024_2025": 11712
+  },
+  "selection": {
+    "wind_speed_10m": {
+      "candidates": [
+        {
+          "kind": "raw",
+          "alpha": null,
+          "n": 17568,
+          "mae": 0.8953642987249544,
+          "rmse": 1.172942201674893,
+          "mean_error": -0.46536543715847,
+          "adverse_n": 239,
+          "adverse_mae": 2.8851046025104603,
+          "eligible": false
+        },
+        {
+          "kind": "median_bias",
+          "alpha": null,
+          "n": 17568,
+          "mae": 1.0336908014571953,
+          "rmse": 1.3314370950819614,
+          "mean_error": -0.7841029143898,
+          "adverse_n": 239,
+          "adverse_mae": 3.2051046025104606,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 1,
+          "n": 17568,
+          "mae": 0.9010942721627785,
+          "rmse": 1.2033553161711479,
+          "mean_error": -0.6587006759749567,
+          "adverse_n": 239,
+          "adverse_mae": 3.4207504851259087,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 100,
+          "n": 17568,
+          "mae": 0.8948792521507353,
+          "rmse": 1.1960509413211402,
+          "mean_error": -0.6498292401225193,
+          "adverse_n": 239,
+          "adverse_mae": 3.430061012796167,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 10000,
+          "n": 17568,
+          "mae": 0.9031726903063401,
+          "rmse": 1.2063009924453587,
+          "mean_error": -0.6676154480781482,
+          "adverse_n": 239,
+          "adverse_mae": 3.414299562034697,
+          "eligible": false
+        }
+      ],
+      "chosen": "raw",
+      "alpha": null,
+      "raw_adverse_mae": 2.8851046025104603
+    },
+    "temperature_2m": {
+      "candidates": [
+        {
+          "kind": "raw",
+          "alpha": null,
+          "n": 17568,
+          "mae": 1.4560564663023678,
+          "rmse": 2.018826463923777,
+          "mean_error": -0.5389458105646631,
+          "adverse_n": 2215,
+          "adverse_mae": 0.8224379232505643,
+          "eligible": false
+        },
+        {
+          "kind": "median_bias",
+          "alpha": null,
+          "n": 17568,
+          "mae": 1.4097222222222223,
+          "rmse": 1.9601767280273943,
+          "mean_error": -0.238945810564663,
+          "adverse_n": 2215,
+          "adverse_mae": 0.9125959367945823,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 1,
+          "n": 17568,
+          "mae": 1.3731025136603459,
+          "rmse": 1.8867854443959318,
+          "mean_error": -0.22434731779330452,
+          "adverse_n": 2215,
+          "adverse_mae": 1.0462660364877783,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 100,
+          "n": 17568,
+          "mae": 1.3726401770595327,
+          "rmse": 1.8861214140725575,
+          "mean_error": -0.21502927506447583,
+          "adverse_n": 2215,
+          "adverse_mae": 1.0577136516485692,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 10000,
+          "n": 17568,
+          "mae": 1.3719693457633317,
+          "rmse": 1.896454374188624,
+          "mean_error": -0.23568266728911416,
+          "adverse_n": 2215,
+          "adverse_mae": 1.0016128454843336,
+          "eligible": false
+        }
+      ],
+      "chosen": "raw",
+      "alpha": null,
+      "raw_adverse_mae": 0.8224379232505643
+    },
+    "precipitation": {
+      "candidates": [
+        {
+          "kind": "raw",
+          "alpha": null,
+          "n": 17568,
+          "mae": 0.04791097449908926,
+          "rmse": 0.17148931100423356,
+          "mean_error": 0.0012352003642987245,
+          "adverse_n": 147,
+          "adverse_mae": 0.7700680272108844,
+          "eligible": false
+        },
+        {
+          "kind": "median_bias",
+          "alpha": null,
+          "n": 17568,
+          "mae": 0.04791097449908926,
+          "rmse": 0.17148931100423356,
+          "mean_error": 0.0012352003642987245,
+          "adverse_n": 147,
+          "adverse_mae": 0.7700680272108844,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 1,
+          "n": 17568,
+          "mae": 0.053013109309104876,
+          "rmse": 0.13861074316855201,
+          "mean_error": 0.0018487732003215857,
+          "adverse_n": 147,
+          "adverse_mae": 0.9339007025571526,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 100,
+          "n": 17568,
+          "mae": 0.053296019950744025,
+          "rmse": 0.138949161472501,
+          "mean_error": 0.0017813967259366842,
+          "adverse_n": 147,
+          "adverse_mae": 0.9276665165897081,
+          "eligible": false
+        },
+        {
+          "kind": "ridge_residual",
+          "alpha": 10000,
+          "n": 17568,
+          "mae": 0.05163430870229125,
+          "rmse": 0.14603559910752578,
+          "mean_error": -0.0008997203154135337,
+          "adverse_n": 147,
+          "adverse_mae": 0.8695743283776725,
+          "eligible": false
+        }
+      ],
+      "chosen": "raw",
+      "alpha": null,
+      "raw_adverse_mae": 0.7700680272108844
+    }
+  },
+  "test": {
+    "test_seen_basins_2026": {
+      "wind_speed_10m": {
+        "raw": {
+          "n": 17568,
+          "mae": 1.0078403916211292,
+          "rmse": 1.3453680234036656,
+          "mean_error": -0.5637363387978142
+        },
+        "model": {
+          "n": 17568,
+          "mae": 1.0078403916211292,
+          "rmse": 1.3453680234036656,
+          "mean_error": -0.5637363387978142
+        },
+        "mae_improvement_pct": 0.0,
+        "uncertainty": {
+          "block_days": 7,
+          "blocks": 18,
+          "mae_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "interpretation": "paired temporal block bootstrap; not independent station validation"
+        },
+        "raw_events": {
+          "scenario_threshold": 8,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 150,
+          "false_negative": 705,
+          "false_positive": 24,
+          "true_negative": 16689,
+          "recall": 0.17543859649122806,
+          "precision": 0.8620689655172413
+        },
+        "model_events": {
+          "scenario_threshold": 8,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 150,
+          "false_negative": 705,
+          "false_positive": 24,
+          "true_negative": 16689,
+          "recall": 0.17543859649122806,
+          "precision": 0.8620689655172413
+        },
+        "by_point": {
+          "chersky": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.7146789617486339,
+              "rmse": 0.9172852483148066,
+              "mean_error": 0.17289617486338799
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.7146789617486339,
+              "rmse": 0.9172852483148066,
+              "mean_error": 0.17289617486338799
+            }
+          },
+          "nizhneyansk": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.9148872950819673,
+              "rmse": 2.2210035715311442,
+              "mean_error": -1.8531113387978142
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.9148872950819673,
+              "rmse": 2.2210035715311442,
+              "mean_error": -1.8531113387978142
+            }
+          },
+          "srednekolymsk": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.5185006830601093,
+              "rmse": 0.6755433706494464,
+              "mean_error": -0.18038592896174865
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.5185006830601093,
+              "rmse": 0.6755433706494464,
+              "mean_error": -0.18038592896174865
+            }
+          },
+          "tiksi": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.3450785519125683,
+              "rmse": 1.6550439855974508,
+              "mean_error": -1.1627493169398906
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.3450785519125683,
+              "rmse": 1.6550439855974508,
+              "mean_error": -1.1627493169398906
+            }
+          },
+          "ust_kuyga": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.8946618852459015,
+              "rmse": 1.0880074188362059,
+              "mean_error": -0.6899351092896174
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.8946618852459015,
+              "rmse": 1.0880074188362059,
+              "mean_error": -0.6899351092896174
+            }
+          },
+          "zhigansk": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.6592349726775957,
+              "rmse": 0.8405545999630992,
+              "mean_error": 0.3308674863387978
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.6592349726775957,
+              "rmse": 0.8405545999630992,
+              "mean_error": 0.3308674863387978
+            }
+          }
+        }
+      },
+      "temperature_2m": {
+        "raw": {
+          "n": 17568,
+          "mae": 1.3605305100182148,
+          "rmse": 1.8151147053127588,
+          "mean_error": -0.4708219489981785
+        },
+        "model": {
+          "n": 17568,
+          "mae": 1.3605305100182148,
+          "rmse": 1.8151147053127588,
+          "mean_error": -0.4708219489981785
+        },
+        "mae_improvement_pct": 0.0,
+        "uncertainty": {
+          "block_days": 7,
+          "blocks": 18,
+          "mae_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "interpretation": "paired temporal block bootstrap; not independent station validation"
+        },
+        "raw_events": {
+          "scenario_threshold": 0,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 438,
+          "false_negative": 307,
+          "false_positive": 177,
+          "true_negative": 16646,
+          "recall": 0.5879194630872483,
+          "precision": 0.7121951219512195
+        },
+        "model_events": {
+          "scenario_threshold": 0,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 438,
+          "false_negative": 307,
+          "false_positive": 177,
+          "true_negative": 16646,
+          "recall": 0.5879194630872483,
+          "precision": 0.7121951219512195
+        },
+        "by_point": {
+          "chersky": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.3978483606557375,
+              "rmse": 1.7976124496469428,
+              "mean_error": -0.6462090163934426
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.3978483606557375,
+              "rmse": 1.7976124496469428,
+              "mean_error": -0.6462090163934426
+            }
+          },
+          "nizhneyansk": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.7999658469945357,
+              "rmse": 2.5035910001785164,
+              "mean_error": -1.4265368852459015
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.7999658469945357,
+              "rmse": 2.5035910001785164,
+              "mean_error": -1.4265368852459015
+            }
+          },
+          "srednekolymsk": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.2836748633879782,
+              "rmse": 1.5811928298051832,
+              "mean_error": 0.09760928961748629
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.2836748633879782,
+              "rmse": 1.5811928298051832,
+              "mean_error": 0.09760928961748629
+            }
+          },
+          "tiksi": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.1602117486338799,
+              "rmse": 1.6183322640730768,
+              "mean_error": -0.05003415300546452
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.1602117486338799,
+              "rmse": 1.6183322640730768,
+              "mean_error": -0.05003415300546452
+            }
+          },
+          "ust_kuyga": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.188934426229508,
+              "rmse": 1.5362780585636324,
+              "mean_error": -0.6192622950819672
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.188934426229508,
+              "rmse": 1.5362780585636324,
+              "mean_error": -0.6192622950819672
+            }
+          },
+          "zhigansk": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.3325478142076503,
+              "rmse": 1.670074725922147,
+              "mean_error": -0.18049863387978143
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.3325478142076503,
+              "rmse": 1.670074725922147,
+              "mean_error": -0.18049863387978143
+            }
+          }
+        }
+      },
+      "precipitation": {
+        "raw": {
+          "n": 17568,
+          "mae": 0.053420992714025506,
+          "rmse": 0.19500974941766813,
+          "mean_error": 0.00379667577413479
+        },
+        "model": {
+          "n": 17568,
+          "mae": 0.053420992714025506,
+          "rmse": 0.19500974941766813,
+          "mean_error": 0.00379667577413479
+        },
+        "mae_improvement_pct": 0.0,
+        "uncertainty": {
+          "block_days": 7,
+          "blocks": 18,
+          "mae_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "interpretation": "paired temporal block bootstrap; not independent station validation"
+        },
+        "raw_events": {
+          "scenario_threshold": 1,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 80,
+          "false_negative": 118,
+          "false_positive": 157,
+          "true_negative": 17213,
+          "recall": 0.40404040404040403,
+          "precision": 0.33755274261603374
+        },
+        "model_events": {
+          "scenario_threshold": 1,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 80,
+          "false_negative": 118,
+          "false_positive": 157,
+          "true_negative": 17213,
+          "recall": 0.40404040404040403,
+          "precision": 0.33755274261603374
+        },
+        "by_point": {
+          "chersky": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.057069672131147546,
+              "rmse": 0.18887248134032197,
+              "mean_error": 0.003312841530054644
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.057069672131147546,
+              "rmse": 0.18887248134032197,
+              "mean_error": 0.003312841530054644
+            }
+          },
+          "nizhneyansk": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.0524931693989071,
+              "rmse": 0.204349895476902,
+              "mean_error": 0.014719945355191257
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.0524931693989071,
+              "rmse": 0.204349895476902,
+              "mean_error": 0.014719945355191257
+            }
+          },
+          "srednekolymsk": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.05047814207650274,
+              "rmse": 0.17106225498913316,
+              "mean_error": -0.007855191256830601
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.05047814207650274,
+              "rmse": 0.17106225498913316,
+              "mean_error": -0.007855191256830601
+            }
+          },
+          "tiksi": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.0676571038251366,
+              "rmse": 0.23296467754491573,
+              "mean_error": 0.010484972677595628
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.0676571038251366,
+              "rmse": 0.23296467754491573,
+              "mean_error": 0.010484972677595628
+            }
+          },
+          "ust_kuyga": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.05280054644808743,
+              "rmse": 0.2061718472563432,
+              "mean_error": -0.002868852459016393
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.05280054644808743,
+              "rmse": 0.2061718472563432,
+              "mean_error": -0.002868852459016393
+            }
+          },
+          "zhigansk": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.04002732240437159,
+              "rmse": 0.15716059796244278,
+              "mean_error": 0.004986338797814209
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.04002732240437159,
+              "rmse": 0.15716059796244278,
+              "mean_error": 0.004986338797814209
+            }
+          }
+        }
+      }
+    },
+    "test_unseen_indigirka_2026": {
+      "wind_speed_10m": {
+        "raw": {
+          "n": 5856,
+          "mae": 1.1498838797814206,
+          "rmse": 1.4149848422598514,
+          "mean_error": -1.0051331967213113
+        },
+        "model": {
+          "n": 5856,
+          "mae": 1.1498838797814206,
+          "rmse": 1.4149848422598514,
+          "mean_error": -1.0051331967213113
+        },
+        "mae_improvement_pct": 0.0,
+        "uncertainty": {
+          "block_days": 7,
+          "blocks": 18,
+          "mae_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "interpretation": "paired temporal block bootstrap; not independent station validation"
+        },
+        "raw_events": {
+          "scenario_threshold": 8,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 12,
+          "false_negative": 207,
+          "false_positive": 0,
+          "true_negative": 5637,
+          "recall": 0.0547945205479452,
+          "precision": 1.0
+        },
+        "model_events": {
+          "scenario_threshold": 8,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 12,
+          "false_negative": 207,
+          "false_positive": 0,
+          "true_negative": 5637,
+          "recall": 0.0547945205479452,
+          "precision": 1.0
+        },
+        "by_point": {
+          "belaya_gora": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.889907786885246,
+              "rmse": 1.1071363919757846,
+              "mean_error": -0.715556693989071
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.889907786885246,
+              "rmse": 1.1071363919757846,
+              "mean_error": -0.715556693989071
+            }
+          },
+          "chokurdakh": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.4098599726775956,
+              "rmse": 1.6669172796552068,
+              "mean_error": -1.2947096994535519
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.4098599726775956,
+              "rmse": 1.6669172796552068,
+              "mean_error": -1.2947096994535519
+            }
+          }
+        }
+      },
+      "temperature_2m": {
+        "raw": {
+          "n": 5856,
+          "mae": 1.2172301912568306,
+          "rmse": 1.566902268356018,
+          "mean_error": -0.4116632513661202
+        },
+        "model": {
+          "n": 5856,
+          "mae": 1.2172301912568306,
+          "rmse": 1.566902268356018,
+          "mean_error": -0.4116632513661202
+        },
+        "mae_improvement_pct": 0.0,
+        "uncertainty": {
+          "block_days": 7,
+          "blocks": 18,
+          "mae_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "interpretation": "paired temporal block bootstrap; not independent station validation"
+        },
+        "raw_events": {
+          "scenario_threshold": 0,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 213,
+          "false_negative": 141,
+          "false_positive": 27,
+          "true_negative": 5475,
+          "recall": 0.6016949152542372,
+          "precision": 0.8875
+        },
+        "model_events": {
+          "scenario_threshold": 0,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 213,
+          "false_negative": 141,
+          "false_positive": 27,
+          "true_negative": 5475,
+          "recall": 0.6016949152542372,
+          "precision": 0.8875
+        },
+        "by_point": {
+          "belaya_gora": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.1348360655737706,
+              "rmse": 1.453575768118471,
+              "mean_error": -0.2467213114754098
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.1348360655737706,
+              "rmse": 1.453575768118471,
+              "mean_error": -0.2467213114754098
+            }
+          },
+          "chokurdakh": {
+            "raw": {
+              "n": 2928,
+              "mae": 1.2996243169398907,
+              "rmse": 1.672567763499365,
+              "mean_error": -0.5766051912568305
+            },
+            "model": {
+              "n": 2928,
+              "mae": 1.2996243169398907,
+              "rmse": 1.672567763499365,
+              "mean_error": -0.5766051912568305
+            }
+          }
+        }
+      },
+      "precipitation": {
+        "raw": {
+          "n": 5856,
+          "mae": 0.04304986338797814,
+          "rmse": 0.1521869266912822,
+          "mean_error": 0.003568989071038251
+        },
+        "model": {
+          "n": 5856,
+          "mae": 0.04304986338797814,
+          "rmse": 0.1521869266912822,
+          "mean_error": 0.003568989071038251
+        },
+        "mae_improvement_pct": 0.0,
+        "uncertainty": {
+          "block_days": 7,
+          "blocks": 18,
+          "mae_gain_ci95": [
+            0.0,
+            0.0
+          ],
+          "interpretation": "paired temporal block bootstrap; not independent station validation"
+        },
+        "raw_events": {
+          "scenario_threshold": 1,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 22,
+          "false_negative": 32,
+          "false_positive": 41,
+          "true_negative": 5761,
+          "recall": 0.4074074074074074,
+          "precision": 0.3492063492063492
+        },
+        "model_events": {
+          "scenario_threshold": 1,
+          "threshold_is_navigation_rule": false,
+          "true_positive": 22,
+          "false_negative": 32,
+          "false_positive": 41,
+          "true_negative": 5761,
+          "recall": 0.4074074074074074,
+          "precision": 0.3492063492063492
+        },
+        "by_point": {
+          "belaya_gora": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.04477459016393443,
+              "rmse": 0.15621242717649447,
+              "mean_error": -0.0018101092896174859
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.04477459016393443,
+              "rmse": 0.15621242717649447,
+              "mean_error": -0.0018101092896174859
+            }
+          },
+          "chokurdakh": {
+            "raw": {
+              "n": 2928,
+              "mae": 0.041325136612021855,
+              "rmse": 0.14805201419468708,
+              "mean_error": 0.008948087431693988
+            },
+            "model": {
+              "n": 2928,
+              "mae": 0.041325136612021855,
+              "rmse": 0.14805201419468708,
+              "mean_error": 0.008948087431693988
+            }
+          }
+        }
+      }
+    }
+  },
+  "caveats": [
+    "Reference is ERA5, not independent observations; IFS and ERA5 are related ECMWF products.",
+    "Adjacent hours and locations are correlated. One test season, eight sites, not all rivers.",
+    "No future reanalysis features. Reference is used only as a training/evaluation target.",
+    "No navigation safety, visibility, ice, depth or flood prediction.",
+    "Precipitation is an hourly accumulation; isolated wet events need separate verification.",
+    "Previous Runs API uses fixed lead offsets, not a full archived issuance with all future lead times."
+  ]
+}

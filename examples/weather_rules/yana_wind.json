@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "yana-wind-scenario-v1",
+  "route_id": "nizhneyansk-ust-kuyga",
+  "metric": "wind_speed_10m",
+  "unit": "m/s",
+  "aggregation": "maximum_selected_points",
+  "operator": ">=",
+  "threshold": 10,
+  "sensitivity_thresholds": [8, 10, 12],
+  "point_ids": ["nizhneyansk", "ust_kuyga"],
+  "effect": "movement_closure",
+  "scope": {
+    "location": "entire_route",
+    "vessels": "all",
+    "operations": ["loaded_movement", "return_movement"]
+  },
+  "basis": {
+    "status": "scenario_assumption",
+    "description": "Учебная проверка чувствительности; максимум двух ячеек применяется ко всему маршруту. Порог не является эксплуатационным нормативом.",
+    "source_url": null
+  }
+}

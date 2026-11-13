@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "model_id": "yana-small-experimental-v1",
+  "source_model": "ecmwf_ifs025",
+  "lead_hours": 24,
+  "feature_names": [
+    "wind",
+    "temperature",
+    "precipitation",
+    "humidity",
+    "pressure",
+    "cloud",
+    "direction_sin",
+    "direction_cos",
+    "wind_squared",
+    "temperature_squared",
+    "log_precipitation",
+    "wind_humidity",
+    "wind_cloud",
+    "temperature_humidity",
+    "wind_u",
+    "wind_v",
+    "latitude",
+    "longitude",
+    "season_sin",
+    "season_cos",
+    "local_hour_sin",
+    "local_hour_cos",
+    "wind_latitude",
+    "temperature_latitude"
+  ],
+  "months": [
+    7
+  ],
+  "components": {
+    "wind_speed_10m": {
+      "kind": "median_bias",
+      "offset": -0.3549999999999997
+    },
+    "temperature_2m": {
+      "kind": "median_bias",
+      "offset": 1.5000000000000004
+    },
+    "precipitation": {
+      "kind": "median_bias",
+      "offset": 0.0
+    }
+  },
+  "train_rows": 240,
+  "evaluation_rows": 240,
+  "status": "experimental_not_operational",
+  "scope": "Two Yana points, July 1–5 only; generalization unproven",
+  "reference": "ERA5 reanalysis, not independent observations",
+  "evaluation_note": "2025 was inspected in earlier research; not a new blind test"
+}

@@ -1,0 +1,42 @@
+{
+  "source_model": "ecmwf_ifs025",
+  "lead_hours": 24,
+  "timezone": "UTC",
+  "units": {
+    "wind_speed_10m": "m/s",
+    "temperature_2m": "°C",
+    "precipitation": "mm",
+    "relative_humidity_2m": "%",
+    "pressure_msl": "hPa",
+    "cloud_cover": "%",
+    "wind_direction_10m": "°"
+  },
+  "latitude": 71.4403,
+  "longitude": 136.13585,
+  "hourly": {
+    "time": [
+      "2025-07-01T00:00"
+    ],
+    "wind_speed_10m": [
+      2.09
+    ],
+    "temperature_2m": [
+      5.1
+    ],
+    "precipitation": [
+      0.0
+    ],
+    "relative_humidity_2m": [
+      70
+    ],
+    "pressure_msl": [
+      1006.3
+    ],
+    "cloud_cover": [
+      43
+    ],
+    "wind_direction_10m": [
+      253
+    ]
+  }
+}
