@@ -1,0 +1,11 @@
+{
+  "error": {
+    "code": "validation_error",
+    "message": "В запросе отсутствует длительность третьего плеча."
+  },
+  "fixture_id": "input-error",
+  "saved_example": true,
+  "provenance": "Учебный сохранённый пример; не ответ на новый запрос формы.",
+  "transport_mock": true,
+  "base_core_commit": "1c8a938"
+}

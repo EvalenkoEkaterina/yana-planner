@@ -1,0 +1,206 @@
+{
+  "result": {
+    "mode": "SIM_ONLY",
+    "goal": "required_deliveries_then_receipt_priorities",
+    "input": {
+      "mode": "SIM_ONLY",
+      "navigation_assumed": true,
+      "fleet_assumed": true,
+      "supply_assumed": true,
+      "reception_assumed": true,
+      "origin_id": "nizhneyansk",
+      "horizon_h": 180,
+      "initial_source_t": 100,
+      "arrivals": [
+        {
+          "h": 12,
+          "t": 500
+        }
+      ],
+      "vessel": {
+        "id": "MULTI-SIM",
+        "capacity_t": 600,
+        "available_h": 0,
+        "load_h": 10,
+        "return_h": 40,
+        "prep_h": 4,
+        "travel_h": [
+          12,
+          18,
+          20,
+          16
+        ]
+      },
+      "stops": [
+        {
+          "id": "kazachye",
+          "required_t": 150,
+          "deadline_h": 20,
+          "unload_h": 3,
+          "windows": [
+            [
+              34,
+              65
+            ]
+          ]
+        },
+        {
+          "id": "ust-kuyga",
+          "required_t": 200,
+          "deadline_h": 90,
+          "unload_h": 4,
+          "windows": [
+            [
+              55,
+              100
+            ]
+          ]
+        },
+        {
+          "id": "saydy-verkhoyansky",
+          "required_t": 100,
+          "deadline_h": 120,
+          "unload_h": 2,
+          "windows": [
+            [
+              79,
+              130
+            ]
+          ]
+        },
+        {
+          "id": "batagay",
+          "required_t": 150,
+          "deadline_h": 140,
+          "unload_h": 4,
+          "windows": [
+            [
+              97,
+              150
+            ]
+          ]
+        }
+      ],
+      "movement_closures": {
+        "leg1": [],
+        "leg2": [],
+        "leg3": [],
+        "leg4": [],
+        "return": []
+      },
+      "provenance": "Entirely synthetic voyage on the proposed five-settlement sequence: locations of cargo operations, distances between new stops, travel times, quantities, deadlines and windows are NOT confirmed. No weather or economic profile attached.",
+      "receipt_priority": [
+        "ust-kuyga",
+        "kazachye",
+        "batagay",
+        "saydy-verkhoyansky"
+      ],
+      "cost_terms": {
+        "billing_mode": "all_available_time",
+        "currency": "RUB",
+        "horizon_h": 180,
+        "vessel_id": "MULTI-SIM",
+        "rate_basis": "scenario",
+        "source": "Учебные коэффициенты для условного MULTI-SIM: 25000/1000/500. Не тариф перевозчика; не подтверждённые ставки судна. Отдельные сборы за заходы не включены в рейсовую и часовые ставки. Все сборы по 1000 ₽ также вымышлены.",
+        "rates": {
+          "separate_trip_operations_rub": 25000,
+          "active_vessel_hour_rub": 1000,
+          "waiting_vessel_hour_rub": 500
+        },
+        "stop_fees_excluded_from_other_rates": true,
+        "stop_fees_rub": {
+          "kazachye": 1000,
+          "ust-kuyga": 1000,
+          "saydy-verkhoyansky": 1000,
+          "batagay": 1000
+        }
+      }
+    },
+    "priority": [
+      "all_required_volumes",
+      "all_receipt_deadlines",
+      "receipt_priority"
+    ],
+    "receipt_priority": [
+      "ust-kuyga",
+      "kazachye",
+      "batagay",
+      "saydy-verkhoyansky"
+    ],
+    "visit_order": [
+      "kazachye",
+      "ust-kuyga",
+      "saydy-verkhoyansky",
+      "batagay"
+    ],
+    "objective_stop_id": "ust-kuyga",
+    "real_admissibility": "requires_confirmation",
+    "status": "infeasible",
+    "goal_met": false,
+    "primary_receipt_proven": false,
+    "lexicographic_optimal": false,
+    "receipt_optima": [
+      {
+        "stop_id": "ust-kuyga",
+        "priority": 1,
+        "optimal_given_higher_priorities": false
+      },
+      {
+        "stop_id": "kazachye",
+        "priority": 2,
+        "optimal_given_higher_priorities": false
+      },
+      {
+        "stop_id": "batagay",
+        "priority": 3,
+        "optimal_given_higher_priorities": false
+      },
+      {
+        "stop_id": "saydy-verkhoyansky",
+        "priority": 4,
+        "optimal_given_higher_priorities": false
+      }
+    ],
+    "earliest_last_proven": false,
+    "plan": null,
+    "solver": [
+      {
+        "stage": "earliest_receipt:ust-kuyga",
+        "status": 2,
+        "optimal": false,
+        "elapsed_s": 0.0005124170565977693,
+        "stop_id": "ust-kuyga"
+      }
+    ],
+    "cost_terms": {
+      "billing_mode": "all_available_time",
+      "currency": "RUB",
+      "horizon_h": 180,
+      "vessel_id": "MULTI-SIM",
+      "rate_basis": "scenario",
+      "source": "Учебные коэффициенты для условного MULTI-SIM: 25000/1000/500. Не тариф перевозчика; не подтверждённые ставки судна. Отдельные сборы за заходы не включены в рейсовую и часовые ставки. Все сборы по 1000 ₽ также вымышлены.",
+      "rates": {
+        "separate_trip_operations_rub": 25000,
+        "active_vessel_hour_rub": 1000,
+        "waiting_vessel_hour_rub": 500
+      },
+      "stop_fees_excluded_from_other_rates": true,
+      "stop_fees_rub": {
+        "kazachye": 1000,
+        "ust-kuyga": 1000,
+        "saydy-verkhoyansky": 1000,
+        "batagay": 1000
+      }
+    },
+    "costs": {
+      "status": "no_valid_plan",
+      "total_rub": null,
+      "actual_savings_rub": null
+    }
+  },
+  "fixture_id": "infeasible",
+  "saved_example": true,
+  "provenance": "Учебный сохранённый пример; не ответ на новый запрос формы.",
+  "transport_mock": false,
+  "base_core_commit": "1c8a938"
+}

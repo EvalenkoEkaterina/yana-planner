@@ -1,0 +1,114 @@
+{
+  "mode": "SIM_ONLY",
+  "navigation_assumed": true,
+  "fleet_assumed": true,
+  "supply_assumed": true,
+  "reception_assumed": true,
+  "origin_id": "nizhneyansk",
+  "horizon_h": 180,
+  "initial_source_t": 100,
+  "arrivals": [
+    {
+      "h": 12,
+      "t": 500
+    }
+  ],
+  "vessel": {
+    "id": "MULTI-SIM",
+    "capacity_t": 600,
+    "available_h": 0,
+    "load_h": 10,
+    "return_h": 40,
+    "prep_h": 4,
+    "travel_h": [
+      12,
+      18,
+      20,
+      16
+    ]
+  },
+  "stops": [
+    {
+      "id": "kazachye",
+      "required_t": 150,
+      "deadline_h": 60,
+      "unload_h": 3,
+      "windows": [
+        [
+          34,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "ust-kuyga",
+      "required_t": 200,
+      "deadline_h": 90,
+      "unload_h": 4,
+      "windows": [
+        [
+          55,
+          100
+        ]
+      ]
+    },
+    {
+      "id": "saydy-verkhoyansky",
+      "required_t": 100,
+      "deadline_h": 120,
+      "unload_h": 2,
+      "windows": [
+        [
+          79,
+          130
+        ]
+      ]
+    },
+    {
+      "id": "batagay",
+      "required_t": 150,
+      "deadline_h": 140,
+      "unload_h": 4,
+      "windows": [
+        [
+          97,
+          150
+        ]
+      ]
+    }
+  ],
+  "movement_closures": {
+    "leg1": [],
+    "leg2": [],
+    "leg3": [],
+    "leg4": [],
+    "return": []
+  },
+  "provenance": "Entirely synthetic voyage on the proposed five-settlement sequence: locations of cargo operations, distances between new stops, travel times, quantities, deadlines and windows are NOT confirmed. No weather or economic profile attached.",
+  "receipt_priority": [
+    "ust-kuyga",
+    "kazachye",
+    "batagay",
+    "saydy-verkhoyansky"
+  ],
+  "cost_terms": {
+    "billing_mode": "all_available_time",
+    "currency": "RUB",
+    "horizon_h": 180,
+    "vessel_id": "MULTI-SIM",
+    "rate_basis": "scenario",
+    "source": "Учебные коэффициенты для условного MULTI-SIM: 25000/1000/500. Не тариф перевозчика; не подтверждённые ставки судна. Отдельные сборы за заходы не включены в рейсовую и часовые ставки.",
+    "rates": {
+      "separate_trip_operations_rub": 25000,
+      "active_vessel_hour_rub": 1000,
+      "waiting_vessel_hour_rub": 500
+    },
+    "stop_fees_excluded_from_other_rates": true,
+    "stop_fees_rub": {
+      "kazachye": null,
+      "ust-kuyga": null,
+      "saydy-verkhoyansky": null,
+      "batagay": null
+    }
+  }
+}

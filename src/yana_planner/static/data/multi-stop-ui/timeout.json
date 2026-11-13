@@ -1,0 +1,11 @@
+{
+  "error": {
+    "code": "timeout",
+    "message": "Серверный лимит времени истёк. Введённые поля сохранены."
+  },
+  "fixture_id": "timeout",
+  "saved_example": true,
+  "provenance": "Учебный сохранённый пример; не ответ на новый запрос формы.",
+  "transport_mock": true,
+  "base_core_commit": "1c8a938"
+}

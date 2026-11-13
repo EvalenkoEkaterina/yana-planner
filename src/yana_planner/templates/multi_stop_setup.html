@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Многопунктовый рейс · Yana Planner{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='multi-stop-ui.css') }}">
+<div id="multi-main">{% include 'multi_stop_form.html' %}</div>
+<script type="application/json" id="multi-stop-config">{{ multi_stop_config | default({'endpoint': '/api/multi-stop/plan', 'timeout_ms': 90000}) | tojson }}</script>
+<script type="module" src="{{ url_for('static', filename='multi-stop-ui.js') }}"></script>
+{% endblock %}

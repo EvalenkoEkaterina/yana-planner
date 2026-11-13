@@ -1,0 +1,66 @@
+import {points as known,intervals} from './multi-recipient-model.mjs';
+export const points=[...known,...[5,6,7,8].map(i=>({id:`sim-point-${i}`,name:`Учебный пункт ${i}`,site:null,synthetic:true,note:'Вымышленная остановка для проверки списка до восьми получателей'}))];
+export const rateFields=['separate_trip_operations_rub','active_vessel_hour_rub','waiting_vessel_hour_rub'];
+export const name=id=>points.find(p=>p.id===id)?.name||id;
+const clone=x=>structuredClone(x);
+function number(v,label,{min=0,max=Number.MAX_SAFE_INTEGER,whole=true,nullable=false}={}){if(v==null||String(v).trim()===''){if(nullable)return null;throw Error(`${label}: заполните значение`);}if(typeof v==='boolean')throw Error(`${label}: нужно число`);const n=Number(v);if(!Number.isFinite(n)||n<min||n>max||(whole&&!Number.isSafeInteger(n)))throw Error(`${label}: ${whole?'целое ':''}число от ${min} до ${max}`);return n;}
+function money(v,label){const n=number(v,label,{nullable:true,whole:false});if(n!==null&&(!Number.isSafeInteger(Math.round(n*100))||Math.abs(n*100-Math.round(n*100))>1e-6))throw Error(`${label}: точность до копейки`);return n;}
+export function requestFromState(state){
+ const s=clone(state),H=number(s.horizon_h,'Горизонт',{min:1,max:492});
+ if(!s.assumptions_confirmed)throw Error('Подтвердите учебные допущения о навигации, флоте, запасах и приёмке');
+ if(!s.origin_id||!points.some(p=>p.id===s.origin_id))throw Error('Выберите отправление');
+ if(!Array.isArray(s.stops)||s.stops.length<1||s.stops.length>8)throw Error('Выберите от 1 до 8 получателей');
+ const ids=new Set([s.origin_id]),metadata=[];
+ const stops=s.stops.map((p,i)=>{if(!p.id||ids.has(p.id)||!points.some(x=>x.id===p.id))throw Error(`Получатель ${i+1}: нужен уникальный пункт, отличный от отправления`);ids.add(p.id);if(!p.label?.trim())throw Error(`Получатель ${i+1}: подпишите требование`);metadata.push({stop_id:p.id,label:p.label.trim(),status:'scenario',source_ids:[],operation_site_id:points.find(x=>x.id===p.id).site,real_operation_ready:false});return {id:p.id,required_t:number(p.required_t,'Объём',{min:1}),deadline_h:number(p.deadline_h,'Срок',{min:1,max:H}),unload_h:number(p.unload_h,'Выгрузка',{min:1,max:492}),windows:intervals(p.windows,H,`Окна получателя ${i+1}`)};});
+ const priority=s.receipt_priority;
+ if(!Array.isArray(priority)||priority.length!==stops.length||new Set(priority).size!==stops.length||priority.some(id=>!stops.some(p=>p.id===id)))throw Error('В порядке важности каждый выбранный получатель должен быть ровно один раз');
+ if([s.origin_id,...stops.map(p=>p.id)].some(id=>points.find(p=>p.id===id)?.candidate)&&!s.candidates_confirmed)throw Error('Казачье и Сайды — неподтверждённые кандидаты. Подтвердите учебное использование');
+ const vessel={id:s.vessel.id?.trim(),capacity_t:number(s.vessel.capacity_t,'Вместимость',{min:1}),available_h:number(s.vessel.available_h,'Доступность',{max:H}),load_h:number(s.vessel.load_h,'Погрузка',{min:1,max:492}),travel_h:s.stops.map((p,i)=>number(p.travel_h,`Плечо ${i+1}`,{min:1,max:492})),return_h:number(s.vessel.return_h,'Возврат',{min:1,max:492}),prep_h:number(s.vessel.prep_h,'Подготовка',{max:492})};
+ if(!vessel.id)throw Error('Укажите судно');
+ const input={mode:'SIM_ONLY',navigation_assumed:true,fleet_assumed:true,supply_assumed:true,reception_assumed:true,origin_id:s.origin_id,horizon_h:H,initial_source_t:number(s.initial_source_t,'Начальный запас'),arrivals:(s.arrivals||[]).map(p=>({h:number(p.h,'Час поступления',{max:H}),t:number(p.t,'Партия поступления',{min:1})})),vessel,stops,receipt_priority:clone(priority),movement_closures:Object.fromEntries([...s.stops.map((p,i)=>[`leg${i+1}`,intervals(p.movement_closures||'',H,`Запреты плеча ${i+1}`,{nonempty:false})]),['return',intervals(s.return_closures||'',H,'Запреты возврата',{nonempty:false})]]),provenance:'Полностью учебные параметры; реальные места операций, расстояния, суда и приёмка не подтверждены. Приоритеты не отменяют обязательные поставки.'};
+ if(input.arrivals.length>100)throw Error('До 100 поступлений');
+ if(s.economics_enabled){
+  if(s.costs.vessel_id!==vessel.id)throw Error('Ставки относятся к другому судну. Подтвердите новый профиль ставок; автоматического переноса нет.');
+  if(!s.costs.stop_fees_excluded_from_other_rates)throw Error('Подтвердите, что отдельные сборы за заходы не включены в другие ставки');
+  if(!['scenario','documented','unspecified'].includes(s.costs.rate_basis))throw Error('Укажите статус ставок');
+  if(s.costs.rate_basis==='documented'&&!s.costs.source?.trim())throw Error('Для ставок из источника укажите источник');
+  input.cost_terms={billing_mode:'all_available_time',currency:'RUB',horizon_h:number(s.costs.horizon_h,'Горизонт оплаты',{max:492,whole:false}),vessel_id:vessel.id,rate_basis:s.costs.rate_basis,source:s.costs.source?.trim()||null,rates:Object.fromEntries(rateFields.map(k=>[k,money(s.costs.rates[k],k)])),stop_fees_excluded_from_other_rates:true,stop_fees_rub:Object.fromEntries(stops.map(p=>[p.id,money(s.stops.find(x=>x.id===p.id).stop_fee_rub,`Сбор: ${name(p.id)}`)]))};
+ }
+ return {input,ui_metadata:{schema:'yana.multi-stop-ui.proposal.v1',contract_status:'connected_api_v1',requirements:metadata,time_basis:{kind:'relative_integer_hours',t0:null,timezone:null},route:{visit_order:stops.map(p=>p.id),river_distance_km:null,verified_path:null}}};
+}
+export function fromInput(input){const p=clone(input),c=p.cost_terms;return {origin_id:p.origin_id,horizon_h:p.horizon_h,initial_source_t:p.initial_source_t,arrivals:p.arrivals,vessel:p.vessel,receipt_priority:p.receipt_priority||[p.stops.at(-1).id,...p.stops.slice(0,-1).map(s=>s.id)],assumptions_confirmed:false,candidates_confirmed:false,return_closures:(p.movement_closures.return||[]).map(x=>x.join('–')).join('; '),economics_enabled:!!c,costs:c?{...c,stop_fees_excluded_from_other_rates:false}:{vessel_id:p.vessel.id,horizon_h:p.horizon_h,rate_basis:'unspecified',source:'',rates:Object.fromEntries(rateFields.map(k=>[k,null])),stop_fees_excluded_from_other_rates:false},stops:p.stops.map((s,i)=>({...s,label:`Принять ${s.required_t} т до часа ${s.deadline_h}`,windows:s.windows.map(x=>x.join('–')).join('; '),travel_h:p.vessel.travel_h[i],movement_closures:(p.movement_closures[`leg${i+1}`]||[]).map(x=>x.join('–')).join('; '),stop_fee_rub:c?.stop_fees_rub[s.id]??null}))};}
+export function movePriority(state,id,delta){const s=clone(state),i=s.receipt_priority.indexOf(id),j=i+delta;if(i>=0&&j>=0&&j<s.receipt_priority.length)[s.receipt_priority[i],s.receipt_priority[j]]=[s.receipt_priority[j],s.receipt_priority[i]];return s;}
+export function reorderStops(state,i,delta){const s=clone(state),j=i+delta;if(j>=0&&j<s.stops.length)[s.stops[i],s.stops[j]]=[s.stops[j],s.stops[i]];return s;}
+export function rebindVessel(state,newId){const s=clone(state);if(s.vessel.id!==newId||s.costs.vessel_id!==newId){s.vessel.id=newId;s.costs={...s.costs,vessel_id:newId,rate_basis:'unspecified',source:'',rates:Object.fromEntries(rateFields.map(k=>[k,null])),stop_fees_excluded_from_other_rates:false};s.stops.forEach(p=>p.stop_fee_rub=null);}return s;}
+export function toApiRequest(proposal){
+ if(proposal.schema_version==='yana-multi-stop-request/1')return clone(proposal);
+ const scenario=clone(proposal.input),cost_terms=scenario.cost_terms??null;delete scenario.cost_terms;scenario.route_reference={ui_metadata:clone(proposal.ui_metadata)};return {schema_version:'yana-multi-stop-request/1',scenario,cost_terms,search_seconds:2};
+}
+export class RequestError extends Error{constructor(code,message){super(message);this.code=code;}}
+export async function sendRequest({endpoint,request,fetchImpl=globalThis.fetch,timeoutMs=90000,signal}){
+ if(!endpoint)throw new RequestError('not_connected','API ещё не согласовано и не подключено');
+ const url=new URL(endpoint,globalThis.location?.href||'http://127.0.0.1');if(globalThis.location&&url.origin!==globalThis.location.origin)throw new RequestError('not_connected','Разрешён только согласованный API текущего сайта');
+ const controller=new AbortController();const cancel=()=>controller.abort();signal?.addEventListener('abort',cancel,{once:true});if(signal?.aborted)controller.abort();
+ let timer;try{
+  const attempt=(async()=>{const response=await fetchImpl(url.href,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(toApiRequest(request)),signal:controller.signal});let payload;try{payload=await response.json();}catch{throw new RequestError('protocol_error','Сервер вернул ответ в неизвестном формате');}if(!response.ok||payload.error){const code=payload.code||payload.error?.code||'server_error';throw new RequestError(code==='calculation_timeout'?'timeout':code,typeof payload.error==='string'?payload.error:payload.error?.message||`Ошибка сервера (${response.status})`);}return readResult(payload);})();
+  const deadline=new Promise((_,reject)=>{timer=setTimeout(()=>{controller.abort();reject(new RequestError('timeout','Время ожидания ответа истекло. Введённые условия сохранены.'));},timeoutMs);});
+  return await Promise.race([attempt,deadline]);
+ }catch(e){if(e instanceof RequestError)throw e;if(e.name==='AbortError')throw new RequestError('timeout','Запрос прерван или время ожидания истекло. Условия сохранены.');throw new RequestError('network_error','Не удалось связаться с сервером. Условия сохранены.');}finally{clearTimeout(timer);signal?.removeEventListener('abort',cancel);}
+}
+export function readResult(payload){
+ const r=payload?.result;if(!r||!['goal_met','infeasible','no_feasible_solution_found'].includes(r.status)||!Array.isArray(r.input?.stops)||!Array.isArray(r.visit_order)||!Array.isArray(r.receipt_priority)||typeof r.goal_met!=='boolean')throw new RequestError('protocol_error','Ответ не соответствует согласуемому формату результата');
+ if(((r.status==='goal_met')!==r.goal_met)||(r.goal_met&&(!r.plan||r.status!=='goal_met'))||(!r.goal_met&&r.plan))throw new RequestError('protocol_error','Противоречивый статус плана');
+ const ids=r.input.stops.map(p=>p.id);if(JSON.stringify(r.visit_order)!==JSON.stringify(ids))throw new RequestError('protocol_error','В ответе не совпадает порядок посещения');if(new Set(ids).size!==ids.length||r.receipt_priority.length!==ids.length||new Set(r.receipt_priority).size!==ids.length||r.receipt_priority.some(id=>!ids.includes(id)))throw new RequestError('protocol_error','В ответе нарушен список приоритетов');
+ if(r.plan&&(!Array.isArray(r.plan.deliveries)||r.plan.deliveries.length!==ids.length||r.plan.deliveries.some((d,i)=>d.stop_id!==ids[i]||!['accepted_t','receipt_h','cargo_after_t'].every(k=>Number.isFinite(d[k])))))throw new RequestError('protocol_error','Неполные сведения о приёмках');
+ if(r.plan){const v=r.input.vessel,t=r.plan.starts;if(!v||!t||!Array.isArray(v.travel_h)||v.travel_h.length!==ids.length||![v.available_h,v.load_h,v.return_h,v.prep_h,r.plan.loaded_t,r.plan.ready_h,t.load_start_h,t.depart_return_h,...ids.flatMap((_,i)=>[t[`depart${i+1}_h`],t[`unload${i+1}_start_h`]])].every(Number.isFinite))throw new RequestError('protocol_error','В ответе неполное расписание');}
+ if(r.costs&&['scenario_cost','missing_cost_inputs'].includes(r.costs.status)&&(!Array.isArray(r.costs.components)||!Array.isArray(r.costs.missing)))throw new RequestError('protocol_error','В ответе неполная детализация стоимости');
+ return payload.id?{...r,saved_run:{id:payload.id,links:payload.links}}:r;
+}
+export const rateNames={separate_trip_operations_rub:'Один рейс',active_vessel_hour_rub:'Активные часы',waiting_vessel_hour_rub:'Оплачиваемое ожидание',stop_fee:'Сбор за заход'};
+export function costSummary(costs){if(!costs||costs.status==='no_valid_plan')return {complete:false,text:'Стоимость не определена',missing:[]};const complete=costs.status==='scenario_cost'&&Array.isArray(costs.missing)&&costs.missing.length===0&&Number.isFinite(costs.total_rub);return {complete,text:complete?`${costs.total_rub.toLocaleString('ru-RU')} ₽`: 'Полная стоимость не определена',missing:(costs.missing||[]).map(k=>k.startsWith('stop_fees_rub.')?`Сбор за заход: ${name(k.slice(14))}`:rateNames[k.replace('rates.','')]||'Неизвестная статья расходов')};}
+export function timeline(result){if(!result.plan)return [];const p=result.plan,c=result.input,t=p.starts,v=c.vessel,events=[];let at=v.available_h;
+ const add=(start,end,label,kind)=>{if(end>start)events.push({start,end,label,kind});};const gap=next=>{add(at,next,'Ожидание','waiting');};
+ gap(t.load_start_h);add(t.load_start_h,t.load_start_h+v.load_h,'Погрузка','loading');at=t.load_start_h+v.load_h;
+ c.stops.forEach((stop,i)=>{const depart=t[`depart${i+1}_h`],unload=t[`unload${i+1}_start_h`];gap(depart);add(depart,depart+v.travel_h[i],`Движение → ${name(stop.id)}`,'movement');at=depart+v.travel_h[i];gap(unload);add(unload,unload+stop.unload_h,`Выгрузка: ${name(stop.id)}`,'unloading');at=unload+stop.unload_h;});
+ gap(t.depart_return_h);add(t.depart_return_h,t.depart_return_h+v.return_h,'Возврат','return');at=t.depart_return_h+v.return_h;add(at,at+v.prep_h,'Подготовка','preparation');at+=v.prep_h;if(result.costs&&result.costs.horizon_h>at)add(at,result.costs.horizon_h,'Ожидание после готовности (оплачивается)','waiting');return events;
+}
