@@ -78,5 +78,23 @@ class RouteWeatherTests(unittest.TestCase):
             self.assertEqual(result["baseline"]["accepted_t"], 400)
             self.assertEqual(result["planner"]["accepted_t"], 400)
             self.assertEqual(weather["closures"], [])
+            self.assertEqual(inputs["cost_terms"]["horizon_h"], 120)
+            for key in ("baseline", "planner"):
+                costs = result["costs"][key]
+                self.assertEqual(costs["status"], "scenario_cost")
+                self.assertEqual(costs["total_rub"], 174000)
+                by_id = {v["vessel_id"]: v for v in costs["per_vessel"]}
+                self.assertEqual(by_id["SIM-A"]["active_vessel_h"], 106)
+                self.assertEqual(by_id["SIM-A"]["paid_waiting_h"], 14)
+                self.assertEqual(by_id["SIM-B"]["trip_count"], 0)
+                self.assertEqual(by_id["SIM-B"]["total_rub"], 36000)
+                for vessel in by_id.values():
+                    self.assertEqual(
+                        vessel["active_vessel_h"] + vessel["paid_waiting_h"],
+                        vessel["available_vessel_h"],
+                    )
+                self.assertIsNone(costs["actual_savings_rub"])
+            self.assertEqual(result["planning_strategy"], "trips")
+            self.assertIn("Из чего складываются расходы", (Path(tmp) / "report.html").read_text())
             self.assertIn("не оперативный опыт", json.dumps(inputs, ensure_ascii=False))
             self.assertIn("Время выпуска неизвестно", (Path(tmp) / "report.html").read_text())
