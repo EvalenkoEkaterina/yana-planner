@@ -174,8 +174,12 @@ def check_voyage(raw, plan):
     )
 
 
-def plan_multi_stop(raw, *, stage_limit_s=2):
+def plan_multi_stop(raw, *, stage_limit_s=2, cost_terms=None):
     c = normalize(raw)
+    if cost_terms is None:
+        cost_terms = c.get("cost_terms")
+    elif c.get("cost_terms") is not None and cost_terms != c["cost_terms"]:
+        raise InputError("Переданы разные условия оплаты в JSON и аргументе")
     if (
         isinstance(stage_limit_s, bool)
         or not isinstance(stage_limit_s, (int, float))
@@ -207,18 +211,21 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
         stock += arrival["t"]
         release = arrival["h"]
     if quantity > v["capacity_t"] or stock < quantity or release > H:
-        return dict(
-            **common,
-            status="infeasible",
-            goal_met=False,
-            plan=None,
-            solver=[],
-            primary_receipt_proven=False,
-            lexicographic_optimal=False,
-            receipt_optima=[],
-            earliest_last_proven=False,
-            **({"earliest_second_proven": False} if count == 2 else {}),
-            reason="Недостаточно вместимости или поступлений в пределах горизонта",
+        return _with_costs(
+            dict(
+                **common,
+                status="infeasible",
+                goal_met=False,
+                plan=None,
+                solver=[],
+                primary_receipt_proven=False,
+                lexicographic_optimal=False,
+                receipt_optima=[],
+                earliest_last_proven=False,
+                **({"earliest_second_proven": False} if count == 2 else {}),
+                reason="Недостаточно вместимости или поступлений в пределах горизонта",
+            ),
+            cost_terms,
         )
     rows, lower, upper = [], [], []
     variable_count = len(keys)
@@ -310,40 +317,47 @@ def plan_multi_stop(raw, *, stage_limit_s=2):
             break
         value = best["starts"][keys[objective_index]]
         add({objective_index: 1}, lo=value, hi=value)
-    return dict(
-        **common,
-        status="goal_met"
-        if best
-        else "infeasible"
-        if logs[0]["status"] == 2
-        else "no_feasible_solution_found",
-        goal_met=best is not None,
-        primary_receipt_proven=best is not None and logs[0]["optimal"],
-        lexicographic_optimal=best is not None
-        and len(logs) == len(objectives)
-        and all(log["optimal"] for log in logs),
-        receipt_optima=[
-            dict(
-                stop_id=ident,
-                priority=i + 1,
-                optimal_given_higher_priorities=best is not None
-                and len(logs) > i
-                and all(log["optimal"] for log in logs[: i + 1]),
-            )
-            for i, ident in enumerate(priorities)
-        ],
-        earliest_last_proven=primary_is_last and best is not None and logs[0]["optimal"],
-        **(
-            {"earliest_second_proven": primary_is_last and best is not None and logs[0]["optimal"]}
-            if count == 2
-            else {}
+    return _with_costs(
+        dict(
+            **common,
+            status="goal_met"
+            if best
+            else "infeasible"
+            if logs[0]["status"] == 2
+            else "no_feasible_solution_found",
+            goal_met=best is not None,
+            primary_receipt_proven=best is not None and logs[0]["optimal"],
+            lexicographic_optimal=best is not None
+            and len(logs) == len(objectives)
+            and all(log["optimal"] for log in logs),
+            receipt_optima=[
+                dict(
+                    stop_id=ident,
+                    priority=i + 1,
+                    optimal_given_higher_priorities=best is not None
+                    and len(logs) > i
+                    and all(log["optimal"] for log in logs[: i + 1]),
+                )
+                for i, ident in enumerate(priorities)
+            ],
+            earliest_last_proven=primary_is_last and best is not None and logs[0]["optimal"],
+            **(
+                {
+                    "earliest_second_proven": primary_is_last
+                    and best is not None
+                    and logs[0]["optimal"]
+                }
+                if count == 2
+                else {}
+            ),
+            plan=best,
+            solver=logs,
         ),
-        plan=best,
-        solver=logs,
+        cost_terms,
     )
 
 
-def plan_two_stop(raw, *, stage_limit_s=2):
+def plan_two_stop(raw, *, stage_limit_s=2, cost_terms=None):
     """Compatibility entry point for the existing two-recipient prototype."""
     if (
         not isinstance(raw, dict)
@@ -351,4 +365,17 @@ def plan_two_stop(raw, *, stage_limit_s=2):
         or len(raw["stops"]) != 2
     ):
         raise InputError("Для plan_two_stop нужны ровно два получателя")
-    return plan_multi_stop(raw, stage_limit_s=stage_limit_s)
+    return plan_multi_stop(raw, stage_limit_s=stage_limit_s, cost_terms=cost_terms)
+
+
+def _with_costs(result, terms):
+    if terms is not None:
+        from .multi_stop_economics import price_voyage
+
+        result["cost_terms"] = deepcopy(terms)
+        result["costs"] = (
+            price_voyage(result["input"], result["plan"]["starts"], terms)
+            if result["plan"]
+            else dict(status="no_valid_plan", total_rub=None, actual_savings_rub=None)
+        )
+    return result

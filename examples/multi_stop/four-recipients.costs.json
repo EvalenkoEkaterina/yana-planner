@@ -1,0 +1,20 @@
+{
+  "billing_mode": "all_available_time",
+  "currency": "RUB",
+  "horizon_h": 180,
+  "vessel_id": "MULTI-SIM",
+  "rate_basis": "scenario",
+  "source": "Учебные коэффициенты для условного MULTI-SIM: 25000/1000/500. Не тариф перевозчика; не подтверждённые ставки судна. Отдельные сборы за заходы не включены в рейсовую и часовые ставки.",
+  "rates": {
+    "separate_trip_operations_rub": 25000,
+    "active_vessel_hour_rub": 1000,
+    "waiting_vessel_hour_rub": 500
+  },
+  "stop_fees_excluded_from_other_rates": true,
+  "stop_fees_rub": {
+    "kazachye": null,
+    "ust-kuyga": null,
+    "saydy-verkhoyansky": null,
+    "batagay": null
+  }
+}
