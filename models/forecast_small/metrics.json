@@ -1,0 +1,14 @@
+{
+  "wind_speed_10m": {
+    "raw_mae": 1.30975,
+    "corrected_mae": 1.6178749999999995
+  },
+  "temperature_2m": {
+    "raw_mae": 1.9233333333333331,
+    "corrected_mae": 0.8899999999999999
+  },
+  "precipitation": {
+    "raw_mae": 0.03333333333333333,
+    "corrected_mae": 0.03333333333333333
+  }
+}

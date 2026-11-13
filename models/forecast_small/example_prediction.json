@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "model_id": "yana-small-experimental-v1",
+  "lead_hours": 24,
+  "timezone": "UTC",
+  "hourly": {
+    "time": [
+      "2025-07-01T00:00"
+    ],
+    "wind_speed_10m": [
+      1.735
+    ],
+    "temperature_2m": [
+      6.6
+    ],
+    "precipitation": [
+      0.0
+    ]
+  },
+  "units": {
+    "wind_speed_10m": "m/s",
+    "temperature_2m": "°C",
+    "precipitation": "mm"
+  },
+  "status": "research_calibration_against_era5",
+  "correction_applied": {
+    "wind_speed_10m": true,
+    "temperature_2m": true,
+    "precipitation": true
+  },
+  "navigation_admissibility": "not_evaluated",
+  "scope": "Tested on selected northern river locations; new routes require evaluation"
+}
